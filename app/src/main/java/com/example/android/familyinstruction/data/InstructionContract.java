@@ -1,5 +1,6 @@
 package com.example.android.familyinstruction.data;
 
+import android.net.Uri;
 import android.provider.BaseColumns;
 
 /**
@@ -12,7 +13,25 @@ public final class InstructionContract {
 
     private InstructionContract(){}
 
+    // CONTENT_AUTHORITY
+    public static final String CONTENT_AUTHORITY = "com.example.android.familyinstruction";
+
+    /**
+     *  Base Content Uri
+     * 它将 URI 字符串作为输入，然后返回一个 URI
+     */
+    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
+
+    // PATH_TableName
+    public static final String PATH_PETS = "notes";
+
+
     public final static class InstructionEntry implements BaseColumns{
+
+        /**
+         * The content URI to access the notes data in the provider
+         */
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_PETS);
 
         /** Name of database table for notes */
         public final static String TABLE_NAME = "notes";
