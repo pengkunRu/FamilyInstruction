@@ -53,23 +53,52 @@ public class InstructionlogActivity extends AppCompatActivity {
      */
     private void displayDatabaseInfo() {
 
-        // 构建了InstructionDbHelper类的实例
-        InstructionDbHelper mDbHelper = new InstructionDbHelper(this);
-
         // 创建或者打开一个关联的数据库
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
-        // Perform this raw SQL query "SELECT * FROM pets"
-        // to get a Cursor that contains all rows from the pets table.
-        Cursor cursor = db.rawQuery("SELECT * FROM " + InstructionEntry.TABLE_NAME, null);
+        // 定义projection
+        String[] projection = {
+                InstructionEntry._ID,
+                InstructionEntry.COLUMN_NOTE_TYPE,
+                InstructionEntry.COLUMN_NOTE_INSTRUCTION,
+                InstructionEntry.COLUMN_NOTE_MEAN,
+                InstructionEntry.COLUMN_NOTE_TIME
+        };
+
+        Cursor cursor = db.query(InstructionEntry.TABLE_NAME,
+                projection,
+                null,null,null,null,null);
+
+        TextView displayView = (TextView) findViewById(R.id.test_tv);
+
         try {
-            // Display the number of rows in the Cursor (which reflects the number of rows in the
-            // pets table in the database).
-            TextView displayView = (TextView) findViewById(R.id.test_tv);
-            displayView.setText("Number of rows in notes database table: " + cursor.getCount());
+
+            displayView.setText("The notes table contains " + cursor.getCount() + " notes.\n\n");
+            displayView.append(InstructionEntry._ID + " - "  +
+            InstructionEntry.COLUMN_NOTE_TYPE + " - " +
+            InstructionEntry.COLUMN_NOTE_INSTRUCTION + " - " +
+            InstructionEntry.COLUMN_NOTE_MEAN + " - " +
+            InstructionEntry.COLUMN_NOTE_TIME + "\n");
+
+            int idColumnIndex = cursor.getColumnIndex(InstructionEntry._ID);
+            int typeColumnIndex = cursor.getColumnIndex(InstructionEntry.COLUMN_NOTE_TYPE);
+            int instructionColumnIndex = cursor.getColumnIndex(InstructionEntry.COLUMN_NOTE_INSTRUCTION);
+            int meanColumnIndex = cursor.getColumnIndex(InstructionEntry.COLUMN_NOTE_MEAN);
+            int timeColumnIndex = cursor.getColumnIndex(InstructionEntry.COLUMN_NOTE_TIME);
+
+            while(cursor.moveToNext()){
+                int currentID = cursor.getInt(idColumnIndex);
+                String currentType = cursor.getString(typeColumnIndex);
+                String currentInstruction = cursor.getString(instructionColumnIndex);
+                String currentMean = cursor.getString(meanColumnIndex);
+                int currentTime = cursor.getInt(timeColumnIndex);
+
+                displayView.append(("\n" + currentID + " - " +
+                currentType + " - " + currentInstruction + " - " +
+                currentMean + " - " + currentTime));
+            }
         } finally {
-            // Always close the cursor when you're done reading from it. This releases all its
-            // resources and makes it invalid.
+            // 关闭cursor,释放所有资源，使其无效
             cursor.close();
         }
     }
