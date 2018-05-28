@@ -8,15 +8,23 @@
     tools:context="com.example.android.familyinstruction.EditorActivity">
     <!-- Overview category -->
     <EditText
-        android:id="@+id/type_text_view"
+        android:id="@+id/instruction_type_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="家训的类型: "
         android:textSize="16sp" />
 
     <EditText
+        android:id="@+id/instruction_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="家训: "
+        android:paddingTop="16dp"
+        android:textSize="16sp" />
 
-        android:id="@+id/notes_text_view"
+    <EditText
+
+        android:id="@+id/instruction_mean_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="注记 : "
