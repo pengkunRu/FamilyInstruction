@@ -20,6 +20,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".EditorActivity"></activity>
+        <provider
+            android:authorities="com.example.android.familyinstruction"
+            android:name=".data.InstructionProvider"
+            android:exported="false"/>
     </application>
 
 </manifest>
