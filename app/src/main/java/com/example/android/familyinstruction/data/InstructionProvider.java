@@ -2,6 +2,7 @@ package com.example.android.familyinstruction.data;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
+import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -12,6 +13,19 @@ import android.support.annotation.Nullable;
  */
 
 public class InstructionProvider extends ContentProvider{
+
+    /** URI matcher code for the content URI for the notes table */
+    private static final int NOTES = 100;
+    /** URI matcher code for the content URI for a single note in the notes table */
+    private static final int NOTE_ID = 101;
+
+    private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+
+    static {
+        // This is run the first time anything is called from this class.
+        sUriMatcher.addURI(InstructionContract.CONTENT_AUTHORITY,InstructionContract.PATH_PETS,NOTES);
+        sUriMatcher.addURI(InstructionContract.CONTENT_AUTHORITY,InstructionContract.PATH_PETS+"/#",NOTE_ID);
+    }
 
     // 日志消息的TAG
     public static final String LOG_TAG = InstructionProvider.class.getSimpleName();
