@@ -7,4 +7,19 @@
     android:padding="16dp"
     tools:context="com.example.android.familyinstruction.EditorActivity">
     <!-- Overview category -->
+    <EditText
+        android:id="@+id/type_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="家训的类型: "
+        android:textSize="16sp" />
+
+    <EditText
+
+        android:id="@+id/notes_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="注记 : "
+        android:paddingTop="16dp"
+        android:textSize="16sp" />
 </LinearLayout>
