@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 /**
  * Created by kun on 2018/5/28.
@@ -80,7 +81,13 @@ public class InstructionProvider extends ContentProvider{
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
-        return null;
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case NOTES:
+                return insertNote(uri, contentValues);
+            default:
+                throw new IllegalArgumentException("Insertion is not supported for " + uri);
+        }
     }
 
     @Override
@@ -93,5 +100,20 @@ public class InstructionProvider extends ContentProvider{
         return 0;
     }
 
+    //辅助函数
+    private Uri insertNote(Uri uri, ContentValues values) {
+        // 获得数据库对象
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+
+        long newRowId = database.insert(InstructionContract.InstructionEntry.TABLE_NAME, null, values);
+
+        //判断Insertc操作是否成功
+        if (newRowId == -1) {
+            Log.e(LOG_TAG, "Failed to insert row for " + uri);
+            return null;
+        }
+        return ContentUris.withAppendedId(uri, newRowId);
+
+    }
 
 }

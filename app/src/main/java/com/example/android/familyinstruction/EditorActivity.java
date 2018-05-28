@@ -2,6 +2,7 @@ package com.example.android.familyinstruction;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -47,16 +48,21 @@ public class EditorActivity extends AppCompatActivity {
         values.put(InstructionEntry.COLUMN_NOTE_TYPE,mTypeString);
         values.put(InstructionEntry.COLUMN_NOTE_INSTRUCTION,mInstructionString);
         values.put(InstructionEntry.COLUMN_NOTE_MEAN,mMeanString);
-        values.put(InstructionEntry.COLUMN_NOTE_TIME,"1533");
+        values.put(InstructionEntry.COLUMN_NOTE_TIME,"1995");
 
-        long newRowId = db.insert(InstructionEntry.TABLE_NAME,null,values);
+        // Insert a new note into the provider
+        // returning the content URI for the new note.
+        Uri newUri = getContentResolver().insert(InstructionEntry.CONTENT_URI, values);
 
-        if(newRowId == -1) {
-            // 数据插入失败
-            Toast.makeText(this, "Error with saving pet", Toast.LENGTH_SHORT).show();
-        }else{
-            // 数据插入成功
-            Toast.makeText(this, "Pet saved with row id: " + newRowId, Toast.LENGTH_SHORT).show();
+        // Show a toast message depending on whether or not the insertion was successful
+        if (newUri == null) {
+            // If the new content URI is null, then there was an error with insertion.
+            Toast.makeText(this, getString(R.string.editor_insert_pet_failed),
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            // Otherwise, the insertion was successful and we can display a toast.
+            Toast.makeText(this, getString(R.string.editor_insert_pet_successful),
+                    Toast.LENGTH_SHORT).show();
         }
     }
 

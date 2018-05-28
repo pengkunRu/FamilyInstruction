@@ -1,14 +1,11 @@
 package com.example.android.familyinstruction;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -105,16 +102,6 @@ public class InstructionlogActivity extends AppCompatActivity {
 
     // 插入虚拟数据
     private void insertNote(){
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(InstructionEntry.COLUMN_NOTE_TYPE,"治家");
-        values.put(InstructionEntry.COLUMN_NOTE_INSTRUCTION,"夫风化者，自上而行于下者也，自先而施于后者也。");
-        values.put(InstructionEntry.COLUMN_NOTE_MEAN,"教育感化这件事，是从上向下推行的，是从先向后施行影响的。");
-        values.put(InstructionEntry.COLUMN_NOTE_TIME,"1533");
-
-        long newRowId = db.insert(InstructionEntry.TABLE_NAME,null,values);
-        Log.v("InstructionlogActivity","New row ID "+ newRowId);
     }
 
     @Override
@@ -133,7 +120,6 @@ public class InstructionlogActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.action_insert_dummy_data:
                 insertNote();
-                displayDatabaseInfo();
                 return true;
             case R.id.action_delete_all_entries:
                 return true;

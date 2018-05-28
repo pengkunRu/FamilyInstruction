@@ -4,4 +4,6 @@
     <string name="action_delete_all_data">删除所有家训</string>
     <string name="action_save">保存</string>
     <string name="action_delete">删除</string>
+    <string name="editor_insert_pet_failed">Error with saving note</string>
+    <string name="editor_insert_pet_successful">Note saved</string>
 </resources>
