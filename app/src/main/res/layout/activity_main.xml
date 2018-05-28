@@ -16,10 +16,11 @@
 
 
     <TextView
-        android:layout_below="@+id/toolbar"
         android:id="@+id/test_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:padding="16dp"
         tools:ignore="UnknownId" />
 
     <android.support.design.widget.FloatingActionButton
