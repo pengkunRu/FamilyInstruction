@@ -36,10 +36,6 @@ public class InstructionProvider extends ContentProvider{
     // 数据库助手对象
     private InstructionDbHelper mDbHelper;
 
-    public InstructionProvider() {
-        super();
-    }
-
     @Override
     public boolean onCreate() {
         // 初始化数据库助手对象
@@ -97,8 +93,18 @@ public class InstructionProvider extends ContentProvider{
     }
 
     @Override
-    public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String s, @Nullable String[] strings) {
-        return 0;
+    public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String selection, @Nullable String[] selectionArgs) {
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case NOTES:
+                return updatePet(uri, contentValues, selection, selectionArgs);
+            case NOTE_ID:
+                selection = InstructionEntry._ID + "=?";
+                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                return updatePet(uri, contentValues, selection, selectionArgs);
+            default:
+                throw new IllegalArgumentException("Update is not supported for " + uri);
+        }
     }
 
     //辅助函数
@@ -138,4 +144,38 @@ public class InstructionProvider extends ContentProvider{
 
     }
 
+    // 更新操作的辅助函数
+    private int updatePet(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+
+        if (values.containsKey(InstructionEntry.COLUMN_NOTE_TYPE)) {
+            String type = values.getAsString(InstructionEntry.COLUMN_NOTE_TYPE);
+            if (type == null) {
+                throw new IllegalArgumentException("Type is null");
+            }
+        }
+
+        if (values.containsKey(InstructionEntry.COLUMN_NOTE_INSTRUCTION)) {
+            String instruction = values.getAsString(InstructionEntry.COLUMN_NOTE_INSTRUCTION);
+            if (instruction == null) {
+                throw new IllegalArgumentException("Instruction is null");
+            }
+        }
+
+        if (values.containsKey(InstructionEntry.COLUMN_NOTE_MEAN)) {
+            String mean = values.getAsString(InstructionEntry.COLUMN_NOTE_TYPE);
+            if (mean == null) {
+                throw new IllegalArgumentException("Mean is null");
+            }
+        }
+
+        if (values.size() == 0) {
+            return 0;
+        }
+
+        // Otherwise, get writeable database to update the data
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+
+        // Returns the number of database rows affected by the update statement
+        return database.update(InstructionEntry.TABLE_NAME, values, selection, selectionArgs);
+    }
 }
