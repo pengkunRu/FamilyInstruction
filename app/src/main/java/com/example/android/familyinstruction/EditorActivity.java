@@ -1,7 +1,6 @@
 package com.example.android.familyinstruction;
 
 import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -12,7 +11,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.android.familyinstruction.data.InstructionContract.InstructionEntry;
-import com.example.android.familyinstruction.data.InstructionDbHelper;
 
 public class EditorActivity extends AppCompatActivity {
 
@@ -37,18 +35,11 @@ public class EditorActivity extends AppCompatActivity {
         String mInstructionString = mInstructionEditText.getText().toString().trim();
         String mMeanString = mMeanEditText.getText().toString().trim();
 
-//        DateFormat datum = new SimpleDateFormat("MMM dd yyyy, h:mm");
-//        String date = datum.format(Calendar.getInstance().getTime());
-//        int mTime = Integer.parseInt(date);
-
-        InstructionDbHelper mDbHelper = new InstructionDbHelper(this);
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
-
         ContentValues values = new ContentValues();
         values.put(InstructionEntry.COLUMN_NOTE_TYPE,mTypeString);
         values.put(InstructionEntry.COLUMN_NOTE_INSTRUCTION,mInstructionString);
         values.put(InstructionEntry.COLUMN_NOTE_MEAN,mMeanString);
-        values.put(InstructionEntry.COLUMN_NOTE_TIME,"1995");
+        values.put(InstructionEntry.COLUMN_NOTE_TIME,1995);
 
         // Insert a new note into the provider
         // returning the content URI for the new note.

@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import com.example.android.familyinstruction.data.InstructionContract.InstructionEntry;
 
 /**
  * Created by kun on 2018/5/28.
@@ -102,6 +103,27 @@ public class InstructionProvider extends ContentProvider{
 
     //辅助函数
     private Uri insertNote(Uri uri, ContentValues values) {
+
+        //数据验证
+
+        // Check that the type is not null
+        String type = values.getAsString(InstructionEntry.COLUMN_NOTE_TYPE);
+        if (type == null) {
+            throw new IllegalArgumentException("Type is null");
+        }
+
+        // Check that the instruction is not null
+        String instruction = values.getAsString(InstructionEntry.COLUMN_NOTE_INSTRUCTION);
+        if (instruction == null) {
+            throw new IllegalArgumentException("Instruction is null");
+        }
+
+        // Check that the mean is not null
+        String mean = values.getAsString(InstructionEntry.COLUMN_NOTE_MEAN);
+        if (mean == null) {
+            throw new IllegalArgumentException("Mean is null");
+        }
+
         // 获得数据库对象
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
