@@ -52,10 +52,6 @@ public class InstructionlogActivity extends AppCompatActivity {
      * Temporary helper method to display information in the onscreen TextView about the state of the family_instruction database.
      */
     private void displayDatabaseInfo() {
-
-        // 创建或者打开一个关联的数据库
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
-
         // 定义projection
         String[] projection = {
                 InstructionEntry._ID,
@@ -65,9 +61,13 @@ public class InstructionlogActivity extends AppCompatActivity {
                 InstructionEntry.COLUMN_NOTE_TIME
         };
 
-        Cursor cursor = db.query(InstructionEntry.TABLE_NAME,
-                projection,
-                null,null,null,null,null);
+        Cursor cursor = getContentResolver().query(
+                InstructionEntry.CONTENT_URI,//对整张表进行操作
+                projection,//我们感兴趣的列
+                null,
+                null,
+                null
+        );
 
         TextView displayView = (TextView) findViewById(R.id.test_tv);
 

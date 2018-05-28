@@ -1,9 +1,11 @@
 package com.example.android.familyinstruction.data;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -45,8 +47,28 @@ public class InstructionProvider extends ContentProvider{
 
     @Nullable
     @Override
-    public Cursor query(@NonNull Uri uri, @Nullable String[] strings, @Nullable String s, @Nullable String[] strings1, @Nullable String s1) {
-        return null;
+    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+
+        // 获取数据库对象
+        SQLiteDatabase database = mDbHelper.getReadableDatabase();
+
+        Cursor cursor;
+
+        // 将uri发送到UriMatcher,它会帮我们决定是哪种模式
+        int match = sUriMatcher.match(uri);
+        switch (match){
+            case NOTES:
+                cursor = database.query(InstructionContract.InstructionEntry.TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
+                break;
+            case NOTE_ID:
+                selection = InstructionContract.InstructionEntry._ID + "=?";
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                cursor = database.query(InstructionContract.InstructionEntry.TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
+                break;
+                default:
+                    throw new IllegalArgumentException("Cannot query unknown URI " + uri);
+        }
+        return cursor;
     }
 
     @Nullable
