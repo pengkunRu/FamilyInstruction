@@ -1,8 +1,10 @@
 package com.example.android.familyinstruction;
 
+import android.content.ContentUris;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.android.familyinstruction.data.InstructionContract;
@@ -45,6 +48,18 @@ public class InstructionlogActivity extends AppCompatActivity implements android
         // 配置适配器
         mCursorAdapter = new InstructionCursorAdapter(this,null);
         noteListView.setAdapter(mCursorAdapter);
+
+        // 为ListView容器里的每一项设置点击事件
+        noteListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Intent intent = new Intent(InstructionlogActivity.this,EditorActivity.class);
+
+                Uri currentNoteUri = ContentUris.withAppendedId(InstructionEntry.CONTENT_URI,id);
+                intent.setData(currentNoteUri);
+                startActivity(intent);
+            }
+        });
 
         getLoaderManager().initLoader(NOTE_LOADER,null,this);
     }

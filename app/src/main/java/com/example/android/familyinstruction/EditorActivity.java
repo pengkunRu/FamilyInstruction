@@ -1,6 +1,7 @@
 package com.example.android.familyinstruction;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -22,6 +23,16 @@ public class EditorActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
+
+        // 获取Intent
+        Intent intent = getIntent();
+        Uri currentNoteUri = intent.getData();
+
+        if(currentNoteUri == null){
+            setTitle("添加家训");
+        }else{
+            setTitle("编辑家训");
+        }
 
         mTypeEditText = (EditText)findViewById(R.id.instruction_type_et);
         mInstructionEditText = (EditText)findViewById(R.id.instruction_et);
