@@ -13,14 +13,25 @@ public class MaterialActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_material);
 
-        // // 页面跳转到(札记)
-        TextView mNoteTextView = findViewById(R.id.note);
+        // 转到(札记)
+        TextView mNoteTextView = (TextView) findViewById(R.id.note);
         mNoteTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MaterialActivity.this,InstructionlogActivity.class);
-                startActivity(intent) ;
+                Intent intent = new Intent(MaterialActivity.this, InstructionlogActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // 转到颜氏家训
+        TextView mBook1 = (TextView) findViewById(R.id.book_1);
+        mBook1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MaterialActivity.this, FamilyInstruction_1.class);
+                startActivity(intent);
             }
         });
     }
 }
+
