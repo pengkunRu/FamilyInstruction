@@ -67,6 +67,14 @@ public class InstructionProvider extends ContentProvider{
                 default:
                     throw new IllegalArgumentException("Cannot query unknown URI " + uri);
         }
+
+        /**
+         * Set notification URI on the Cursor,
+         * so we know what content URI the Cursor was created for.
+         * If the data at this URI changes, then we know we need to update the Cursor.
+         */
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+
         return cursor;
     }
 
@@ -106,6 +114,8 @@ public class InstructionProvider extends ContentProvider{
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
 
+        int rowsDeleted;
+
         // 获取数据库对象
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
@@ -113,15 +123,22 @@ public class InstructionProvider extends ContentProvider{
         switch (match) {
             case NOTES:
                 // Delete all rows that match the selection and selection args
-                return database.delete(InstructionEntry.TABLE_NAME, selection, selectionArgs);
+                rowsDeleted = database.delete(InstructionEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             case NOTE_ID:
                 // Delete a single row given by the ID in the URI
                 selection = InstructionEntry._ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
-                return database.delete(InstructionEntry.TABLE_NAME, selection, selectionArgs);
+                rowsDeleted = database.delete(InstructionEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             default:
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
         }
+
+        if (rowsDeleted != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        return rowsDeleted;
     }
 
     @Override
@@ -172,6 +189,9 @@ public class InstructionProvider extends ContentProvider{
             Log.e(LOG_TAG, "Failed to insert row for " + uri);
             return null;
         }
+
+        // Notify all listeners that the data has changed for the pet content URI
+        getContext().getContentResolver().notifyChange(uri, null);
         return ContentUris.withAppendedId(uri, newRowId);
     }
 
@@ -206,8 +226,12 @@ public class InstructionProvider extends ContentProvider{
         // Otherwise, get writeable database to update the data
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
-        // Returns the number of database rows affected by the update statement
-        return database.update(InstructionEntry.TABLE_NAME, values, selection, selectionArgs);
-    }
 
+        int rowsUpdated = database.update(InstructionEntry.TABLE_NAME, values, selection, selectionArgs);
+
+        if (rowsUpdated != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        return rowsUpdated;
+    }
 }
