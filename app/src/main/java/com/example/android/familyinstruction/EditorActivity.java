@@ -1,7 +1,11 @@
 package com.example.android.familyinstruction;
 
+import android.app.LoaderManager;
 import android.content.ContentValues;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -13,7 +17,12 @@ import android.widget.Toast;
 
 import com.example.android.familyinstruction.data.InstructionContract.InstructionEntry;
 
-public class EditorActivity extends AppCompatActivity {
+public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+
+    // 定义加载器
+    private static final int EXISTING_NOTE_LOADER = 0;
+
+    private Uri mCurrentNoteUri;
 
     private EditText mTypeEditText;
     private EditText mInstructionEditText;
@@ -26,18 +35,18 @@ public class EditorActivity extends AppCompatActivity {
 
         // 获取Intent
         Intent intent = getIntent();
-        Uri currentNoteUri = intent.getData();
+        mCurrentNoteUri = intent.getData();
 
-        if(currentNoteUri == null){
+        if(mCurrentNoteUri == null){
             setTitle("添加家训");
         }else{
             setTitle("编辑家训");
+            getLoaderManager().initLoader(EXISTING_NOTE_LOADER, null, this);
         }
 
         mTypeEditText = (EditText)findViewById(R.id.instruction_type_et);
         mInstructionEditText = (EditText)findViewById(R.id.instruction_et);
         mMeanEditText = (EditText)findViewById(R.id.instruction_mean_tv);
-
     }
 
     private void insertNote(){
@@ -95,5 +104,52 @@ public class EditorActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        String[] projection = {
+                InstructionEntry._ID,
+                InstructionEntry.COLUMN_NOTE_TYPE,
+                InstructionEntry.COLUMN_NOTE_INSTRUCTION,
+                InstructionEntry.COLUMN_NOTE_MEAN};
+
+        return new CursorLoader(this,
+                mCurrentNoteUri,
+                projection,
+                null,
+                null,
+                null);
+    }
+
+    /**
+     * 当数据加载到游标后，onLoadFinished() 将被调用。
+     * 在这里，我首先要将游标移到第一个项的位置。尽管它只有一个项，并从位置 -1 开始。
+     * @param loader
+     * @param cursor
+     */
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        if (cursor.moveToFirst()) {
+            // 获得每个数据项的索引
+            int typeColumnIndex = cursor.getColumnIndex(InstructionEntry.COLUMN_NOTE_TYPE);
+            int instructionColumnIndex = cursor.getColumnIndex(InstructionEntry.COLUMN_NOTE_INSTRUCTION);
+            int meanColumnIndex = cursor.getColumnIndex(InstructionEntry.COLUMN_NOTE_MEAN);
+
+            String type = cursor.getString(typeColumnIndex);
+            String instruction = cursor.getString(instructionColumnIndex);
+            String mean = cursor.getString(meanColumnIndex);
+
+            mTypeEditText.setText(type);
+            mInstructionEditText.setText(instruction);
+            mMeanEditText.setText(mean);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mTypeEditText.setText("");
+        mInstructionEditText.setText("");
+        mMeanEditText.setText("");
     }
 }
