@@ -9,7 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.ListView;
 
 import com.example.android.familyinstruction.data.InstructionContract.InstructionEntry;
 import com.example.android.familyinstruction.data.InstructionDbHelper;
@@ -63,41 +63,13 @@ public class InstructionlogActivity extends AppCompatActivity {
                 projection,//我们感兴趣的列
                 null,
                 null,
-                null
-        );
+                null);
 
-        TextView displayView = (TextView) findViewById(R.id.test_tv);
+        ListView noteListView = (ListView) findViewById(R.id.list);
 
-        try {
+        InstructionCursorAdapter adapter = new InstructionCursorAdapter(this,cursor);
 
-            displayView.setText("The notes table contains " + cursor.getCount() + " notes.\n\n");
-            displayView.append(InstructionEntry._ID + " - "  +
-            InstructionEntry.COLUMN_NOTE_TYPE + " - " +
-            InstructionEntry.COLUMN_NOTE_INSTRUCTION + " - " +
-            InstructionEntry.COLUMN_NOTE_MEAN + " - " +
-            InstructionEntry.COLUMN_NOTE_TIME + "\n");
-
-            int idColumnIndex = cursor.getColumnIndex(InstructionEntry._ID);
-            int typeColumnIndex = cursor.getColumnIndex(InstructionEntry.COLUMN_NOTE_TYPE);
-            int instructionColumnIndex = cursor.getColumnIndex(InstructionEntry.COLUMN_NOTE_INSTRUCTION);
-            int meanColumnIndex = cursor.getColumnIndex(InstructionEntry.COLUMN_NOTE_MEAN);
-            int timeColumnIndex = cursor.getColumnIndex(InstructionEntry.COLUMN_NOTE_TIME);
-
-            while(cursor.moveToNext()){
-                int currentID = cursor.getInt(idColumnIndex);
-                String currentType = cursor.getString(typeColumnIndex);
-                String currentInstruction = cursor.getString(instructionColumnIndex);
-                String currentMean = cursor.getString(meanColumnIndex);
-                int currentTime = cursor.getInt(timeColumnIndex);
-
-                displayView.append(("\n" + currentID + " - " +
-                currentType + " - " + currentInstruction + " - " +
-                currentMean + " - " + currentTime));
-            }
-        } finally {
-            // 关闭cursor,释放所有资源，使其无效
-            cursor.close();
-        }
+        noteListView.setAdapter(adapter);
     }
 
     // 插入虚拟数据

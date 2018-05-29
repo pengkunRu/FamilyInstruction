@@ -39,7 +39,7 @@ public class EditorActivity extends AppCompatActivity {
         values.put(InstructionEntry.COLUMN_NOTE_TYPE,mTypeString);
         values.put(InstructionEntry.COLUMN_NOTE_INSTRUCTION,mInstructionString);
         values.put(InstructionEntry.COLUMN_NOTE_MEAN,mMeanString);
-        values.put(InstructionEntry.COLUMN_NOTE_TIME,1995);
+        values.put(InstructionEntry.COLUMN_NOTE_TIME,0);
 
         // Insert a new note into the provider
         // returning the content URI for the new note.
