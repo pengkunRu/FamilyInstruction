@@ -89,8 +89,24 @@ public class InstructionProvider extends ContentProvider{
     }
 
     @Override
-    public int delete(@NonNull Uri uri, @Nullable String s, @Nullable String[] strings) {
-        return 0;
+    public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
+
+        // 获取数据库对象
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case NOTES:
+                // Delete all rows that match the selection and selection args
+                return database.delete(InstructionEntry.TABLE_NAME, selection, selectionArgs);
+            case NOTE_ID:
+                // Delete a single row given by the ID in the URI
+                selection = InstructionEntry._ID + "=?";
+                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                return database.delete(InstructionEntry.TABLE_NAME, selection, selectionArgs);
+            default:
+                throw new IllegalArgumentException("Deletion is not supported for " + uri);
+        }
     }
 
     @Override
