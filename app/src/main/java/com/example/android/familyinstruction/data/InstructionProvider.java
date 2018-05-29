@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import com.example.android.familyinstruction.data.InstructionContract.InstructionEntry;
 
@@ -114,20 +115,20 @@ public class InstructionProvider extends ContentProvider{
 
         // Check that the type is not null
         String type = values.getAsString(InstructionEntry.COLUMN_NOTE_TYPE);
-        if (type == null) {
-            throw new IllegalArgumentException("Type is null");
+        if (TextUtils.isEmpty(type)) {
+            return null;
         }
 
         // Check that the instruction is not null
         String instruction = values.getAsString(InstructionEntry.COLUMN_NOTE_INSTRUCTION);
-        if (instruction == null) {
-            throw new IllegalArgumentException("Instruction is null");
+        if (TextUtils.isEmpty(instruction)) {
+            return null;
         }
 
         // Check that the mean is not null
         String mean = values.getAsString(InstructionEntry.COLUMN_NOTE_MEAN);
-        if (mean == null) {
-            throw new IllegalArgumentException("Mean is null");
+        if (TextUtils.isEmpty(mean)) {
+            return null;
         }
 
         // 获得数据库对象
@@ -141,7 +142,6 @@ public class InstructionProvider extends ContentProvider{
             return null;
         }
         return ContentUris.withAppendedId(uri, newRowId);
-
     }
 
     // 更新操作的辅助函数
@@ -178,4 +178,5 @@ public class InstructionProvider extends ContentProvider{
         // Returns the number of database rows affected by the update statement
         return database.update(InstructionEntry.TABLE_NAME, values, selection, selectionArgs);
     }
+
 }
