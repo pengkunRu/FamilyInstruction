@@ -1,5 +1,6 @@
 package com.example.android.familyinstruction.data;
 
+import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
@@ -23,7 +24,7 @@ public final class InstructionContract {
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     // PATH_TableName
-    public static final String PATH_PETS = "notes";
+    public static final String PATH_NOTES = "notes";
 
 
     public final static class InstructionEntry implements BaseColumns{
@@ -31,7 +32,15 @@ public final class InstructionContract {
         /**
          * The content URI to access the notes data in the provider
          */
-        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_PETS);
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_NOTES);
+
+        // The MIME type of for a list of notes
+        public static final String CONTENT_LIST_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_NOTES;
+
+        // The MIME type for a single note.
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_NOTES;
 
         /** Name of database table for notes */
         public final static String TABLE_NAME = "notes";

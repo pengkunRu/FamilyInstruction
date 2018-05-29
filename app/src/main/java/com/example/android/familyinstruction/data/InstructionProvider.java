@@ -28,8 +28,8 @@ public class InstructionProvider extends ContentProvider{
 
     static {
         // This is run the first time anything is called from this class.
-        sUriMatcher.addURI(InstructionContract.CONTENT_AUTHORITY,InstructionContract.PATH_PETS,NOTES);
-        sUriMatcher.addURI(InstructionContract.CONTENT_AUTHORITY,InstructionContract.PATH_PETS+"/#",NOTE_ID);
+        sUriMatcher.addURI(InstructionContract.CONTENT_AUTHORITY,InstructionContract.PATH_NOTES,NOTES);
+        sUriMatcher.addURI(InstructionContract.CONTENT_AUTHORITY,InstructionContract.PATH_NOTES+"/#",NOTE_ID);
     }
 
     // 日志消息的TAG
@@ -70,10 +70,25 @@ public class InstructionProvider extends ContentProvider{
         return cursor;
     }
 
+    /**
+     * 此方法的用途是返回描述输入URI中存储的数据类型的字符串。
+     * 该字符串为 MIME 类型，也称为内容类型
+     *
+     * @param uri
+     * @return
+     */
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
-        return null;
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case NOTES:
+                return InstructionEntry.CONTENT_LIST_TYPE;
+            case NOTE_ID:
+                return InstructionEntry.CONTENT_ITEM_TYPE;
+            default:
+                throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
+        }
     }
 
     @Nullable
