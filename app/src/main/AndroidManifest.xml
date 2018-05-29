@@ -19,11 +19,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".EditorActivity"></activity>
+        <activity android:name=".EditorActivity" />
+
         <provider
-            android:authorities="com.example.android.familyinstruction"
             android:name=".data.InstructionProvider"
-            android:exported="false"/>
+            android:authorities="com.example.android.familyinstruction"
+            android:exported="false" />
+
+        <activity android:name=".MaterialActivity"></activity>
     </application>
 
 </manifest>
