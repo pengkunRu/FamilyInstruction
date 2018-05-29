@@ -6,7 +6,40 @@
     android:layout_height="match_parent"
     tools:context="com.example.android.familyinstruction.InstructionlogActivity">
 
+    <LinearLayout
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/material"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="资料库"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:text="|"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="札记"
+            android:textSize="18sp" />
+    </LinearLayout>
+
     <ListView
+        android:layout_below="@+id/navigation"
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

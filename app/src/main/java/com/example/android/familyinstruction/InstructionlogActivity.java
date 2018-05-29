@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.android.familyinstruction.data.InstructionContract;
 import com.example.android.familyinstruction.data.InstructionContract.InstructionEntry;
@@ -37,6 +38,16 @@ public class InstructionlogActivity extends AppCompatActivity implements android
             public void onClick(View view) {
                 Intent intent = new Intent(InstructionlogActivity.this, EditorActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        // 页面跳转到MaterialActivity(资料库)
+        TextView mMaterialTextView = findViewById(R.id.material);
+        mMaterialTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(InstructionlogActivity.this,MaterialActivity.class);
+                startActivity(intent) ;
             }
         });
 
