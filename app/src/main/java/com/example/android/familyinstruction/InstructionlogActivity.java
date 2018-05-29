@@ -1,5 +1,6 @@
 package com.example.android.familyinstruction;
 
+import android.content.CursorLoader;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -11,12 +12,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
+import com.example.android.familyinstruction.data.InstructionContract;
 import com.example.android.familyinstruction.data.InstructionContract.InstructionEntry;
-import com.example.android.familyinstruction.data.InstructionDbHelper;
 
-public class InstructionlogActivity extends AppCompatActivity {
+public class InstructionlogActivity extends AppCompatActivity implements android.app.LoaderManager.LoaderCallbacks<Cursor>{
 
-    private InstructionDbHelper mDbHelper;
+    // 创建一个整数加载器常量
+    private static final int NOTE_LOADER = 0;
+
+    // ListView的适配器
+    InstructionCursorAdapter mCursorAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,41 +40,13 @@ public class InstructionlogActivity extends AppCompatActivity {
             }
         });
 
-        mDbHelper = new InstructionDbHelper(this);
-        displayDatabaseInfo();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        displayDatabaseInfo();
-    }
-
-    /**
-     * Temporary helper method to display information in the onscreen TextView about the state of the family_instruction database.
-     */
-    private void displayDatabaseInfo() {
-        // 定义projection
-        String[] projection = {
-                InstructionEntry._ID,
-                InstructionEntry.COLUMN_NOTE_TYPE,
-                InstructionEntry.COLUMN_NOTE_INSTRUCTION,
-                InstructionEntry.COLUMN_NOTE_MEAN,
-                InstructionEntry.COLUMN_NOTE_TIME
-        };
-
-        Cursor cursor = getContentResolver().query(
-                InstructionEntry.CONTENT_URI,//对整张表进行操作
-                projection,//我们感兴趣的列
-                null,
-                null,
-                null);
-
         ListView noteListView = (ListView) findViewById(R.id.list);
 
-        InstructionCursorAdapter adapter = new InstructionCursorAdapter(this,cursor);
+        // 配置适配器
+        mCursorAdapter = new InstructionCursorAdapter(this,null);
+        noteListView.setAdapter(mCursorAdapter);
 
-        noteListView.setAdapter(adapter);
+        getLoaderManager().initLoader(NOTE_LOADER,null,this);
     }
 
     // 插入虚拟数据
@@ -97,5 +74,31 @@ public class InstructionlogActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public android.content.Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        String[] projection = {
+                InstructionEntry._ID,
+                InstructionEntry.COLUMN_NOTE_TYPE,
+                InstructionEntry.COLUMN_NOTE_INSTRUCTION};
+
+        // This loader will execute the ContentProvider's query method on a background thread
+        return new CursorLoader(this,
+                InstructionContract.InstructionEntry.CONTENT_URI,
+                projection,
+                null,
+                null,
+                null);
+    }
+
+    @Override
+    public void onLoadFinished(android.content.Loader<Cursor> loader, Cursor cursor) {
+        mCursorAdapter.swapCursor(cursor);
+    }
+
+    @Override
+    public void onLoaderReset(android.content.Loader<Cursor> loader) {
+        mCursorAdapter.swapCursor(null);
     }
 }
