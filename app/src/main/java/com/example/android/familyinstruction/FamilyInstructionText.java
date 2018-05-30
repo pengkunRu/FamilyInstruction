@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * Created by kun on 2018/5/29.
  */
 
-public class FamilyInstruction_1 extends AppCompatActivity{
+public class FamilyInstructionText extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

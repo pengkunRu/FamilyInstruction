@@ -28,7 +28,7 @@ public class MaterialActivity extends AppCompatActivity {
         mBook1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MaterialActivity.this, FamilyInstruction_1.class);
+                Intent intent = new Intent(MaterialActivity.this, FamilyInstructionText.class);
                 startActivity(intent);
             }
         });

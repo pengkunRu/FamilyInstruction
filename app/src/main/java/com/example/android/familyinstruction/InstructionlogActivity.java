@@ -72,10 +72,6 @@ public class InstructionlogActivity extends AppCompatActivity implements android
         getLoaderManager().initLoader(NOTE_LOADER,null,this);
     }
 
-    // 插入虚拟数据
-    private void insertNote(){
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -91,7 +87,6 @@ public class InstructionlogActivity extends AppCompatActivity implements android
 
         switch (item.getItemId()){
             case R.id.action_insert_dummy_data:
-                insertNote();
                 return true;
             case R.id.action_delete_all_entries:
                 return true;

@@ -27,7 +27,7 @@
             android:exported="false" />
 
         <activity android:name=".MaterialActivity"></activity>
-        <activity android:name="FamilyInstruction_1"></activity>
+        <activity android:name=".FamilyInstructionText"></activity>
     </application>
 
 </manifest>
