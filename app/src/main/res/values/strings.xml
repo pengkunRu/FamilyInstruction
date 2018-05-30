@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">家训</string>
+    <string name="app_note_page_name">家训札记</string>
     <string name="action_insert_dummy_data">插入虚拟数据</string>
     <string name="action_delete_all_data">删除所有家训</string>
     <string name="action_save">保存</string>
