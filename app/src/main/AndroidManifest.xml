@@ -29,10 +29,14 @@
         <activity
             android:name=".MaterialActivity"
             android:label="@string/app_material_page_name" />
-        <activity android:name=".FamilyInstructionText"
-            android:label="@string/family_instruction_of_yan"/>
-        <activity android:name=".FamilyInstructionVedio"
-            android:label="@string/family_instruction_of_china"/>
+        <activity
+            android:name=".FamilyInstructionText"
+            android:label="@string/family_instruction_of_yan" />
+        <activity
+            android:name=".FamilyInstructionVedio"
+            android:label="@string/family_instruction_of_china" />
+        <activity android:name=".TextDetailInfomation" />
+        <activity android:name=".VedioDetailInformation"></activity>
     </application>
 
 </manifest>
