@@ -32,6 +32,16 @@ public class MaterialActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // 转到中华家训
+        TextView mBook2 = (TextView) findViewById(R.id.book_2);
+        mBook2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MaterialActivity.this, FamilyInstructionVedio.class);
+                startActivity(intent);
+            }
+        });
     }
 }
 

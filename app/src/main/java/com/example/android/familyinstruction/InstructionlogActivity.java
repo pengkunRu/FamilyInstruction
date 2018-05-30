@@ -41,7 +41,7 @@ public class InstructionlogActivity extends AppCompatActivity implements android
             }
         });
 
-        // 页面跳转到MaterialActivity(资料库)
+        // 通过id绑定界面中的View{资料库}到变量{mMaterialTextView}
         TextView mMaterialTextView = findViewById(R.id.material);
         mMaterialTextView.setOnClickListener(new View.OnClickListener() {
             @Override

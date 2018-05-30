@@ -27,16 +27,16 @@ public class ArticalAdapter extends ArrayAdapter<ArticalMaterial> {
         View listItemView = convertView;
         // 没有可利用的布局
         if (listItemView == null) {
-            listItemView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_article, parent, false);
+            listItemView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_instruction, parent, false);
         }
 
         // 获取list中position位置的 ArticalMaterial 对象
         ArticalMaterial currentArticle = getItem(position);
 
-        TextView titleTextView = (TextView)listItemView.findViewById(R.id.title_text_view);
+        TextView titleTextView = (TextView)listItemView.findViewById(R.id.headline_text_view);
         titleTextView.setText(currentArticle.getTitle());
 
-        TextView typeTextView = (TextView)listItemView.findViewById(R.id.type_text_view);
+        TextView typeTextView = (TextView)listItemView.findViewById(R.id.subtitle_text_view);
         typeTextView.setText(currentArticle.getType());
 
         return listItemView;

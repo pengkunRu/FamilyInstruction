@@ -55,7 +55,7 @@
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:gravity="center"
-            android:text="书籍1号" />
+            android:text="@string/family_instruction_of_yan" />
 
         <TextView
             android:id="@+id/book_2"
@@ -65,6 +65,6 @@
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:gravity="center"
-            android:text="书籍2号" />
+            android:text="@string/family_instruction_of_china" />
     </LinearLayout>
 </LinearLayout>

@@ -26,8 +26,13 @@
             android:authorities="com.example.android.familyinstruction"
             android:exported="false" />
 
-        <activity android:name=".MaterialActivity"></activity>
-        <activity android:name=".FamilyInstructionText"></activity>
+        <activity
+            android:name=".MaterialActivity"
+            android:label="@string/app_material_page_name" />
+        <activity android:name=".FamilyInstructionText"
+            android:label="@string/family_instruction_of_yan"/>
+        <activity android:name=".FamilyInstructionVedio"
+            android:label="@string/family_instruction_of_china"/>
     </application>
 
 </manifest>
