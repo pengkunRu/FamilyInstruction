@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".InstructionlogActivity"
+            android:name=".NoteMaterialActivity"
             android:label="@string/app_note_page_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -27,7 +27,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".MaterialActivity"
+            android:name=".TextMaterialActivity"
             android:label="@string/app_material_page_name" />
         <activity
             android:name=".FamilyInstructionText"
@@ -36,7 +36,8 @@
             android:name=".FamilyInstructionVedio"
             android:label="@string/family_instruction_of_china" />
         <activity android:name=".TextDetailInfomation" />
-        <activity android:name=".VedioDetailInformation"></activity>
+        <activity android:name=".VedioDetailInformation" />
+        <activity android:name=".MediaMaterialActivity"></activity>
     </application>
 
 </manifest>

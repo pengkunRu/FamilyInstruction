@@ -2,6 +2,8 @@ package com.example.android.familyinstruction;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -29,5 +31,12 @@ public class FamilyInstructionText extends AppCompatActivity{
 
         ListView listView = (ListView) findViewById(R.id.list_article);
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+        });
     }
 }

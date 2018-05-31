@@ -12,13 +12,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.android.familyinstruction.data.InstructionContract;
 import com.example.android.familyinstruction.data.InstructionContract.InstructionEntry;
 
-public class InstructionlogActivity extends AppCompatActivity implements android.app.LoaderManager.LoaderCallbacks<Cursor>{
+/**
+ * 用户札记界面
+ */
+
+public class NoteMaterialActivity extends AppCompatActivity implements android.app.LoaderManager.LoaderCallbacks<Cursor>{
 
     // 创建一个整数加载器常量
     private static final int NOTE_LOADER = 0;
@@ -29,25 +33,52 @@ public class InstructionlogActivity extends AppCompatActivity implements android
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_note_material);
+
+        /**
+         * 初始化导航栏信息
+         * 当前界面按钮为红色，其余为白色
+         * 当前界面按钮文字为白色，其余为红色
+         */
+        Button mNoteMaterial = findViewById(R.id.note_material_button1);
+        Button mTextMaterial = findViewById(R.id.text_material_button1);
+        Button mMediaMaterial = findViewById(R.id.media_material_button1);
+        mNoteMaterial.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        mNoteMaterial.setTextColor(getResources().getColor(R.color.navigationColor));
+        mTextMaterial.setBackgroundColor(getResources().getColor(R.color.navigationColor));
+        mTextMaterial.setTextColor(getResources().getColor(R.color.colorPrimary));
+        mMediaMaterial.setBackgroundColor(getResources().getColor(R.color.navigationColor));
+        mMediaMaterial.setTextColor(getResources().getColor(R.color.colorPrimary));
+
+
         
         // Setup FAB to open EditorActivity
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(InstructionlogActivity.this, EditorActivity.class);
+                Intent intent = new Intent(NoteMaterialActivity.this, EditorActivity.class);
                 startActivity(intent);
             }
         });
 
-        // 通过id绑定界面中的View{资料库}到变量{mMaterialTextView}
-        TextView mMaterialTextView = findViewById(R.id.material);
-        mMaterialTextView.setOnClickListener(new View.OnClickListener() {
+        // 界面跳转到文本资料界面
+        mTextMaterial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(InstructionlogActivity.this,MaterialActivity.class);
+                Intent intent = new Intent(NoteMaterialActivity.this,TextMaterialActivity.class);
                 startActivity(intent) ;
+                finish();
+            }
+        });
+
+        // 界面跳转到媒体资料界面
+        mMediaMaterial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(NoteMaterialActivity.this,MediaMaterialActivity.class);
+                startActivity(intent) ;
+                finish();
             }
         });
 
@@ -61,7 +92,7 @@ public class InstructionlogActivity extends AppCompatActivity implements android
         noteListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Intent intent = new Intent(InstructionlogActivity.this,EditorActivity.class);
+                Intent intent = new Intent(NoteMaterialActivity.this,EditorActivity.class);
 
                 Uri currentNoteUri = ContentUris.withAppendedId(InstructionEntry.CONTENT_URI,id);
                 intent.setData(currentNoteUri);
