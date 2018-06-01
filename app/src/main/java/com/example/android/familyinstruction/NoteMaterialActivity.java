@@ -1,6 +1,7 @@
 package com.example.android.familyinstruction;
 
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.database.Cursor;
@@ -15,9 +16,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.android.familyinstruction.data.InstructionContract;
 import com.example.android.familyinstruction.data.InstructionContract.InstructionEntry;
+import com.example.android.familyinstruction.data.InstructionContract.TextResourceEntry;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,6 +30,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+;
 
 /**
  * 用户札记界面
@@ -146,19 +151,27 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
                         String articleAncientFormat_value = jo_inside.getString("articleAncientFormat").trim();
                         String articleVernacularFormat_Value = jo_inside.getString("articleVernacularFormat").trim();
 
-                        m_li = new HashMap<String, String>();
-                        m_li.put("bookTitle", bookTitle_value);
-                        m_li.put("bookIntroduction", bookIntroduction_value);
-                        m_li.put("bookImage", bookTitle_value);
-                        m_li.put("writerName", writerName_value);
-                        m_li.put("writerImage", writerImage_value);
-                        m_li.put("writerIntroduction", writerIntroduction_value);
-                        m_li.put("articleType", articleType_value);
-                        m_li.put("articleAncientFormat", articleAncientFormat_value);
-                        m_li.put("articleVernacularFormat", articleVernacularFormat_Value);
+                        ContentValues values = new ContentValues();
+                        values.put(TextResourceEntry.COLUMN_BOOK_TITLE,bookTitle_value);
+                        values.put(TextResourceEntry.COLUMN_BOOK_INTRODUCTION,bookIntroduction_value);
+                        values.put(TextResourceEntry.COLUMN_BOOK_IMAGE,bookImage_value);
+                        values.put(TextResourceEntry.COLUMN_WRITER_NAME,writerName_value);
+                        values.put(TextResourceEntry.COLUMN_WRITER_INTRODUCTION,writerIntroduction_value);
+                        values.put(TextResourceEntry.COLUMN_WRITER_IMAGE,writerImage_value);
+                        values.put(TextResourceEntry.COLUMN_ARTICLE_TYPE,articleType_value);
+                        values.put(TextResourceEntry.COLUMN_ARTICLE_ANCIENT_FORMAT,articleAncientFormat_value);
+                        values.put(TextResourceEntry.COLUMN_ARTICLE_VERNACULAR_FORMAT,articleVernacularFormat_Value);
 
-                        formList.add(m_li);
-                        Log.i("NoteMaterialActivity","值是："+formList.get(i));
+                        //插入操作
+                        Uri newUri = getContentResolver().insert(TextResourceEntry.CONTENT_URI, values);
+                        Log.i("NoteMaterialActivity","uri: "+ newUri.toString());
+                        if (newUri == null) {
+                            Toast.makeText(this, getString(R.string.editor_insert_pet_failed),
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(this, getString(R.string.editor_insert_pet_successful),
+                                    Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }catch (JSONException e){
                     e.printStackTrace();

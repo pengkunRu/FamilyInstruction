@@ -12,30 +12,44 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 import com.example.android.familyinstruction.data.InstructionContract.InstructionEntry;
-
+import com.example.android.familyinstruction.data.InstructionContract.TextResourceEntry;
 /**
  * Created by kun on 2018/5/28.
  */
 
 public class InstructionProvider extends ContentProvider{
 
-    /** URI matcher code for the content URI for the notes table */
+    // 访问整个用户鉴赏表的uri匹配编码
     private static final int NOTES = 100;
-    /** URI matcher code for the content URI for a single note in the notes table */
+    // 访问某一行用户鉴赏表的uri匹配编码
     private static final int NOTE_ID = 101;
+    // 访问整个文本资源表的uri匹配编码
+    private static final int TEXT_RESOOURCE = 200;
+    // 访问某一行文本资源表的uri匹配编码
+    private static final int TEXT_RESOOURCE_ID = 201;
+
+
 
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
+
     static {
-        // This is run the first time anything is called from this class.
+        // 将访问用户鉴赏表的两种模式添加和每种模式的uri编码添加到uri匹配器中
         sUriMatcher.addURI(InstructionContract.CONTENT_AUTHORITY,InstructionContract.PATH_NOTES,NOTES);
         sUriMatcher.addURI(InstructionContract.CONTENT_AUTHORITY,InstructionContract.PATH_NOTES+"/#",NOTE_ID);
+
+        // 将访问文本资源表的两种模式添加和每种模式的uri编码添加到uri匹配器中
+        sUriMatcher.addURI(InstructionContract.CONTENT_AUTHORITY,InstructionContract.PATH_TEXT_RESOURCE,TEXT_RESOOURCE);
+        sUriMatcher.addURI(InstructionContract.CONTENT_AUTHORITY,InstructionContract.PATH_TEXT_RESOURCE+"/#",TEXT_RESOOURCE_ID);
     }
+
 
     // 日志消息的TAG
     public static final String LOG_TAG = InstructionProvider.class.getSimpleName();
     // 数据库助手对象
     private InstructionDbHelper mDbHelper;
+
+
 
     @Override
     public boolean onCreate() {
@@ -78,6 +92,7 @@ public class InstructionProvider extends ContentProvider{
         return cursor;
     }
 
+
     /**
      * 此方法的用途是返回描述输入URI中存储的数据类型的字符串。
      * 该字符串为 MIME 类型，也称为内容类型
@@ -99,6 +114,14 @@ public class InstructionProvider extends ContentProvider{
         }
     }
 
+
+
+
+    /**
+     * @param uri 将数据插入uri定义的地方（哪张表）
+     * @param contentValues 将要插入的内容
+     * @return uri 包含新插入行id的content uri
+     */
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
@@ -106,10 +129,13 @@ public class InstructionProvider extends ContentProvider{
         switch (match) {
             case NOTES:
                 return insertNote(uri, contentValues);
+            case TEXT_RESOOURCE:
+                return  insertTextResource(uri,contentValues);
             default:
                 throw new IllegalArgumentException("Insertion is not supported for " + uri);
         }
     }
+
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
@@ -156,7 +182,7 @@ public class InstructionProvider extends ContentProvider{
         }
     }
 
-    //辅助函数
+    //插入新数据到用户鉴赏表的的辅助函数
     private Uri insertNote(Uri uri, ContentValues values) {
 
         //数据验证
@@ -193,6 +219,20 @@ public class InstructionProvider extends ContentProvider{
         // Notify all listeners that the data has changed for the pet content URI
         getContext().getContentResolver().notifyChange(uri, null);
         return ContentUris.withAppendedId(uri, newRowId);
+    }
+
+    // 插入新数据到文本资源表的辅助函数
+    private Uri insertTextResource(Uri uri, ContentValues values){
+        // 首先获得一个数据库对象
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+        // 数据库插入
+        long id = database.insert(TextResourceEntry.TABLE_NAME, null, values);
+        // 如果 ID 等于 -1，那我们就知道插入失败了。否则，插入将是成功的。
+        if (id == -1) {
+            Log.e(LOG_TAG, "Failed to insert row for " + uri);
+            return null;
+        }
+        return ContentUris.withAppendedId(uri, id);
     }
 
     // 更新操作的辅助函数
