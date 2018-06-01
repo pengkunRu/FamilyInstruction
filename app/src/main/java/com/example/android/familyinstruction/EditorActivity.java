@@ -24,9 +24,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
     private Uri mCurrentNoteUri;
 
-    private EditText mTypeEditText;
-    private EditText mInstructionEditText;
-    private EditText mMeanEditText;
+    private EditText mTitleEditText;
+    private EditText mInstructionContentEditText;
+    private EditText mJusticeEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,22 +44,22 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             getLoaderManager().initLoader(EXISTING_NOTE_LOADER, null, this);
         }
 
-        mTypeEditText = (EditText)findViewById(R.id.instruction_type_et);
-        mInstructionEditText = (EditText)findViewById(R.id.instruction_et);
-        mMeanEditText = (EditText)findViewById(R.id.instruction_mean_tv);
+        mTitleEditText = (EditText)findViewById(R.id.instruction_title_edit_text);
+        mInstructionContentEditText = (EditText)findViewById(R.id.instruction_content_edit_text);
+        mJusticeEditText = (EditText)findViewById(R.id.instruction_justice_edit_text);
     }
 
     private void insertNote(){
         // 读取三个EditText字段中的数据
-        String mTypeString = mTypeEditText.getText().toString().trim();
-        String mInstructionString = mInstructionEditText.getText().toString().trim();
-        String mMeanString = mMeanEditText.getText().toString().trim();
+        String mTitleString = mTitleEditText.getText().toString().trim();
+        String mInstructionString = mInstructionContentEditText.getText().toString().trim();
+        String mJusticeString = mJusticeEditText.getText().toString().trim();
 
         ContentValues values = new ContentValues();
-        values.put(InstructionEntry.COLUMN_NOTE_TYPE,mTypeString);
+        values.put(InstructionEntry.COLUMN_NOTE_TITLE,mTitleString);
         values.put(InstructionEntry.COLUMN_NOTE_INSTRUCTION,mInstructionString);
-        values.put(InstructionEntry.COLUMN_NOTE_MEAN,mMeanString);
-        values.put(InstructionEntry.COLUMN_NOTE_TIME,0);
+        values.put(InstructionEntry.COLUMN_NOTE_JUSTICE,mJusticeString);
+
 
         // Insert a new note into the provider
         // returning the content URI for the new note.
@@ -110,9 +110,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         String[] projection = {
                 InstructionEntry._ID,
-                InstructionEntry.COLUMN_NOTE_TYPE,
+                InstructionEntry.COLUMN_NOTE_TITLE,
                 InstructionEntry.COLUMN_NOTE_INSTRUCTION,
-                InstructionEntry.COLUMN_NOTE_MEAN};
+                InstructionEntry.COLUMN_NOTE_JUSTICE};
 
         return new CursorLoader(this,
                 mCurrentNoteUri,
@@ -132,24 +132,24 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         if (cursor.moveToFirst()) {
             // 获得每个数据项的索引
-            int typeColumnIndex = cursor.getColumnIndex(InstructionEntry.COLUMN_NOTE_TYPE);
+            int typeColumnIndex = cursor.getColumnIndex(InstructionEntry.COLUMN_NOTE_TITLE);
             int instructionColumnIndex = cursor.getColumnIndex(InstructionEntry.COLUMN_NOTE_INSTRUCTION);
-            int meanColumnIndex = cursor.getColumnIndex(InstructionEntry.COLUMN_NOTE_MEAN);
+            int meanColumnIndex = cursor.getColumnIndex(InstructionEntry.COLUMN_NOTE_JUSTICE);
 
             String type = cursor.getString(typeColumnIndex);
             String instruction = cursor.getString(instructionColumnIndex);
             String mean = cursor.getString(meanColumnIndex);
 
-            mTypeEditText.setText(type);
-            mInstructionEditText.setText(instruction);
-            mMeanEditText.setText(mean);
+            mTitleEditText.setText(type);
+            mInstructionContentEditText.setText(instruction);
+            mJusticeEditText.setText(mean);
         }
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        mTypeEditText.setText("");
-        mInstructionEditText.setText("");
-        mMeanEditText.setText("");
+        mTitleEditText.setText("");
+        mInstructionContentEditText.setText("");
+        mJusticeEditText.setText("");
     }
 }

@@ -129,7 +129,7 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
     public android.content.Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         String[] projection = {
                 InstructionEntry._ID,
-                InstructionEntry.COLUMN_NOTE_TYPE,
+                InstructionEntry.COLUMN_NOTE_TITLE,
                 InstructionEntry.COLUMN_NOTE_INSTRUCTION};
 
         // This loader will execute the ContentProvider's query method on a background thread

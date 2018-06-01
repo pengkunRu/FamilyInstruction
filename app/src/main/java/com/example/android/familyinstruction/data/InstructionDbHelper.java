@@ -15,7 +15,7 @@ public class InstructionDbHelper extends SQLiteOpenHelper{
     // 数据库名称
     private static final String DATABASE_NAME = "family_instruction.db";
     // 数据库版本
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     // 构造函数
     public InstructionDbHelper(Context context) {
@@ -32,18 +32,18 @@ public class InstructionDbHelper extends SQLiteOpenHelper{
         String SQL_CREATE_NOTES_TABLE =
                 "CREATE TABLE " + InstructionEntry.TABLE_NAME + "("
                 + InstructionEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + InstructionEntry.COLUMN_NOTE_TYPE + " TEXT, "
+                + InstructionEntry.COLUMN_NOTE_TITLE + " TEXT NOT NULL, "
                 + InstructionEntry.COLUMN_NOTE_INSTRUCTION + " TEXT NOT NULL, "
-                + InstructionEntry.COLUMN_NOTE_MEAN + " TEXT NOT NULL, "
-                + InstructionEntry.COLUMN_NOTE_TIME + " INTEGER NOT NULL);";
+                + InstructionEntry.COLUMN_NOTE_JUSTICE + " TEXT NOT NULL);";
 
         // Execute the SQL statement
         db.execSQL(SQL_CREATE_NOTES_TABLE);
     }
 
-    // 因为我们的数据库只有一个版本，所以这个方法可以保持不变为空
+    // 当数据库版本发生变化时候，这个方法会被调用
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + InstructionEntry.TABLE_NAME);
+        onCreate(sqLiteDatabase);
     }
 }

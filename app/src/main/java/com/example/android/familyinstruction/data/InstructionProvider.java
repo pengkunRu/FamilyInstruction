@@ -162,7 +162,7 @@ public class InstructionProvider extends ContentProvider{
         //数据验证
 
         // Check that the type is not null
-        String type = values.getAsString(InstructionEntry.COLUMN_NOTE_TYPE);
+        String type = values.getAsString(InstructionEntry.COLUMN_NOTE_TITLE);
         if (TextUtils.isEmpty(type)) {
             return null;
         }
@@ -174,7 +174,7 @@ public class InstructionProvider extends ContentProvider{
         }
 
         // Check that the mean is not null
-        String mean = values.getAsString(InstructionEntry.COLUMN_NOTE_MEAN);
+        String mean = values.getAsString(InstructionEntry.COLUMN_NOTE_JUSTICE);
         if (TextUtils.isEmpty(mean)) {
             return null;
         }
@@ -198,10 +198,10 @@ public class InstructionProvider extends ContentProvider{
     // 更新操作的辅助函数
     private int updatePet(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 
-        if (values.containsKey(InstructionEntry.COLUMN_NOTE_TYPE)) {
-            String type = values.getAsString(InstructionEntry.COLUMN_NOTE_TYPE);
+        if (values.containsKey(InstructionEntry.COLUMN_NOTE_TITLE)) {
+            String type = values.getAsString(InstructionEntry.COLUMN_NOTE_TITLE);
             if (type == null) {
-                throw new IllegalArgumentException("Type is null");
+                throw new IllegalArgumentException("title is null");
             }
         }
 
@@ -212,10 +212,10 @@ public class InstructionProvider extends ContentProvider{
             }
         }
 
-        if (values.containsKey(InstructionEntry.COLUMN_NOTE_MEAN)) {
-            String mean = values.getAsString(InstructionEntry.COLUMN_NOTE_TYPE);
+        if (values.containsKey(InstructionEntry.COLUMN_NOTE_JUSTICE)) {
+            String mean = values.getAsString(InstructionEntry.COLUMN_NOTE_JUSTICE);
             if (mean == null) {
-                throw new IllegalArgumentException("Mean is null");
+                throw new IllegalArgumentException("justice is null");
             }
         }
 

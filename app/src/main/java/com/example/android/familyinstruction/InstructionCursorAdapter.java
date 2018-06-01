@@ -37,7 +37,7 @@ public class InstructionCursorAdapter extends CursorAdapter {
         TextView instructionTextView = (TextView)view.findViewById(R.id.instruction);
 
         // 获得我们想要数据的列索引
-        int typeColumnIndex = cursor.getColumnIndex(InstructionContract.InstructionEntry.COLUMN_NOTE_TYPE);
+        int typeColumnIndex = cursor.getColumnIndex(InstructionContract.InstructionEntry.COLUMN_NOTE_TITLE);
         int instructionColumnIndex = cursor.getColumnIndex(InstructionContract.InstructionEntry.COLUMN_NOTE_INSTRUCTION);
 
         // 根据列索引获取数据

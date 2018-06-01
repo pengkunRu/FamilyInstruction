@@ -46,9 +46,11 @@ public final class InstructionContract {
         public final static String TABLE_NAME = "notes";
 
         public final static String _ID = BaseColumns._ID;
-        public final static String COLUMN_NOTE_TYPE ="type";
+        // 标题：这条家训选自
+        public final static String COLUMN_NOTE_TITLE ="title";
+        // 家训的内容
         public final static String COLUMN_NOTE_INSTRUCTION = "instruction";
-        public final static String COLUMN_NOTE_MEAN = "mean";
-        public final static String COLUMN_NOTE_TIME = "time";
+        // 用户对这条家训的赏析
+        public final static String COLUMN_NOTE_JUSTICE = "justice";
     }
 }
