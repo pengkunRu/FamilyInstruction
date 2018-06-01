@@ -4,10 +4,12 @@ import android.content.ContentUris;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.widget.ListView;
 
 import com.example.android.familyinstruction.data.InstructionContract;
 import com.example.android.familyinstruction.data.InstructionContract.InstructionEntry;
+import com.example.android.familyinstruction.data.InstructionDbHelper;
 
 /**
  * 用户札记界面
@@ -118,6 +121,14 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
 
         switch (item.getItemId()){
             case R.id.action_insert_dummy_data:
+                InstructionDbHelper mDbHelper = new InstructionDbHelper(this);
+                SQLiteDatabase db = mDbHelper.getReadableDatabase();
+                Cursor cursor = db.rawQuery("SELECT * FROM " + InstructionContract.TextResourceEntry.TABLE_NAME, null);
+                try {
+                    Log.i("NoteMaterialActivity","Number of rows in pets database table: " + cursor.getColumnCount());
+                } finally {
+                    cursor.close();
+                }
                 return true;
             case R.id.action_delete_all_entries:
                 return true;

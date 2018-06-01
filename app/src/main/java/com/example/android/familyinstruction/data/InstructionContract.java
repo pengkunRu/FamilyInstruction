@@ -79,12 +79,12 @@ public final class InstructionContract {
         // 作者简介
         public final static String COLUMN_WRITER_INTRODUCTION ="writerIntroduction";
         // 作者图片
-        public final static String COLUMN_WRITER_IMAGE ="bookImage";
+        public final static String COLUMN_WRITER_IMAGE ="writerImage";
         // 家训文章类型
         public final static String COLUMN_ARTICLE_TYPE ="articleType";
         // 家训文章的文言文形式
-        public final static String ARTICLE_ANCIENT_FORMAT ="articleAncientFormat";
+        public final static String COLUMN_ARTICLE_ANCIENT_FORMAT ="articleAncientFormat";
         // 家训文章的白话文形式
-        public final static String  ARTICLE_VERNACULAR_FORMAT ="articleVernacularFormat";
+        public final static String COLUMN_ARTICLE_VERNACULAR_FORMAT ="articleVernacularFormat";
     }
 }
