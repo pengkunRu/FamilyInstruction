@@ -120,7 +120,7 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
         // as you specify a parent activity in AndroidManifest.xml.
 
         switch (item.getItemId()){
-            case R.id.action_insert_dummy_data:
+            case R.id.action_test:
                 InstructionDbHelper mDbHelper = new InstructionDbHelper(this);
                 SQLiteDatabase db = mDbHelper.getReadableDatabase();
                 Cursor cursor = db.rawQuery("SELECT * FROM " + InstructionContract.TextResourceEntry.TABLE_NAME, null);
@@ -129,8 +129,6 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
                 } finally {
                     cursor.close();
                 }
-                return true;
-            case R.id.action_delete_all_entries:
                 return true;
         }
         return super.onOptionsItemSelected(item);
