@@ -4,7 +4,6 @@ import android.content.ContentUris;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -19,7 +18,15 @@ import android.widget.ListView;
 
 import com.example.android.familyinstruction.data.InstructionContract;
 import com.example.android.familyinstruction.data.InstructionContract.InstructionEntry;
-import com.example.android.familyinstruction.data.InstructionDbHelper;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * 用户札记界面
@@ -121,17 +128,65 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
 
         switch (item.getItemId()){
             case R.id.action_test:
-                InstructionDbHelper mDbHelper = new InstructionDbHelper(this);
-                SQLiteDatabase db = mDbHelper.getReadableDatabase();
-                Cursor cursor = db.rawQuery("SELECT * FROM " + InstructionContract.TextResourceEntry.TABLE_NAME, null);
-                try {
-                    Log.i("NoteMaterialActivity","Number of rows in pets database table: " + cursor.getColumnCount());
-                } finally {
-                    cursor.close();
+                try{
+                    JSONObject obj = new JSONObject(loadJSONFromAsset());
+                    JSONArray m_jArry = obj.getJSONArray("text");
+                    ArrayList<HashMap<String, String>> formList = new ArrayList<HashMap<String, String>>();
+                    HashMap<String, String> m_li;
+
+                    for (int i = 0; i < m_jArry.length(); i++) {
+                        JSONObject jo_inside = m_jArry.getJSONObject(i);
+                        String bookTitle_value = jo_inside.getString("bookTitle").trim();
+                        String bookIntroduction_value = jo_inside.getString("bookIntroduction").trim();
+                        String bookImage_value = jo_inside.getString("bookImage").trim();
+                        String writerName_value = jo_inside.getString("writerName").trim();
+                        String writerIntroduction_value = jo_inside.getString("writerIntroduction").trim();
+                        String writerImage_value = jo_inside.getString("writerImage").trim();
+                        String articleType_value = jo_inside.getString("articleType").trim();
+                        String articleAncientFormat_value = jo_inside.getString("articleAncientFormat").trim();
+                        String articleVernacularFormat_Value = jo_inside.getString("articleVernacularFormat").trim();
+
+                        m_li = new HashMap<String, String>();
+                        m_li.put("bookTitle", bookTitle_value);
+                        m_li.put("bookIntroduction", bookIntroduction_value);
+                        m_li.put("bookImage", bookTitle_value);
+                        m_li.put("writerName", writerName_value);
+                        m_li.put("writerImage", writerImage_value);
+                        m_li.put("writerIntroduction", writerIntroduction_value);
+                        m_li.put("articleType", articleType_value);
+                        m_li.put("articleAncientFormat", articleAncientFormat_value);
+                        m_li.put("articleVernacularFormat", articleVernacularFormat_Value);
+
+                        formList.add(m_li);
+                        Log.i("NoteMaterialActivity","值是："+formList.get(i));
+                    }
+                }catch (JSONException e){
+                    e.printStackTrace();
                 }
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public String loadJSONFromAsset() {
+        String json = null;
+        try {
+            // 读取assets目录里的test.json文件，获取字节输入流
+            InputStream is = getResources().getAssets().open("material.json");
+            //  获取字节输入流长度
+            int size = is.available();
+            // 定义字节缓冲区
+            byte[] buffer = new byte[size];
+            // 读取字节输入流，存放到字节缓冲区里
+            is.read(buffer);
+            is.close();
+            // 将字节缓冲区里的数据转换成utf-8字符串
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
     }
 
     @Override
