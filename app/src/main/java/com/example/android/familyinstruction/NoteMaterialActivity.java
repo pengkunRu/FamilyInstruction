@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -143,6 +142,7 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
                         JSONObject jo_inside = m_jArry.getJSONObject(i);
                         String bookTitle_value = jo_inside.getString("bookTitle").trim();
                         String bookIntroduction_value = jo_inside.getString("bookIntroduction").trim();
+
                         String bookImage_value = jo_inside.getString("bookImage").trim();
                         String writerName_value = jo_inside.getString("writerName").trim();
                         String writerIntroduction_value = jo_inside.getString("writerIntroduction").trim();
@@ -164,7 +164,6 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
 
                         //插入操作
                         Uri newUri = getContentResolver().insert(TextResourceEntry.CONTENT_URI, values);
-                        Log.i("NoteMaterialActivity","uri: "+ newUri.toString());
                         if (newUri == null) {
                             Toast.makeText(this, getString(R.string.editor_insert_pet_failed),
                                     Toast.LENGTH_SHORT).show();

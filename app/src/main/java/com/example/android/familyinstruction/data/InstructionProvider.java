@@ -30,6 +30,7 @@ public class InstructionProvider extends ContentProvider{
 
 
 
+
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
 
@@ -58,6 +59,18 @@ public class InstructionProvider extends ContentProvider{
         return false;
     }
 
+
+    /**
+     * TODO 查询函数,uri如果指向整张表，我们其实可以在参数2，参数3，参数4的作用下
+     * TODO 将范围精确到我们感兴趣的行，列
+     *
+     * @param uri 统一资源定位符
+     * @param projection
+     * @param selection
+     * @param selectionArgs
+     * @param sortOrder
+     * @return
+     */
     @Nullable
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
@@ -71,12 +84,20 @@ public class InstructionProvider extends ContentProvider{
         int match = sUriMatcher.match(uri);
         switch (match){
             case NOTES:
-                cursor = database.query(InstructionContract.InstructionEntry.TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
+                cursor = database.query(InstructionEntry.TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
                 break;
             case NOTE_ID:
-                selection = InstructionContract.InstructionEntry._ID + "=?";
+                selection = InstructionEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
-                cursor = database.query(InstructionContract.InstructionEntry.TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
+                cursor = database.query(InstructionEntry.TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
+                break;
+            case TEXT_RESOOURCE:
+                cursor = database.query(TextResourceEntry.TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
+                break;
+            case TEXT_RESOOURCE_ID:
+                selection = TextResourceEntry._ID + "=?";
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                cursor = database.query(TextResourceEntry.TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
                 break;
                 default:
                     throw new IllegalArgumentException("Cannot query unknown URI " + uri);
