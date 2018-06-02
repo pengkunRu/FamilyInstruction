@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 
@@ -56,14 +57,31 @@ public class BookShelfActivity extends AppCompatActivity {
         });
 
 
+
+
         // 获取数据源
-        ArrayList<Book> books = getBooks();
+        // 在创建书籍数组列表的时候，我们需要在前面加上final修饰符，这样我们在
+        // onItemClick方法中引用books arraylist了
+        final ArrayList<Book> books = getBooks();
 
         BookAdapter adapter = new BookAdapter(this,books);
 
         GridView gridView = (GridView)findViewById(R.id.book_shelf_list);
 
         gridView.setAdapter(adapter);
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                // 通过position，我们可以从Book数组列表中获取Book对象
+                Book currentBook = books.get(position);
+
+                // 页面跳转到用户想要阅读的书籍（书籍目录界面）
+                Intent intent = new Intent(BookShelfActivity.this,CatalogActivity.class);
+                intent.putExtra("bookTitle",currentBook.getBookTitle());
+                startActivity(intent);
+            }
+        });
     }
 
     /**
@@ -81,7 +99,7 @@ public class BookShelfActivity extends AppCompatActivity {
         int bookTtileColumnIndex = cursor.getColumnIndex(TextResourceEntry.COLUMN_BOOK_TITLE);
         int bookImageColumnIndex = cursor.getColumnIndex(TextResourceEntry.COLUMN_BOOK_IMAGE);
 
-        ArrayList<Book> books = new ArrayList<Book>();
+        final ArrayList<Book> books = new ArrayList<Book>();
         while (cursor.moveToNext()){
             String currentbookTitle = cursor.getString(bookTtileColumnIndex);
             String currentbookImage = cursor.getString(bookImageColumnIndex);

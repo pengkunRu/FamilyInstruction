@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">家训</string>
     <string name="app_material_page_name">资料库</string>
-    <string name="app_note_page_name">家训札记</string>
+    <string name="app_note_page_name">札记</string>
     <string name="action_test">测试</string>
     <string name="family_instruction_material">资料库</string>
     <string name="action_delete_all_data">资料库</string>

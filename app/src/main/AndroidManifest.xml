@@ -40,7 +40,11 @@
         <activity android:name=".TextDetailInfomation" />
         <activity android:name=".VedioDetailInformation" />
         <activity android:name=".MediaMaterialActivity" />
-        <activity android:name=".BookShelfActivity"
+        <activity
+            android:name=".BookShelfActivity"
+            android:label="古籍" />
+        <activity android:name=".CatalogActivity"
+            android:parentActivityName=".BookShelfActivity"
             android:label="古籍"/>
     </application>
 
