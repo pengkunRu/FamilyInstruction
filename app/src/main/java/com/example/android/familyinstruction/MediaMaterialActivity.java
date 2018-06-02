@@ -46,7 +46,7 @@ public class MediaMaterialActivity extends AppCompatActivity {
         mTextMaterial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MediaMaterialActivity.this, TextMaterialActivity.class);
+                Intent intent = new Intent(MediaMaterialActivity.this, BookShelfActivity.class);
                 startActivity(intent);
                 finish();
             }

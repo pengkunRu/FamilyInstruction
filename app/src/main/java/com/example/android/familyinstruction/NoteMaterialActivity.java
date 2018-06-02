@@ -80,7 +80,7 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
         mTextMaterial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(NoteMaterialActivity.this,TextMaterialActivity.class);
+                Intent intent = new Intent(NoteMaterialActivity.this,BookShelfActivity.class);
                 startActivity(intent) ;
                 finish();
             }

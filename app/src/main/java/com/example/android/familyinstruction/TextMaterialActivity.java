@@ -4,15 +4,12 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.android.familyinstruction.data.InstructionContract.TextResourceEntry;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 
 ;
 
@@ -82,7 +79,7 @@ public class TextMaterialActivity extends AppCompatActivity {
 //        });
 
 //        theNumberOfBooks();
-        displayAllInfo();
+//        displayAllInfo();
     }
 
 
@@ -91,24 +88,16 @@ public class TextMaterialActivity extends AppCompatActivity {
      */
     private void theNumberOfBooks(){
         String[] projection = {
-                TextResourceEntry.COLUMN_BOOK_TITLE,
+                "distinct " + TextResourceEntry.COLUMN_BOOK_TITLE,
+                TextResourceEntry.COLUMN_BOOK_IMAGE
         };
 
         Cursor cursor = getContentResolver().query(TextResourceEntry.CONTENT_URI,projection,null,null,null);
 
-        HashSet<String> bookTitle = new HashSet<String>();
-
-        while(cursor.moveToNext()){
-            bookTitle.add(cursor.getString(0));;
+        while (cursor.moveToNext()){
+            Log.i("Text","Value: " + cursor.getString(0));
+            Log.i("Text","Value: " + cursor.getString(1));
         }
-
-        Iterator<String> it = bookTitle.iterator();
-        ArrayList<String> titles = new ArrayList<String>();
-        while (it.hasNext()){
-            String title = it.next();
-            titles.add(title);
-        }
-//        Log.i("Text","元素个数："+titles.size());
     }
     /**
      * TODO 显示整张表的所有信息

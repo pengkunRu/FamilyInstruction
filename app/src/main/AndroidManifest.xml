@@ -3,6 +3,7 @@
     package="com.example.android.familyinstruction">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -38,7 +39,9 @@
             android:label="@string/family_instruction_of_china" />
         <activity android:name=".TextDetailInfomation" />
         <activity android:name=".VedioDetailInformation" />
-        <activity android:name=".MediaMaterialActivity"></activity>
+        <activity android:name=".MediaMaterialActivity" />
+        <activity android:name=".BookShelfActivity"
+            android:label="古籍"/>
     </application>
 
 </manifest>
