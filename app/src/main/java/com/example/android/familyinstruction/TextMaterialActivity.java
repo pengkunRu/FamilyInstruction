@@ -61,7 +61,6 @@ public class TextMaterialActivity extends AppCompatActivity {
             }
         });
 
-
 //        // 转到颜氏家训
 //        TextView mBook1 = (TextView) findViewById(R.id.book_1);
 //        mBook1.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +81,8 @@ public class TextMaterialActivity extends AppCompatActivity {
 //            }
 //        });
 
-        theNumberOfBooks();
+//        theNumberOfBooks();
+        displayAllInfo();
     }
 
 
