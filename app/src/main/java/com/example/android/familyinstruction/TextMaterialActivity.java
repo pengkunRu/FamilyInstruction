@@ -10,6 +10,10 @@ import android.widget.TextView;
 
 import com.example.android.familyinstruction.data.InstructionContract.TextResourceEntry;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+
 ;
 
 /**
@@ -78,10 +82,38 @@ public class TextMaterialActivity extends AppCompatActivity {
 //            }
 //        });
 
+        theNumberOfBooks();
+    }
 
-        /**
-         * TODO 向用户展示有哪些书籍
-         */
+
+    /**
+     * TODO 显示我们的文本资源表中有几本书
+     */
+    private void theNumberOfBooks(){
+        String[] projection = {
+                TextResourceEntry.COLUMN_BOOK_TITLE,
+        };
+
+        Cursor cursor = getContentResolver().query(TextResourceEntry.CONTENT_URI,projection,null,null,null);
+
+        HashSet<String> bookTitle = new HashSet<String>();
+
+        while(cursor.moveToNext()){
+            bookTitle.add(cursor.getString(0));;
+        }
+
+        Iterator<String> it = bookTitle.iterator();
+        ArrayList<String> titles = new ArrayList<String>();
+        while (it.hasNext()){
+            String title = it.next();
+            titles.add(title);
+        }
+//        Log.i("Text","元素个数："+titles.size());
+    }
+    /**
+     * TODO 显示整张表的所有信息
+     */
+    private void displayAllInfo(){
         String[] projection = {
                 TextResourceEntry._ID,
                 TextResourceEntry.COLUMN_BOOK_TITLE,
