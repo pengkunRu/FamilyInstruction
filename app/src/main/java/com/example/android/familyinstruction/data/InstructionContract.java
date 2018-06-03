@@ -95,4 +95,27 @@ public final class InstructionContract {
         // 家训文章的白话文形式
         public final static String COLUMN_ARTICLE_VERNACULAR_FORMAT ="articleVernacularFormat";
     }
+
+    // 媒体资源表的合约类内容
+    public final static class MediaResourceEntry implements BaseColumns{
+
+        // 媒体资源表的名字
+        public static final String TABLE_NAME = "media_resource";
+
+
+        // 唯一标识符
+        public final static String _ID = BaseColumns._ID;
+        // 剧集的总标题
+        public final static String COLUMN_HEADTITLE = "headTitle";
+        // 剧集简介
+        public final static String COLUMN_INTRODUCTION = "introduction";
+        // 剧集海报
+        public final static String COLUMN_POSTER = "poster";
+        // 分剧集标题
+        public final static String COLUMN_SUBTITLE = "subTitle";
+        // 分剧集缩略图
+        public final static String COLUMN_THUMBNAIL = "thumbnail";
+        // 媒体资源url
+        public final static String COLUMN_MEDIA_DATA = "mediaData";
+    }
 }

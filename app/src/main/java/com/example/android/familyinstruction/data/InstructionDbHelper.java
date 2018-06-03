@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.android.familyinstruction.data.InstructionContract.InstructionEntry;
+import com.example.android.familyinstruction.data.InstructionContract.MediaResourceEntry;
 import com.example.android.familyinstruction.data.InstructionContract.TextResourceEntry;
 /**
  * Created by kun on 2018/5/28.
@@ -15,7 +16,7 @@ public class InstructionDbHelper extends SQLiteOpenHelper{
     // 数据库名称
     private static final String DATABASE_NAME = "family_instruction.db";
     // 数据库版本
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
 
     // 构造函数
     public InstructionDbHelper(Context context) {
@@ -49,10 +50,20 @@ public class InstructionDbHelper extends SQLiteOpenHelper{
                         + TextResourceEntry.COLUMN_ARTICLE_ANCIENT_FORMAT + " TEXT NOT NULL, "
                         + TextResourceEntry.COLUMN_ARTICLE_VERNACULAR_FORMAT + " TEXT NOT NULL);";
 
+        final String SQL_CREATE_MEDIA_RESOURCE_TABLE =
+                "CREATE TABLE " + MediaResourceEntry.TABLE_NAME + "("
+                        + MediaResourceEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                        + MediaResourceEntry.COLUMN_HEADTITLE + " TEXT NOT NULL, "
+                        + MediaResourceEntry.COLUMN_INTRODUCTION + " TEXT NOT NULL, "
+                        + MediaResourceEntry.COLUMN_POSTER + " TEXT NOT NULL, "
+                        + MediaResourceEntry.COLUMN_SUBTITLE + " TEXT NOT NULL, "
+                        + MediaResourceEntry.COLUMN_THUMBNAIL + " TEXT NOT NULL, "
+                        + MediaResourceEntry.COLUMN_MEDIA_DATA + " TEXT NOT NULL);";
 
         // 执行创建表sql语句
         db.execSQL(SQL_CREATE_NOTES_TABLE);
         db.execSQL(SQL_CREATE_TEXT_RESOURCE_TABLE);
+        db.execSQL(SQL_CREATE_MEDIA_RESOURCE_TABLE);
     }
 
     // 当数据库版本发生变化时候，这个方法会被调用
@@ -60,6 +71,7 @@ public class InstructionDbHelper extends SQLiteOpenHelper{
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + InstructionEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TextResourceEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + MediaResourceEntry.TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 }
