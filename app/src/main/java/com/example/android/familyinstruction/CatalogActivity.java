@@ -5,8 +5,9 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -26,7 +27,7 @@ public class CatalogActivity extends AppCompatActivity {
         // 获取用户想要浏览的书名
         Intent intent = getIntent();
         String bookTitle = intent.getExtras().getString("bookTitle");
-        Log.i("CatalogActivity","书名: " + bookTitle);
+
 
         // 获取数据源
         // 在创建目录数组列表的时候，我们需要在前面加上final修饰符，这样我们在
@@ -44,6 +45,20 @@ public class CatalogActivity extends AppCompatActivity {
         CatalogAdapter adapter = new CatalogAdapter(this,catalogs);
         GridView gridView = (GridView)findViewById(R.id.catalog_list);
         gridView.setAdapter(adapter);
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                // 由此进入文章的内容
+                // 通过position，我们可以从Catalog数组列表中获取Catalog对象
+                Catalog currentItem = catalogs.get(position);
+
+                // 页面跳转到用户想要阅读的章节（书籍目录界面）
+                Intent intent = new Intent(CatalogActivity.this,ContentActivity.class);
+                intent.putExtra("id",currentItem.getRowId());
+                startActivity(intent);
+            }
+        });
     }
 
 
