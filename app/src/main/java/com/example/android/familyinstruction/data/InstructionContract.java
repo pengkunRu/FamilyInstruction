@@ -24,6 +24,8 @@ public final class InstructionContract {
     public static final String PATH_NOTES = "notes";
     // PATH_TableName(文本资源表)
     public static final String PATH_TEXT_RESOURCE = "text_resource";
+    // PATH_TableName(媒体资源表)
+    public static final String PATH_MEDIA_RESOURCE = "media_resource";
 
 
 
@@ -98,6 +100,19 @@ public final class InstructionContract {
 
     // 媒体资源表的合约类内容
     public final static class MediaResourceEntry implements BaseColumns{
+
+        // content uri
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_MEDIA_RESOURCE);
+
+        // The MIME type of for a list of notes
+        public static final String CONTENT_LIST_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_MEDIA_RESOURCE;
+
+        // The MIME type for a single note.
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_MEDIA_RESOURCE;
+
+
 
         // 媒体资源表的名字
         public static final String TABLE_NAME = "media_resource";

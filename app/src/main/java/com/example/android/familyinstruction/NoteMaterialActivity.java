@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.android.familyinstruction.data.InstructionContract;
 import com.example.android.familyinstruction.data.InstructionContract.InstructionEntry;
+import com.example.android.familyinstruction.data.InstructionContract.MediaResourceEntry;
 import com.example.android.familyinstruction.data.InstructionContract.TextResourceEntry;
 
 import org.json.JSONArray;
@@ -27,8 +29,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 ;
 
@@ -126,17 +126,14 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
 
         switch (item.getItemId()){
             case R.id.action_test:
+
+                // 解析文本资源数据，并插入文本资源表中
                 try{
                     JSONObject obj = new JSONObject(loadJSONFromAsset());
                     JSONArray m_jArry = obj.getJSONArray("text");
-                    ArrayList<HashMap<String, String>> formList = new ArrayList<HashMap<String, String>>();
-                    HashMap<String, String> m_li;
 
                     for (int i = 0; i < m_jArry.length(); i++) {
                         JSONObject jo_inside = m_jArry.getJSONObject(i);
@@ -164,6 +161,44 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
 
                         //插入操作
                         Uri newUri = getContentResolver().insert(TextResourceEntry.CONTENT_URI, values);
+                        if (newUri == null) {
+                            Toast.makeText(this, getString(R.string.editor_insert_pet_failed),
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(this, getString(R.string.editor_insert_pet_successful),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+                // 解析媒体资源json数据，并插入媒体资源表中
+                try{
+                    JSONObject obj = new JSONObject(loadJSONFromAsset());
+                    JSONArray m_jArry = obj.getJSONArray("media");
+
+                    for (int i = 0; i < m_jArry.length(); i++) {
+                        JSONObject jo_inside = m_jArry.getJSONObject(i);
+                        String headTitle_value = jo_inside.getString("headTitle").trim();
+                        String Introduction_value = jo_inside.getString("Introduction").trim();
+                        String poster_value = jo_inside.getString("poster").trim();
+                        String subTitle_value = jo_inside.getString("subTitle").trim();
+                        String thumbnail_value = jo_inside.getString("thumbnail").trim();
+                        String mediaData_value = jo_inside.getString("mediaData").trim();
+
+
+                        ContentValues values = new ContentValues();
+                        values.put(MediaResourceEntry.COLUMN_HEADTITLE,headTitle_value);
+                        values.put(MediaResourceEntry.COLUMN_INTRODUCTION,Introduction_value);
+                        values.put(MediaResourceEntry.COLUMN_POSTER,poster_value);
+                        values.put(MediaResourceEntry.COLUMN_SUBTITLE,subTitle_value);
+                        values.put(MediaResourceEntry.COLUMN_THUMBNAIL,thumbnail_value);
+                        values.put(MediaResourceEntry.COLUMN_MEDIA_DATA,mediaData_value);
+
+
+                        //插入操作
+                        Uri newUri = getContentResolver().insert(MediaResourceEntry.CONTENT_URI, values);
                         if (newUri == null) {
                             Toast.makeText(this, getString(R.string.editor_insert_pet_failed),
                                     Toast.LENGTH_SHORT).show();

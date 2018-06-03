@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context="com.example.android.familyinstruction.MediaMaterialActivity">
     <LinearLayout
@@ -35,4 +36,9 @@
             android:text="讲坛"
             android:textSize="18sp" />
     </LinearLayout>
+    <TextView
+        android:text="1234567"
+        android:id="@+id/media_resource_display"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

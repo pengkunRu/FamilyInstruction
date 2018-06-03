@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
+import com.example.android.familyinstruction.data.InstructionContract.MediaResourceEntry;
 import com.example.android.familyinstruction.data.InstructionContract.InstructionEntry;
 import com.example.android.familyinstruction.data.InstructionContract.TextResourceEntry;
 /**
@@ -27,6 +28,10 @@ public class InstructionProvider extends ContentProvider{
     private static final int TEXT_RESOOURCE = 200;
     // 访问某一行文本资源表的uri匹配编码
     private static final int TEXT_RESOOURCE_ID = 201;
+    // 访问整个媒体资源表的uri匹配编码
+    private static final int MEDIA_RESOOURCE = 300;
+    // 访问某一行媒体资源表的uri匹配编码
+    private static final int MEDIA_RESOOURCE_ID = 301;
 
 
 
@@ -42,6 +47,10 @@ public class InstructionProvider extends ContentProvider{
         // 将访问文本资源表的两种模式添加和每种模式的uri编码添加到uri匹配器中
         sUriMatcher.addURI(InstructionContract.CONTENT_AUTHORITY,InstructionContract.PATH_TEXT_RESOURCE,TEXT_RESOOURCE);
         sUriMatcher.addURI(InstructionContract.CONTENT_AUTHORITY,InstructionContract.PATH_TEXT_RESOURCE+"/#",TEXT_RESOOURCE_ID);
+
+        // 将访问媒体资源表的两种模式添加和每种模式的uri编码添加到uri匹配器中
+        sUriMatcher.addURI(InstructionContract.CONTENT_AUTHORITY,InstructionContract.PATH_MEDIA_RESOURCE,MEDIA_RESOOURCE);
+        sUriMatcher.addURI(InstructionContract.CONTENT_AUTHORITY,InstructionContract.PATH_MEDIA_RESOURCE+"/#",MEDIA_RESOOURCE_ID);
     }
 
 
@@ -99,6 +108,14 @@ public class InstructionProvider extends ContentProvider{
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 cursor = database.query(TextResourceEntry.TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
                 break;
+            case MEDIA_RESOOURCE:
+                cursor = database.query(MediaResourceEntry.TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
+                break;
+            case MEDIA_RESOOURCE_ID:
+                selection = MediaResourceEntry._ID + "=?";
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                cursor = database.query(MediaResourceEntry.TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
+                break;
                 default:
                     throw new IllegalArgumentException("Cannot query unknown URI " + uri);
         }
@@ -152,6 +169,8 @@ public class InstructionProvider extends ContentProvider{
                 return insertNote(uri, contentValues);
             case TEXT_RESOOURCE:
                 return  insertTextResource(uri,contentValues);
+            case MEDIA_RESOOURCE:
+                return  insertMediaResource(uri,contentValues);
             default:
                 throw new IllegalArgumentException("Insertion is not supported for " + uri);
         }
@@ -241,6 +260,31 @@ public class InstructionProvider extends ContentProvider{
         getContext().getContentResolver().notifyChange(uri, null);
         return ContentUris.withAppendedId(uri, newRowId);
     }
+
+    /**
+     * TODO 插入新数据到媒体资源表的辅助函数
+     * @param uri
+     * @param values
+     * @return
+     */
+    private Uri insertMediaResource(Uri uri, ContentValues values) {
+
+        // 获得数据库对象
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+
+        long newRowId = database.insert(InstructionContract.MediaResourceEntry.TABLE_NAME, null, values);
+
+        //判断Insertc操作是否成功
+        if (newRowId == -1) {
+            Log.e(LOG_TAG, "Failed to insert row for " + uri);
+            return null;
+        }
+
+        // Notify all listeners that the data has changed for the pet content URI
+        getContext().getContentResolver().notifyChange(uri, null);
+        return ContentUris.withAppendedId(uri, newRowId);
+    }
+
 
     // 插入新数据到文本资源表的辅助函数
     private Uri insertTextResource(Uri uri, ContentValues values){
