@@ -47,7 +47,7 @@
             android:name=".CatalogActivity"
             android:label="古籍"
             android:parentActivityName=".BookShelfActivity" />
-        <activity android:name=".ContentActivity"></activity>
+        <activity android:name=".ContentActivity"/>
     </application>
 
 </manifest>

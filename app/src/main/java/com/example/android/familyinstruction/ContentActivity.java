@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.example.android.familyinstruction.data.InstructionContract.TextResourceEntry;
 
@@ -23,8 +24,20 @@ public class ContentActivity extends AppCompatActivity {
         long id = intent.getExtras().getInt("id");
         Log.i("Content","id: " + id);
 
+        // 根据唯一标识符获取了对应的所有数据
         Content content = getContent(id);
-        Log.i("ContentActivity","值: " +content.getArticleType()+content.getImageResourceId()+content.getWriterIntroduction()+content.getWriterName());
+
+        // 绑定视图，设置资源
+        TextView typeTextView = (TextView)findViewById(R.id.article_type_text_view);
+        TextView translationTextView = (TextView)findViewById(R.id.article_type_text_view);
+        TextView writerNameTextView = (TextView)findViewById(R.id.writer_name_text_view);
+        TextView ancientTextView = (TextView)findViewById(R.id.article_ancient_tv);
+        TextView vernacularTextView = (TextView)findViewById(R.id.article_vernacular_tv);
+
+        typeTextView.setText(content.getArticleType());
+        writerNameTextView.setText(content.getWriterName());
+        ancientTextView.setText(content.getArticleAncientFormat());
+        vernacularTextView.setText(content.getArticleVernacularFormat());
     }
 
     /**
