@@ -50,7 +50,7 @@ public class BookShelfActivity extends AppCompatActivity {
         mMediaMaterial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(BookShelfActivity.this, MediaMaterialActivity.class);
+                Intent intent = new Intent(BookShelfActivity.this, EpisodeActivity.class);
                 startActivity(intent);
                 finish();
             }

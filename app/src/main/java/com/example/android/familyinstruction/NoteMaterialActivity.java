@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -90,7 +89,7 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
         mMediaMaterial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(NoteMaterialActivity.this,MediaMaterialActivity.class);
+                Intent intent = new Intent(NoteMaterialActivity.this,EpisodeActivity.class);
                 startActivity(intent) ;
                 finish();
             }

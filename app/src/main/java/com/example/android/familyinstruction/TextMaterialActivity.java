@@ -52,7 +52,7 @@ public class TextMaterialActivity extends AppCompatActivity {
         mMediaMaterial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(TextMaterialActivity.this, MediaMaterialActivity.class);
+                Intent intent = new Intent(TextMaterialActivity.this, EpisodeActivity.class);
                 startActivity(intent);
                 finish();
             }
