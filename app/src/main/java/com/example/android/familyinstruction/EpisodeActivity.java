@@ -74,7 +74,12 @@ public class EpisodeActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-
+                // 通过position，我们可以从Episode数组列表中获取episode对象
+                Episode currentEpisode = episodes.get(position);
+                Intent intent = new Intent(EpisodeActivity.this,MediaListActivity.class);
+                intent.putExtra("headTitle",currentEpisode.getHeadTitle());
+                intent.putExtra("introduction",currentEpisode.getIntroduction());
+                startActivity(intent);
             }
         });
     }

@@ -47,7 +47,8 @@
             android:name=".CatalogActivity"
             android:label="古籍"
             android:parentActivityName=".BookShelfActivity" />
-        <activity android:name=".ContentActivity"/>
+        <activity android:name=".ContentActivity" />
+        <activity android:name=".MediaListActivity"></activity>
     </application>
 
 </manifest>
