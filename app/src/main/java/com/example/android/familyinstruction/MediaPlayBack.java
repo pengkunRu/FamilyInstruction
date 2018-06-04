@@ -4,15 +4,12 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
 public class MediaPlayBack extends AppCompatActivity {
 
     private VideoView mVedioView;
-    private Button mButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,23 +21,20 @@ public class MediaPlayBack extends AppCompatActivity {
         final String vedioUrl = intent.getExtras().getString("vedioUrl");
 
         mVedioView = (VideoView) findViewById(R.id.vedio_view);
-        mButton = (Button) findViewById(R.id.button);
+//        mButton = (Button) findViewById(R.id.button);
 
-        mButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mVedioView.setVideoPath(vedioUrl);
-                MediaController mediaController = new MediaController(MediaPlayBack.this);
-                mediaController.setAnchorView(mVedioView);
-                mVedioView.setMediaController(mediaController);
-                mVedioView.requestFocus();
-                mVedioView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                    // Close the progress bar and play the video
-                    public void onPrepared(MediaPlayer mp) {
-                        mVedioView.start();
-                    }
-                });
+
+        mVedioView.setVideoPath(vedioUrl);
+        MediaController mediaController = new MediaController(MediaPlayBack.this);
+        mediaController.setAnchorView(mVedioView);
+        mVedioView.setMediaController(mediaController);
+        mVedioView.requestFocus();
+        mVedioView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            // Close the progress bar and play the video
+            public void onPrepared(MediaPlayer mp) {
+                mVedioView.start();
             }
         });
+
     }
 }
