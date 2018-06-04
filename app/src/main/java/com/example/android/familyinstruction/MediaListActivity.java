@@ -46,7 +46,10 @@ public class MediaListActivity extends AppCompatActivity {
                 // 通过position，我们可以从medialist数组列表中获取medialist对象
                 MediaList currentItem = mediaList.get(position);
 
-                // 页面跳转至视频播放界面
+                // 页面跳转至视频播放界面,并传入视频链接
+                Intent intent = new Intent(MediaListActivity.this,MediaPlayBack.class);
+                intent.putExtra("vedioUrl",currentItem.getMediaData());
+                startActivity(intent);
             }
         });
     }

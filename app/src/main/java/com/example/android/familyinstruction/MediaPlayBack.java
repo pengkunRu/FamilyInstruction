@@ -1,5 +1,6 @@
 package com.example.android.familyinstruction;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +9,7 @@ import android.widget.Button;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
-public class VedioDetailInformation extends AppCompatActivity {
+public class MediaPlayBack extends AppCompatActivity {
 
     private VideoView mVedioView;
     private Button mButton;
@@ -18,14 +19,18 @@ public class VedioDetailInformation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vedio_detail_information);
 
+        // 接收传入的vedio url
+        Intent intent = getIntent();
+        final String vedioUrl = intent.getExtras().getString("vedioUrl");
+
         mVedioView = (VideoView) findViewById(R.id.vedio_view);
         mButton = (Button) findViewById(R.id.button);
 
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mVedioView.setVideoPath("http://p92t81y7d.bkt.clouddn.com/vedio_file1_1.mp4");
-                MediaController mediaController = new MediaController(VedioDetailInformation.this);
+                mVedioView.setVideoPath(vedioUrl);
+                MediaController mediaController = new MediaController(MediaPlayBack.this);
                 mediaController.setAnchorView(mVedioView);
                 mVedioView.setMediaController(mediaController);
                 mVedioView.requestFocus();

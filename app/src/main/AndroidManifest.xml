@@ -38,7 +38,7 @@
             android:name=".FamilyInstructionVedio"
             android:label="@string/family_instruction_of_china" />
         <activity android:name=".TextDetailInfomation" />
-        <activity android:name=".VedioDetailInformation" />
+        <activity android:name=".MediaPlayBack" />
         <activity android:name=".EpisodeActivity" />
         <activity
             android:name=".BookShelfActivity"

@@ -41,7 +41,7 @@ public class FamilyInstructionVedio extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Intent intent = new Intent(FamilyInstructionVedio.this,VedioDetailInformation.class);
+                Intent intent = new Intent(FamilyInstructionVedio.this,MediaPlayBack.class);
                 startActivity(intent);
             }
         });
