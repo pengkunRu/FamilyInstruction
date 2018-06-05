@@ -3,9 +3,7 @@ package com.example.android.familyinstruction;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -22,7 +20,6 @@ public class CatalogActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catalog);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // 获取用户想要浏览的书名
         Intent intent = getIntent();
@@ -60,17 +57,7 @@ public class CatalogActivity extends AppCompatActivity {
             }
         });
     }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+    
 
     /**
      * TODO 辅助函数：从文本资源表取出所有bookTitle=？的行

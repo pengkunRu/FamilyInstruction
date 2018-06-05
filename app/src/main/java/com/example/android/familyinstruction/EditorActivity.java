@@ -12,12 +12,17 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.example.android.familyinstruction.data.InstructionContract.InstructionEntry;
 
 public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+
+    // 用户添加的家训的重要程度
+    private int mPriority;
 
     // 定义加载器
     private static final int EXISTING_NOTE_LOADER = 0;
@@ -44,6 +49,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             getLoaderManager().initLoader(EXISTING_NOTE_LOADER, null, this);
         }
 
+        // 用户编辑的家训的重要程度默认设置为1
+        ((RadioButton) findViewById(R.id.radButton1)).setChecked(true);
+        mPriority = 1;
+
         mTitleEditText = (EditText)findViewById(R.id.instruction_title_edit_text);
         mInstructionContentEditText = (EditText)findViewById(R.id.instruction_content_edit_text);
         mJusticeEditText = (EditText)findViewById(R.id.instruction_justice_edit_text);
@@ -53,12 +62,13 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         // 读取三个EditText字段中的数据
         String mTitleString = mTitleEditText.getText().toString().trim();
         String mInstructionString = mInstructionContentEditText.getText().toString().trim();
-        String mJusticeString = mJusticeEditText.getText().toString().trim();
+        String mDescription = mJusticeEditText.getText().toString().trim();
 
         ContentValues values = new ContentValues();
         values.put(InstructionEntry.COLUMN_NOTE_TITLE,mTitleString);
         values.put(InstructionEntry.COLUMN_NOTE_INSTRUCTION,mInstructionString);
-        values.put(InstructionEntry.COLUMN_NOTE_JUSTICE,mJusticeString);
+        values.put(InstructionEntry.COLUMN_NOTE_JUSTICE,mPriority);
+        values.put(InstructionEntry.COLUMN_NOTE_DESCRIPTION,mDescription);
 
 
         // Insert a new note into the provider
@@ -106,13 +116,29 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * 根据用户的选择，改变用户想要添加的家训的优先级
+     */
+    public void onPrioritySelected(View view) {
+        if (((RadioButton) findViewById(R.id.radButton1)).isChecked()) {
+            mPriority = 1;
+        } else if (((RadioButton) findViewById(R.id.radButton2)).isChecked()) {
+            mPriority = 2;
+        } else if (((RadioButton) findViewById(R.id.radButton3)).isChecked()) {
+            mPriority = 3;
+        }
+    }
+
+
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         String[] projection = {
                 InstructionEntry._ID,
                 InstructionEntry.COLUMN_NOTE_TITLE,
                 InstructionEntry.COLUMN_NOTE_INSTRUCTION,
-                InstructionEntry.COLUMN_NOTE_JUSTICE};
+                InstructionEntry.COLUMN_NOTE_JUSTICE,
+                InstructionEntry.COLUMN_NOTE_DESCRIPTION
+        };
 
         return new CursorLoader(this,
                 mCurrentNoteUri,
@@ -134,15 +160,25 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             // 获得每个数据项的索引
             int typeColumnIndex = cursor.getColumnIndex(InstructionEntry.COLUMN_NOTE_TITLE);
             int instructionColumnIndex = cursor.getColumnIndex(InstructionEntry.COLUMN_NOTE_INSTRUCTION);
-            int meanColumnIndex = cursor.getColumnIndex(InstructionEntry.COLUMN_NOTE_JUSTICE);
+            int meanColumnIndex = cursor.getColumnIndex(InstructionEntry.COLUMN_NOTE_DESCRIPTION);
+            int priorityColumnIndex = cursor.getColumnIndex(InstructionEntry.COLUMN_NOTE_JUSTICE);
 
             String type = cursor.getString(typeColumnIndex);
             String instruction = cursor.getString(instructionColumnIndex);
-            String mean = cursor.getString(meanColumnIndex);
+            int priority = cursor.getInt(priorityColumnIndex);
+            String description = cursor.getString(meanColumnIndex);
 
             mTitleEditText.setText(type);
             mInstructionContentEditText.setText(instruction);
-            mJusticeEditText.setText(mean);
+            mJusticeEditText.setText(description);
+            if(priority == 1){
+                ((RadioButton) findViewById(R.id.radButton1)).setChecked(true);
+            } else if(priority == 2){
+                ((RadioButton) findViewById(R.id.radButton2)).setChecked(true);
+            }else if(priority == 3){
+                ((RadioButton) findViewById(R.id.radButton3)).setChecked(true);
+            }
+
         }
     }
 
@@ -151,5 +187,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mTitleEditText.setText("");
         mInstructionContentEditText.setText("");
         mJusticeEditText.setText("");
+        ((RadioButton) findViewById(R.id.radButton1)).setChecked(true);
     }
 }

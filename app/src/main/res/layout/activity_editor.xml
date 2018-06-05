@@ -8,25 +8,135 @@
     tools:context="com.example.android.familyinstruction.EditorActivity">
     <!-- Overview category -->
     <EditText
-        android:id="@+id/instruction_title_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="家训的类型: "
-        android:textSize="16sp" />
-
-    <EditText
         android:id="@+id/instruction_content_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="家训: "
-        android:paddingTop="16dp"
+        android:gravity="start"
+        android:hint="描述您的家训&#8230;"
+        android:paddingBottom="16dp"
         android:textSize="16sp" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="start"
+            android:hint="描述您的家训类型："
+            android:paddingLeft="5dp"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/instruction_title_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <TextView
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:text="重要程度"
+        android:textColor="@android:color/primary_text_light" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp">
+
+        <!-- Linear layout that contains all three priority buttons (high, medium, low)
+        in a single line -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <Button
+                android:id="@+id/buttonP1"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#E74C3C"
+                android:onClick="onPrioritySelected"
+                android:text="高"
+                android:textColor="@android:color/primary_text_light" />
+
+            <Button
+                android:id="@+id/buttonP2"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#E67E22"
+                android:onClick="onPrioritySelected"
+                android:text="中"
+                android:textColor="@android:color/primary_text_light" />
+
+            <Button
+                android:id="@+id/buttonP3"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#F1C40F"
+                android:onClick="onPrioritySelected"
+                android:text="低"
+                android:textColor="@android:color/primary_text_light" />
+
+        </LinearLayout>
+
+        <!-- RadioGroup for visible selection of a priority -->
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <RadioButton
+                android:id="@+id/radButton1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onPrioritySelected"
+                android:theme="@style/WhiteRadioButton" />
+
+            <RadioButton
+                android:id="@+id/radButton2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onPrioritySelected"
+                android:theme="@style/WhiteRadioButton" />
+
+            <RadioButton
+                android:id="@+id/radButton3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onPrioritySelected"
+                android:theme="@style/WhiteRadioButton" />
+
+        </RadioGroup>
+    </FrameLayout>
+
     <EditText
-        android:background="@null"
         android:id="@+id/instruction_justice_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@null"
         android:hint="注记 : "
         android:paddingTop="16dp"
         android:textSize="16sp" />

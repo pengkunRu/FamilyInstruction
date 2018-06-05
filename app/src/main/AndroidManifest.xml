@@ -39,16 +39,17 @@
             android:label="@string/family_instruction_of_china" />
         <activity android:name=".TextDetailInfomation" />
         <activity android:name=".MediaPlayBack" />
-        <activity android:name=".EpisodeActivity" />
+        <activity android:name=".EpisodeActivity"
+            android:label="讲坛"/>
         <activity
             android:name=".BookShelfActivity"
             android:label="古籍" />
         <activity
             android:name=".CatalogActivity"
-            android:label="古籍"
-            android:parentActivityName=".BookShelfActivity" />
+            android:label="古籍" />
         <activity android:name=".ContentActivity" />
-        <activity android:name=".MediaListActivity"></activity>
+        <activity android:name=".MediaListActivity"
+            android:label="讲坛"/>
     </application>
 
 </manifest>

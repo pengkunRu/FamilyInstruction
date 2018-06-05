@@ -48,12 +48,14 @@ public final class InstructionContract {
         public final static String TABLE_NAME = "notes";
         // 唯一标识符
         public final static String _ID = BaseColumns._ID;
-        // 标题：这条家训选自
-        public final static String COLUMN_NOTE_TITLE ="title";
+        // 家训的类型
+        public final static String COLUMN_NOTE_TITLE ="type";
         // 家训的内容
         public final static String COLUMN_NOTE_INSTRUCTION = "instruction";
-        // 用户对这条家训的赏析
-        public final static String COLUMN_NOTE_JUSTICE = "justice";
+        // 家训的优先级
+        public final static String COLUMN_NOTE_JUSTICE = "priority";
+        // 家训的备注：赏析，描述，解释
+        public final static String COLUMN_NOTE_DESCRIPTION = "description";
     }
 
 
