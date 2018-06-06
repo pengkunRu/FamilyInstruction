@@ -57,7 +57,7 @@ public class CatalogActivity extends AppCompatActivity {
             }
         });
     }
-    
+
 
     /**
      * TODO 辅助函数：从文本资源表取出所有bookTitle=？的行

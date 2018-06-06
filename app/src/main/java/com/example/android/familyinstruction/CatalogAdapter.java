@@ -34,7 +34,7 @@ public class CatalogAdapter extends ArrayAdapter<Catalog> {
         Catalog currentItem = getItem(position);
 
         TextView textView = (TextView) listItemView.findViewById(R.id.catalog_text_view);
-        textView.setText("· " + currentItem.getArticleType());
+        textView.setText(currentItem.getArticleType());
         return listItemView;
     }
 }

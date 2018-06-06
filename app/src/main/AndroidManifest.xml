@@ -28,19 +28,10 @@
             android:authorities="com.example.android.familyinstruction"
             android:exported="false" />
 
-        <activity
-            android:name=".TextMaterialActivity"
-            android:label="@string/app_material_page_name" />
-        <activity
-            android:name=".FamilyInstructionText"
-            android:label="@string/family_instruction_of_yan" />
-        <activity
-            android:name=".FamilyInstructionVedio"
-            android:label="@string/family_instruction_of_china" />
-        <activity android:name=".TextDetailInfomation" />
         <activity android:name=".MediaPlayBack" />
-        <activity android:name=".EpisodeActivity"
-            android:label="讲坛"/>
+        <activity
+            android:name=".EpisodeActivity"
+            android:label="讲坛" />
         <activity
             android:name=".BookShelfActivity"
             android:label="古籍" />
@@ -48,8 +39,9 @@
             android:name=".CatalogActivity"
             android:label="古籍" />
         <activity android:name=".ContentActivity" />
-        <activity android:name=".MediaListActivity"
-            android:label="讲坛"/>
+        <activity
+            android:name=".MediaListActivity"
+            android:label="讲坛" />
     </application>
 
 </manifest>
