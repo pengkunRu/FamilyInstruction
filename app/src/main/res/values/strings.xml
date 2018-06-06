@@ -11,4 +11,6 @@
     <string name="editor_insert_note_successful">Note saved</string>
     <string name="editor_update_note_failed">Error with update note</string>
     <string name="editor_update_note_successful">Note updated</string>
+    <string name="editor_delete_note_failed">Error with delete note</string>
+    <string name="editor_delete_note_successful">Note deleted</string>
 </resources>

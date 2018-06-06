@@ -98,6 +98,22 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         }
     }
 
+    // 用户删除家训代码块
+    private void deleteNote(){
+
+        if (mCurrentNoteUri != null) {
+            int rowsDeleted = getContentResolver().delete(mCurrentNoteUri,null,null);
+
+            if (rowsDeleted == 0) {
+                Toast.makeText(this, getString(R.string.editor_delete_note_failed),
+                        Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(this, getString(R.string.editor_delete_note_successful),
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -119,6 +135,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 finish();
                 return true;
             case R.id.action_delete:
+                deleteNote();
+                finish();
                 return true;
             case R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
