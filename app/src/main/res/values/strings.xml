@@ -7,8 +7,8 @@
     <string name="action_delete_all_data">资料库</string>
     <string name="action_save">保存</string>
     <string name="action_delete">删除</string>
-    <string name="editor_insert_pet_failed">Error with saving note</string>
-    <string name="editor_insert_pet_successful">Note saved</string>
-    <string name="family_instruction_of_yan">颜氏家训</string>
-    <string name="family_instruction_of_china">中华家训</string>
+    <string name="editor_insert_note_failed">Error with saving note</string>
+    <string name="editor_insert_note_successful">Note saved</string>
+    <string name="editor_update_note_failed">Error with update note</string>
+    <string name="editor_update_note_successful">Note updated</string>
 </resources>

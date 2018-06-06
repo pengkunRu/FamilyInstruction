@@ -161,10 +161,10 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
                         //插入操作
                         Uri newUri = getContentResolver().insert(TextResourceEntry.CONTENT_URI, values);
                         if (newUri == null) {
-                            Toast.makeText(this, getString(R.string.editor_insert_pet_failed),
+                            Toast.makeText(this, getString(R.string.editor_insert_note_failed),
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(this, getString(R.string.editor_insert_pet_successful),
+                            Toast.makeText(this, getString(R.string.editor_insert_note_successful),
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -199,10 +199,10 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
                         //插入操作
                         Uri newUri = getContentResolver().insert(MediaResourceEntry.CONTENT_URI, values);
                         if (newUri == null) {
-                            Toast.makeText(this, getString(R.string.editor_insert_pet_failed),
+                            Toast.makeText(this, getString(R.string.editor_insert_note_failed),
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(this, getString(R.string.editor_insert_pet_successful),
+                            Toast.makeText(this, getString(R.string.editor_insert_note_successful),
                                     Toast.LENGTH_SHORT).show();
                         }
                     }

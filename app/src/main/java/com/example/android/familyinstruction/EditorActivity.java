@@ -58,7 +58,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mJusticeEditText = (EditText)findViewById(R.id.instruction_justice_edit_text);
     }
 
-    private void insertNote(){
+    private void saveNote(){
         // 读取三个EditText字段中的数据
         String mTitleString = mTitleEditText.getText().toString().trim();
         String mInstructionString = mInstructionContentEditText.getText().toString().trim();
@@ -70,20 +70,31 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         values.put(InstructionEntry.COLUMN_NOTE_JUSTICE,mPriority);
         values.put(InstructionEntry.COLUMN_NOTE_DESCRIPTION,mDescription);
 
+        // 判断用户是要插入新的家训信息，还是要更新现有的家训信息
+        if(mCurrentNoteUri == null){
+            // 要插入新的家训信息
+            Uri newUri = getContentResolver().insert(InstructionEntry.CONTENT_URI, values);
 
-        // Insert a new note into the provider
-        // returning the content URI for the new note.
-        Uri newUri = getContentResolver().insert(InstructionEntry.CONTENT_URI, values);
-
-        // Show a toast message depending on whether or not the insertion was successful
-        if (newUri == null) {
-            // If the new content URI is null, then there was an error with insertion.
-            Toast.makeText(this, getString(R.string.editor_insert_pet_failed),
-                    Toast.LENGTH_SHORT).show();
-        } else {
-            // Otherwise, the insertion was successful and we can display a toast.
-            Toast.makeText(this, getString(R.string.editor_insert_pet_successful),
-                    Toast.LENGTH_SHORT).show();
+            // 打印Toast消息来判断出用户操作是否成功
+            if (newUri == null) {
+                // If the new content URI is null, then there was an error with insertion.
+                Toast.makeText(this, getString(R.string.editor_insert_note_failed),
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                // Otherwise, the insertion was successful and we can display a toast.
+                Toast.makeText(this, getString(R.string.editor_insert_note_successful),
+                        Toast.LENGTH_SHORT).show();
+            }
+        }else {
+            // 要更新现有的家训信息
+            int rowsAffected = getContentResolver().update(mCurrentNoteUri, values, null, null);
+            if (rowsAffected == 0) {
+                Toast.makeText(this, getString(R.string.editor_update_note_failed),
+                        Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(this, getString(R.string.editor_update_note_successful),
+                        Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -103,7 +114,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         switch (item.getItemId()){
             case R.id.action_save:
                 // 插入数据
-                insertNote();
+                saveNote();
                 // 关闭当前Activity,并返回之前的Activity
                 finish();
                 return true;
