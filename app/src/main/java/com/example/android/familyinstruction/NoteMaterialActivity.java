@@ -8,7 +8,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ShareCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +39,10 @@ import java.io.InputStream;
  */
 
 public class NoteMaterialActivity extends AppCompatActivity implements android.app.LoaderManager.LoaderCallbacks<Cursor>{
+
+    private static final String INSTRUCTION_SHARE_HASHTAG = " #FamilyInstructionApp";
+
+    private StringBuilder mFamilyInstruction;
 
     // 创建一个整数加载器常量
     private static final int NOTE_LOADER = 0;
@@ -120,6 +127,14 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem item=menu.findItem(R.id.action_share);
+        ShareActionProvider sap= (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+        Intent intent=new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT,mFamilyInstruction.toString());
+        if(sap!=null){
+            sap.setShareIntent(intent);
+        }
         return true;
     }
 
@@ -235,6 +250,14 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
         return json;
     }
 
+    private Intent createShareForecastIntent() {
+        Intent shareIntent = ShareCompat.IntentBuilder.from(this)
+                .setType("text/plain")
+                .setText(mFamilyInstruction.append(INSTRUCTION_SHARE_HASHTAG))
+                .getIntent();
+        return shareIntent;
+    }
+
     @Override
     public android.content.Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         String[] projection = {
@@ -253,6 +276,17 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
 
     @Override
     public void onLoadFinished(android.content.Loader<Cursor> loader, Cursor cursor) {
+        // 构建要分享的字符串
+        int typeColumnIndex = cursor.getColumnIndex(InstructionEntry.COLUMN_NOTE_TITLE);
+        int instrctionColumnIndex = cursor.getColumnIndex(InstructionEntry.COLUMN_NOTE_INSTRUCTION);
+
+        mFamilyInstruction = new StringBuilder();
+        while (cursor.moveToNext()) {
+            String InstructionType = cursor.getString(typeColumnIndex);
+            String Instruction = cursor.getString(instrctionColumnIndex);
+            mFamilyInstruction.append(InstructionType).append("\n").append(Instruction);
+        }
+
         mCursorAdapter.swapCursor(cursor);
     }
 

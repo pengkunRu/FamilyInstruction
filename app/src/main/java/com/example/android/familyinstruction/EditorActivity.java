@@ -21,6 +21,8 @@ import com.example.android.familyinstruction.data.InstructionContract.Instructio
 
 public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
+    private static final String INSTRUCTION_SHARE_HASHTAG = " #FamilyInstructionApp";
+
     // 用户添加的家训的重要程度
     private int mPriority;
 
