@@ -126,6 +126,8 @@ public final class InstructionContract {
         public final static String COLUMN_HEADTITLE = "headTitle";
         // 剧集简介
         public final static String COLUMN_INTRODUCTION = "introduction";
+        // 分剧情简介
+        public final static String COLUMN_PLOT = "plot";
         // 剧集海报
         public final static String COLUMN_POSTER = "poster";
         // 分剧集标题

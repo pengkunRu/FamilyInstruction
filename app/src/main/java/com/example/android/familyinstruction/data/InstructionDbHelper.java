@@ -16,7 +16,7 @@ public class InstructionDbHelper extends SQLiteOpenHelper{
     // 数据库名称
     private static final String DATABASE_NAME = "family_instruction.db";
     // 数据库版本
-    private static final int DATABASE_VERSION = 7;
+    private static final int DATABASE_VERSION = 8;
 
     // 构造函数
     public InstructionDbHelper(Context context) {
@@ -56,6 +56,7 @@ public class InstructionDbHelper extends SQLiteOpenHelper{
                         + MediaResourceEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                         + MediaResourceEntry.COLUMN_HEADTITLE + " TEXT NOT NULL, "
                         + MediaResourceEntry.COLUMN_INTRODUCTION + " TEXT NOT NULL, "
+                        + MediaResourceEntry.COLUMN_PLOT + " TEXT NOT NULL, "
                         + MediaResourceEntry.COLUMN_POSTER + " TEXT NOT NULL, "
                         + MediaResourceEntry.COLUMN_SUBTITLE + " TEXT NOT NULL, "
                         + MediaResourceEntry.COLUMN_THUMBNAIL + " TEXT NOT NULL, "

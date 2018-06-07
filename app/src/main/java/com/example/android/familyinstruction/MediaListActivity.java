@@ -32,7 +32,7 @@ public class MediaListActivity extends AppCompatActivity {
 
         // 设置视频集的简介
         TextView introductionTextView = findViewById(R.id.vedio_intro_text_view);
-        introductionTextView.setText("简介: " + introduction);
+        introductionTextView.setText("简介:   " + introduction);
 
 
         MediaListAdapter adapter = new MediaListAdapter(this,mediaList);
@@ -49,6 +49,7 @@ public class MediaListActivity extends AppCompatActivity {
                 // 页面跳转至视频播放界面,并传入视频链接
                 Intent intent = new Intent(MediaListActivity.this,MediaPlayBack.class);
                 intent.putExtra("vedioUrl",currentItem.getMediaData());
+                intent.putExtra("plot",currentItem.getPlot());
                 startActivity(intent);
             }
         });
@@ -64,7 +65,9 @@ public class MediaListActivity extends AppCompatActivity {
                 MediaResourceEntry.COLUMN_HEADTITLE,
                 MediaResourceEntry.COLUMN_SUBTITLE,
                 MediaResourceEntry.COLUMN_THUMBNAIL,
-                MediaResourceEntry.COLUMN_MEDIA_DATA
+                MediaResourceEntry.COLUMN_MEDIA_DATA,
+                MediaResourceEntry.COLUMN_PLOT
+
         };
 
         // 设置第2，3参数，来获取我们想要的数据
@@ -79,6 +82,7 @@ public class MediaListActivity extends AppCompatActivity {
         int subTitleColumnIndex = cursor.getColumnIndex(MediaResourceEntry.COLUMN_SUBTITLE);
         int thumbnailColumnIndex = cursor.getColumnIndex(MediaResourceEntry.COLUMN_THUMBNAIL);
         int mediaDataColumnIndex = cursor.getColumnIndex(MediaResourceEntry.COLUMN_MEDIA_DATA);
+        int plotColumnIndex = cursor.getColumnIndex(MediaResourceEntry.COLUMN_PLOT);
 
         ArrayList<MediaList> mediaList = new ArrayList<MediaList>();
         while (cursor.moveToNext()){
@@ -86,11 +90,12 @@ public class MediaListActivity extends AppCompatActivity {
             String currentsubTitle = cursor.getString(subTitleColumnIndex);
             String currentThumbnail = cursor.getString(thumbnailColumnIndex);
             String currentmediaData = cursor.getString(mediaDataColumnIndex);
+            String currentplot = cursor.getString(plotColumnIndex);
 
             // 根据图片的名字获得drawable目录下的图片资源
             int imageResourceId = getResources().getIdentifier(currentThumbnail,"drawable","com.example.android.familyinstruction");
 
-            mediaList.add(new MediaList(currentheadTitle,currentsubTitle,imageResourceId,currentmediaData));
+            mediaList.add(new MediaList(currentheadTitle,currentsubTitle,imageResourceId,currentmediaData,currentplot));
         }
 
         return mediaList;

@@ -5,25 +5,25 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.MediaController;
+import android.widget.TextView;
 import android.widget.VideoView;
 
 public class MediaPlayBack extends AppCompatActivity {
 
     private VideoView mVedioView;
+    private TextView mVedioPlot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vedio_detail_information);
 
-        // 接收传入的vedio url
+        // 接收传入的vedio url以及分剧情简介信息
         Intent intent = getIntent();
         final String vedioUrl = intent.getExtras().getString("vedioUrl");
+        final String vedioPlot = intent.getExtras().getString("plot");
 
         mVedioView = (VideoView) findViewById(R.id.vedio_view);
-//        mButton = (Button) findViewById(R.id.button);
-
-
         mVedioView.setVideoPath(vedioUrl);
         MediaController mediaController = new MediaController(MediaPlayBack.this);
         mediaController.setAnchorView(mVedioView);
@@ -36,5 +36,7 @@ public class MediaPlayBack extends AppCompatActivity {
             }
         });
 
+        mVedioPlot = (TextView)findViewById(R.id.plot_text_view);
+        mVedioPlot.setText(vedioPlot);
     }
 }

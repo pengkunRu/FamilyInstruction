@@ -196,6 +196,7 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
                         JSONObject jo_inside = m_jArry.getJSONObject(i);
                         String headTitle_value = jo_inside.getString("headTitle").trim();
                         String Introduction_value = jo_inside.getString("Introduction").trim();
+                        String plot_value = jo_inside.getString("plot").trim();
                         String poster_value = jo_inside.getString("poster").trim();
                         String subTitle_value = jo_inside.getString("subTitle").trim();
                         String thumbnail_value = jo_inside.getString("thumbnail").trim();
@@ -205,6 +206,7 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
                         ContentValues values = new ContentValues();
                         values.put(MediaResourceEntry.COLUMN_HEADTITLE,headTitle_value);
                         values.put(MediaResourceEntry.COLUMN_INTRODUCTION,Introduction_value);
+                        values.put(MediaResourceEntry.COLUMN_PLOT,plot_value);
                         values.put(MediaResourceEntry.COLUMN_POSTER,poster_value);
                         values.put(MediaResourceEntry.COLUMN_SUBTITLE,subTitle_value);
                         values.put(MediaResourceEntry.COLUMN_THUMBNAIL,thumbnail_value);
