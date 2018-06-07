@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ShareCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
@@ -226,6 +225,9 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
                 }catch (JSONException e){
                     e.printStackTrace();
                 }
+
+                //用户家训测试函数
+                insertUserInstruction();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -252,12 +254,39 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
         return json;
     }
 
-    private Intent createShareForecastIntent() {
-        Intent shareIntent = ShareCompat.IntentBuilder.from(this)
-                .setType("text/plain")
-                .setText(mFamilyInstruction.append(INSTRUCTION_SHARE_HASHTAG))
-                .getIntent();
-        return shareIntent;
+    private void insertUserInstruction(){
+        // 第一条记录
+        ContentValues value1 = new ContentValues();
+        value1.put(InstructionEntry.COLUMN_NOTE_TITLE,"慕贤");
+        value1.put(InstructionEntry.COLUMN_NOTE_INSTRUCTION,"是以与善人居，如入芝兰之室，久而自芳也；与恶人居，如入鲍鱼之肆，久而自臭也。");
+        value1.put(InstructionEntry.COLUMN_NOTE_JUSTICE,1);
+        value1.put(InstructionEntry.COLUMN_NOTE_DESCRIPTION,"因此和善人在一起，如同进入养育芝兰的花房，时间一久自然就芬芳；若是和恶人在一起，如同进入卖鲍鱼的店铺，时间一久自然就腥臭。");
+
+        // 第二条记录
+        ContentValues value2 = new ContentValues();
+        value2.put(InstructionEntry.COLUMN_NOTE_TITLE,"勉学");
+        value2.put(InstructionEntry.COLUMN_NOTE_INSTRUCTION,"夫所以读书学问，本欲开心明目，利於行耳。");
+        value2.put(InstructionEntry.COLUMN_NOTE_JUSTICE,1);
+        value2.put(InstructionEntry.COLUMN_NOTE_DESCRIPTION,"所以要读书做学问，本意在於使心胸开阔使眼睛明亮，以有利於做实事。");
+
+        // 第三条记录
+        ContentValues value3 = new ContentValues();
+        value3.put(InstructionEntry.COLUMN_NOTE_TITLE,"勉学");
+        value3.put(InstructionEntry.COLUMN_NOTE_INSTRUCTION,"世人但知跨马被甲，长槊强弓，便云我能为将；不知明乎天道，辩乎地利，比量逆顺，鉴达兴亡之妙也。");
+        value3.put(InstructionEntry.COLUMN_NOTE_JUSTICE,2);
+        value3.put(InstructionEntry.COLUMN_NOTE_DESCRIPTION,"世人只知道骑马披甲，长矛强弓，就说我能为将，却不知道要有明察天道，辨识地利，考虑是否顺乎时势人心、审察通晓兴亡的能耐。");
+
+        // 第三条记录
+        ContentValues value4 = new ContentValues();
+        value4.put(InstructionEntry.COLUMN_NOTE_TITLE,"名实");
+        value4.put(InstructionEntry.COLUMN_NOTE_INSTRUCTION,"巧伪不如拙诚");
+        value4.put(InstructionEntry.COLUMN_NOTE_JUSTICE,2);
+        value4.put(InstructionEntry.COLUMN_NOTE_DESCRIPTION,"那种巧於作伪就还不如拙而诚实");
+
+        Uri newUri1 = getContentResolver().insert(InstructionEntry.CONTENT_URI, value1);
+        Uri newUri2 = getContentResolver().insert(InstructionEntry.CONTENT_URI, value2);
+        Uri newUri3 = getContentResolver().insert(InstructionEntry.CONTENT_URI, value3);
+        Uri newUri4 = getContentResolver().insert(InstructionEntry.CONTENT_URI, value4);
     }
 
     @Override
