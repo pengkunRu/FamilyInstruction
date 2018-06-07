@@ -6,6 +6,8 @@
     <string name="family_instruction_material">资料库</string>
     <string name="action_delete_all_data">资料库</string>
     <string name="action_save">保存</string>
+    <string name="action_translate">译注</string>
+    <string name="action_original_text">原文</string>
     <string name="action_delete">删除</string>
     <string name="editor_insert_note_failed">Error with saving note</string>
     <string name="editor_insert_note_successful">Note saved</string>
