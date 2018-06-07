@@ -28,7 +28,7 @@ public class ContentActivity extends AppCompatActivity {
 
         // 获取用户想要浏览的章节在数据库中的唯一标识id
         Intent intent = getIntent();
-        long id = intent.getExtras().getInt("id");
+        final long id = intent.getExtras().getInt("id");
 
 
         // 根据唯一标识符获取了对应的所有数据
@@ -36,7 +36,20 @@ public class ContentActivity extends AppCompatActivity {
 
         // 绑定视图，设置资源
         TextView typeTextView = (TextView)findViewById(R.id.article_type_text_view);
+
         TextView writerNameTextView = (TextView)findViewById(R.id.writer_name_text_view);
+        // 作者信息浏览入口
+        writerNameTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 页面跳转到用户想要阅读的作者信息界面
+                Intent intent = new Intent(ContentActivity.this,WriterInfoActivity.class);
+                intent.putExtra("id",id);
+                startActivity(intent);
+            }
+        });
+
+
         TextView ancientTextView = (TextView)findViewById(R.id.article_ancient_tv);
         vernacularTextView = (TextView)findViewById(R.id.article_vernacular_tv);
 
