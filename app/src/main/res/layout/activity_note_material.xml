@@ -1,55 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.android.familyinstruction.NoteMaterialActivity">
 
-    <LinearLayout
-        android:id="@+id/navigation1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:layout_weight="1"
-            android:id="@+id/note_material_button1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="我的家训"
-            android:textSize="18sp" />
-
-        <Button
-            android:layout_weight="1"
-            android:id="@+id/text_material_button1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="古籍"
-            android:textSize="18sp" />
-
-        <Button
-            android:layout_weight="1"
-            android:id="@+id/media_material_button1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="讲坛"
-            android:textSize="18sp" />
-    </LinearLayout>
-
-    <ListView
-        android:layout_below="@+id/navigation1"
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+    <android.support.design.widget.NavigationView
+        app:headerLayout="@layout/header"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        app:itemTextColor="@color/darkgray"
+        app:itemIconTint="@color/darkgray"
+        app:menu="@menu/menu_drawer"
+        android:layout_gravity="start">
 
-</RelativeLayout>
+    </android.support.design.widget.NavigationView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/navigation1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/note_material_button1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="我的家训"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/text_material_button1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="古籍"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/media_material_button1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="讲坛"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/navigation1" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/fab_margin"
+            app:srcCompat="@drawable/plus" />
+    </RelativeLayout>
+
+</android.support.v4.widget.DrawerLayout>

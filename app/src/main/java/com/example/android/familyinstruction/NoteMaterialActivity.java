@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.view.Menu;
@@ -39,6 +41,10 @@ import java.io.InputStream;
 
 public class NoteMaterialActivity extends AppCompatActivity implements android.app.LoaderManager.LoaderCallbacks<Cursor>{
 
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mToggle;
+
+
     private static final String INSTRUCTION_SHARE_HASHTAG = " #FamilyInstructionApp";
 
     private StringBuilder mFamilyInstruction;
@@ -53,6 +59,12 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_material);
+
+        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer);
+        mToggle = new ActionBarDrawerToggle(this,mDrawerLayout,R.string.open,R.string.close);
+        mDrawerLayout.addDrawerListener(mToggle);
+        mToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         /**
          * 初始化导航栏信息
@@ -230,6 +242,11 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
                 insertUserInstruction();
                 return true;
         }
+
+        if(mToggle.onOptionsItemSelected(item)){
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
