@@ -4,7 +4,7 @@
     tools:context="com.example.android.familyinstruction.NoteMaterialActivity">
     <item
         android:id="@+id/action_test"
-        android:orderInCategory="1"
+        android:orderInCategory="2"
         android:title="@string/action_test"
         app:showAsAction="never" />
 
@@ -14,4 +14,10 @@
         android:title="share"
         app:showAsAction="always"
         app:actionProviderClass="android.support.v7.widget.ShareActionProvider"/>
+
+    <item
+        android:id="@+id/action_register"
+        android:orderInCategory="1"
+        android:title="@string/action_register"
+        app:showAsAction="never" />
 </menu>

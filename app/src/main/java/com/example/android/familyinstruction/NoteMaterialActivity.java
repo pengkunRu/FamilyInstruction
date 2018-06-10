@@ -34,7 +34,7 @@ import java.io.InputStream;
 ;
 
 /**
- * 用户札记界面
+ * 用户家训收藏界面
  */
 
 public class NoteMaterialActivity extends AppCompatActivity implements android.app.LoaderManager.LoaderCallbacks<Cursor>{
@@ -63,10 +63,10 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
         Button mTextMaterial = findViewById(R.id.text_material_button1);
         Button mMediaMaterial = findViewById(R.id.media_material_button1);
         mNoteMaterial.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        mNoteMaterial.setTextColor(getResources().getColor(R.color.navigationColor));
-        mTextMaterial.setBackgroundColor(getResources().getColor(R.color.navigationColor));
+        mNoteMaterial.setTextColor(getResources().getColor(R.color.white));
+        mTextMaterial.setBackgroundColor(getResources().getColor(R.color.white));
         mTextMaterial.setTextColor(getResources().getColor(R.color.colorPrimary));
-        mMediaMaterial.setBackgroundColor(getResources().getColor(R.color.navigationColor));
+        mMediaMaterial.setBackgroundColor(getResources().getColor(R.color.white));
         mMediaMaterial.setTextColor(getResources().getColor(R.color.colorPrimary));
 
 

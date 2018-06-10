@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 /**
- * Created by kun on 2018/5/28.
  * 使这个类成为final类，即不能被扩展（继承），因为他只是用来提供常量.
  * 合约类通常包含与数据库相关的常量.
  */

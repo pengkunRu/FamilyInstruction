@@ -30,12 +30,12 @@ public class EpisodeActivity extends AppCompatActivity {
         Button mNoteMaterial = findViewById(R.id.note_material_button3);
         Button mTextMaterial = findViewById(R.id.text_material_button3);
         Button mMediaMaterial = findViewById(R.id.media_material_button3);
-        mNoteMaterial.setBackgroundColor(getResources().getColor(R.color.navigationColor));
+        mNoteMaterial.setBackgroundColor(getResources().getColor(R.color.white));
         mNoteMaterial.setTextColor(getResources().getColor(R.color.colorPrimary));
-        mTextMaterial.setBackgroundColor(getResources().getColor(R.color.navigationColor));
+        mTextMaterial.setBackgroundColor(getResources().getColor(R.color.white));
         mTextMaterial.setTextColor(getResources().getColor(R.color.colorPrimary));
         mMediaMaterial.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        mMediaMaterial.setTextColor(getResources().getColor(R.color.navigationColor));
+        mMediaMaterial.setTextColor(getResources().getColor(R.color.white));
 
 
         // 界面导航到用户札记界面

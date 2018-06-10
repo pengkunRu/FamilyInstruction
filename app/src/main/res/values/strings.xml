@@ -3,6 +3,7 @@
     <string name="app_material_page_name">资料库</string>
     <string name="app_note_page_name">我的家训</string>
     <string name="action_test">测试</string>
+    <string name="action_register">登陆</string>
     <string name="family_instruction_material">资料库</string>
     <string name="action_delete_all_data">资料库</string>
     <string name="action_save">保存</string>
