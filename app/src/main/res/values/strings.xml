@@ -15,6 +15,8 @@
     <string name="editor_update_note_failed">Error with update note</string>
     <string name="user_log_out_successful">退出登录成功</string>
     <string name="user_log_out_failed">退出登录失败</string>
+    <string name="user_log_in_successful">登录成功</string>
+    <string name="user_log_in_failed">登录失败，请检查您的用户名或密码！</string>
     <string name="editor_update_note_successful">Note updated</string>
     <string name="editor_delete_note_failed">Error with delete note</string>
     <string name="editor_delete_note_successful">Note deleted</string>

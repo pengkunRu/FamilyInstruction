@@ -60,8 +60,11 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
     // ListView的适配器
     InstructionCursorAdapter mCursorAdapter;
 
-    // 用户名
-    private String mUserName;
+    // NavigationView Header Image
+    private ImageView mHeaderImageView;
+    // NavigationView Header Textview
+    private TextView mHeaderUserName;
+    private Menu mMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,19 +88,11 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
         // 获取头部布局
         View NavHeaderView = mNavigationView.getHeaderView(0);
         // 获取菜单布局
-        Menu menu = mNavigationView.getMenu();
+        mMenu = mNavigationView.getMenu();
 
-        ImageView headerImageView = (ImageView)NavHeaderView.findViewById(R.id.user_photo_header);
-        TextView headerUserName = (TextView)NavHeaderView.findViewById(R.id.user_name_header);
-        if(getUserStatus()==0){
-            headerImageView.setImageResource(R.drawable.ic_logout_photo);
-            headerUserName.setText("");
-            menu.findItem(R.id.logout).setTitle("登陆");
-        }else {
-            headerImageView.setImageResource(R.drawable.ic_login_photo);
-            headerUserName.setText(getUserName());
-            menu.findItem(R.id.logout).setTitle("退出登录");
-        }
+        mHeaderImageView = (ImageView)NavHeaderView.findViewById(R.id.user_photo_header);
+        mHeaderUserName = (TextView)NavHeaderView.findViewById(R.id.user_name_header);
+
 
         /**
          * 初始化导航栏信息
@@ -164,6 +159,20 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
         });
 
         getLoaderManager().initLoader(NOTE_LOADER,null,this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(getUserStatus()==0){
+            mHeaderImageView.setImageResource(R.drawable.ic_logout_photo);
+            mHeaderUserName.setText("");
+            mMenu.findItem(R.id.logout).setTitle("登陆");
+        }else {
+            mHeaderImageView.setImageResource(R.drawable.ic_login_photo);
+            mHeaderUserName.setText(getUserName());
+            mMenu.findItem(R.id.logout).setTitle("退出登录");
+        }
     }
 
 
@@ -363,7 +372,6 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
         value.put(UserInfoEntry.COLUMN_USER_STATUS,"1");
 
         Uri newUri1 = getContentResolver().insert(UserInfoEntry.CONTENT_URI, value);
-        Log.i("NoteMaterialActivity",newUri1.toString());
     }
 
     /**
@@ -374,19 +382,17 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
             // 用户想要登陆家训应用
             Intent intent = new Intent(NoteMaterialActivity.this,LoginActivity.class);
             startActivity(intent);
-        }
-
-        // 更新用户信息表中的用户状态
-        ContentValues values = new ContentValues();
-        values.put(UserInfoEntry.COLUMN_USER_STATUS,0);
-
-        int rowsAffected = getContentResolver().update(UserInfoEntry.CONTENT_URI,values,null,null);
-        if (rowsAffected == 0) {
-            Toast.makeText(this, getString(R.string.user_log_out_failed),
-                    Toast.LENGTH_SHORT).show();
         }else{
-            Toast.makeText(this, getString(R.string.user_log_out_successful),
-                    Toast.LENGTH_SHORT).show();
+            changeUserStatus();
+            if(getUserStatus()==0){
+                mHeaderImageView.setImageResource(R.drawable.ic_logout_photo);
+                mHeaderUserName.setText("");
+                mMenu.findItem(R.id.logout).setTitle("登陆");
+            }else {
+                mHeaderImageView.setImageResource(R.drawable.ic_login_photo);
+                mHeaderUserName.setText(getUserName());
+                mMenu.findItem(R.id.logout).setTitle("退出登录");
+            }
         }
     }
 
@@ -492,5 +498,23 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
         }
         Log.i("Note","用户登录状态："+userStatus);
         return userStatus;
+    }
+    // TODO 辅助函数 更新用户用户状态
+    private void changeUserStatus(){
+        ContentValues values = new ContentValues();
+        if(getUserStatus()==0){
+            values.put(UserInfoEntry.COLUMN_USER_STATUS,1);
+        }else{
+            values.put(UserInfoEntry.COLUMN_USER_STATUS,0);
+        }
+
+        int rowsAffected = getContentResolver().update(UserInfoEntry.CONTENT_URI,values,null,null);
+        if (rowsAffected == 0) {
+            Toast.makeText(this, getString(R.string.user_log_out_failed),
+                    Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this, getString(R.string.user_log_out_successful),
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 }
