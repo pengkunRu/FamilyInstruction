@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/db" android:title="dashboared"
+    <item android:id="@+id/bookshelf" android:title="我的书架"
         android:icon="@drawable/ic_dashboard_black_24px"/>
-    <item android:id="@+id/event" android:title="Events"
+    <item android:id="@+id/vedio_collection" android:title="视频收藏"
         android:icon="@drawable/ic_event_black_24px"/>
-    <item android:id="@+id/search" android:title="Search"
+    <item android:id="@+id/search" android:title="查询"
         android:icon="@drawable/ic_search_web_black_24px"/>
-    <item android:id="@+id/settings" android:title="Settings"
+    <item android:id="@+id/settings" android:title="设置"
         android:icon="@drawable/ic_settings_outline_black_24px"/>
     <item android:id="@+id/activities" android:title="Activities"
         android:icon="@drawable/ic_trending_up_black_24px"/>
-    <item android:id="@+id/logout" android:title="Logout"
+    <item android:id="@+id/logout" android:title="退出登录"
         android:icon="@drawable/ic_exit_to_app_24px"/>
 </menu>
