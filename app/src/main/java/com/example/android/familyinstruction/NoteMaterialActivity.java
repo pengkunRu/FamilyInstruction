@@ -13,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.example.android.familyinstruction.data.InstructionContract;
 import com.example.android.familyinstruction.data.InstructionContract.InstructionEntry;
 import com.example.android.familyinstruction.data.InstructionContract.MediaResourceEntry;
 import com.example.android.familyinstruction.data.InstructionContract.TextResourceEntry;
+import com.example.android.familyinstruction.data.InstructionContract.UserInfoEntry;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -153,7 +155,7 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()){
-            case R.id.action_test:
+            case R.id.test_text_resource:
 
                 // 解析文本资源数据，并插入文本资源表中
                 try{
@@ -197,7 +199,8 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
                 }catch (JSONException e){
                     e.printStackTrace();
                 }
-
+                return true;
+            case R.id.test_media_resource:
                 // 解析媒体资源json数据，并插入媒体资源表中
                 try{
                     JSONObject obj = new JSONObject(loadJSONFromAsset());
@@ -237,9 +240,15 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
                 }catch (JSONException e){
                     e.printStackTrace();
                 }
+                return true;
 
-                //用户家训测试函数
+            //用户家训测试
+            case R.id.test_user_instruction:
                 insertUserInstruction();
+                return true;
+            //用户信息测试
+            case R.id.test_user_information:
+                insertUserInformation();
                 return true;
         }
 
@@ -271,6 +280,9 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
         return json;
     }
 
+    /**
+     * TODO 测试函数
+     */
     private void insertUserInstruction(){
         // 第一条记录
         ContentValues value1 = new ContentValues();
@@ -304,6 +316,20 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
         Uri newUri2 = getContentResolver().insert(InstructionEntry.CONTENT_URI, value2);
         Uri newUri3 = getContentResolver().insert(InstructionEntry.CONTENT_URI, value3);
         Uri newUri4 = getContentResolver().insert(InstructionEntry.CONTENT_URI, value4);
+    }
+
+    /**
+     * TODO 测试用户信息函数
+     */
+    private void insertUserInformation(){
+
+        ContentValues value = new ContentValues();
+        value.put(UserInfoEntry.COLUMN_USER_NAME,"茹鹏锟");
+        value.put(UserInfoEntry.COLUMN_USER_PASSWORD,"000000");
+        value.put(UserInfoEntry.COLUMN_USER_STATUS,"1");
+
+        Uri newUri1 = getContentResolver().insert(UserInfoEntry.CONTENT_URI, value);
+        Log.i("NoteMaterialActivity",newUri1.toString());
     }
 
     @Override

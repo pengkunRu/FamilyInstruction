@@ -14,9 +14,9 @@ import android.util.Log;
 import com.example.android.familyinstruction.data.InstructionContract.MediaResourceEntry;
 import com.example.android.familyinstruction.data.InstructionContract.InstructionEntry;
 import com.example.android.familyinstruction.data.InstructionContract.TextResourceEntry;
-/**
- * Created by kun on 2018/5/28.
- */
+import com.example.android.familyinstruction.data.InstructionContract.UserInfoEntry;
+
+
 
 public class InstructionProvider extends ContentProvider{
 
@@ -32,7 +32,10 @@ public class InstructionProvider extends ContentProvider{
     private static final int MEDIA_RESOOURCE = 300;
     // 访问某一行媒体资源表的uri匹配编码
     private static final int MEDIA_RESOOURCE_ID = 301;
-
+    // 访问整个用户信息表
+    private static final int USER_INFORMATION = 400;
+    // 访问具体一行用户信息表
+    private static final int USER_INFORMATION_ID = 401;
 
 
 
@@ -51,6 +54,10 @@ public class InstructionProvider extends ContentProvider{
         // 将访问媒体资源表的两种模式添加和每种模式的uri编码添加到uri匹配器中
         sUriMatcher.addURI(InstructionContract.CONTENT_AUTHORITY,InstructionContract.PATH_MEDIA_RESOURCE,MEDIA_RESOOURCE);
         sUriMatcher.addURI(InstructionContract.CONTENT_AUTHORITY,InstructionContract.PATH_MEDIA_RESOURCE+"/#",MEDIA_RESOOURCE_ID);
+
+        // 将访问用户信息表的两种模式添加和每种模式的uri编码添加到uri匹配器中
+        sUriMatcher.addURI(InstructionContract.CONTENT_AUTHORITY,InstructionContract.PATH_USER_INFORMATION,USER_INFORMATION);
+        sUriMatcher.addURI(InstructionContract.CONTENT_AUTHORITY,InstructionContract.PATH_USER_INFORMATION+"/#",USER_INFORMATION_ID);
     }
 
 
@@ -171,6 +178,8 @@ public class InstructionProvider extends ContentProvider{
                 return  insertTextResource(uri,contentValues);
             case MEDIA_RESOOURCE:
                 return  insertMediaResource(uri,contentValues);
+            case USER_INFORMATION:
+                return  insertUserInformation(uri,contentValues);
             default:
                 throw new IllegalArgumentException("Insertion is not supported for " + uri);
         }
@@ -286,12 +295,36 @@ public class InstructionProvider extends ContentProvider{
     }
 
 
-    // 插入新数据到文本资源表的辅助函数
+    /**
+     * TODO 插入新数据到文本资源表的辅助函数
+     * @param uri
+     * @param values
+     * @return
+     */
     private Uri insertTextResource(Uri uri, ContentValues values){
         // 首先获得一个数据库对象
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
         // 数据库插入
         long id = database.insert(TextResourceEntry.TABLE_NAME, null, values);
+        // 如果 ID 等于 -1，那我们就知道插入失败了。否则，插入将是成功的。
+        if (id == -1) {
+            Log.e(LOG_TAG, "Failed to insert row for " + uri);
+            return null;
+        }
+        return ContentUris.withAppendedId(uri, id);
+    }
+
+    /**
+     * TODO 插入新数据到用户信息表的辅助函数
+     * @param uri
+     * @param values
+     * @return
+     */
+    private Uri insertUserInformation(Uri uri, ContentValues values){
+        // 首先获得一个数据库对象
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+        // 数据库插入
+        long id = database.insert(UserInfoEntry.TABLE_NAME, null, values);
         // 如果 ID 等于 -1，那我们就知道插入失败了。否则，插入将是成功的。
         if (id == -1) {
             Log.e(LOG_TAG, "Failed to insert row for " + uri);

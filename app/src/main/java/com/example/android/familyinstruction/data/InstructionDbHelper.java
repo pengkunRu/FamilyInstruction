@@ -4,9 +4,11 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+
 import com.example.android.familyinstruction.data.InstructionContract.InstructionEntry;
 import com.example.android.familyinstruction.data.InstructionContract.MediaResourceEntry;
 import com.example.android.familyinstruction.data.InstructionContract.TextResourceEntry;
+import com.example.android.familyinstruction.data.InstructionContract.UserInfoEntry;
 /**
  * Created by kun on 2018/5/28.
  */
@@ -16,7 +18,7 @@ public class InstructionDbHelper extends SQLiteOpenHelper{
     // 数据库名称
     private static final String DATABASE_NAME = "family_instruction.db";
     // 数据库版本
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 9;
 
     // 构造函数
     public InstructionDbHelper(Context context) {
@@ -29,7 +31,7 @@ public class InstructionDbHelper extends SQLiteOpenHelper{
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // 创建用户鉴赏家训表
+        // 创建用户家训表（我的家训表）
         final String SQL_CREATE_NOTES_TABLE =
                 "CREATE TABLE " + InstructionEntry.TABLE_NAME + "("
                 + InstructionEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -38,6 +40,7 @@ public class InstructionDbHelper extends SQLiteOpenHelper{
                 + InstructionEntry.COLUMN_NOTE_JUSTICE + " INTEGER NOT NULL, "
                 + InstructionEntry.COLUMN_NOTE_DESCRIPTION + " TEXT);";
 
+        // 创建文本资源表
         final String SQL_CREATE_TEXT_RESOURCE_TABLE =
                 "CREATE TABLE " + TextResourceEntry.TABLE_NAME + "("
                         + TextResourceEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -51,6 +54,7 @@ public class InstructionDbHelper extends SQLiteOpenHelper{
                         + TextResourceEntry.COLUMN_ARTICLE_ANCIENT_FORMAT + " TEXT NOT NULL, "
                         + TextResourceEntry.COLUMN_ARTICLE_VERNACULAR_FORMAT + " TEXT NOT NULL);";
 
+        // 创建媒体资源表
         final String SQL_CREATE_MEDIA_RESOURCE_TABLE =
                 "CREATE TABLE " + MediaResourceEntry.TABLE_NAME + "("
                         + MediaResourceEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -62,10 +66,20 @@ public class InstructionDbHelper extends SQLiteOpenHelper{
                         + MediaResourceEntry.COLUMN_THUMBNAIL + " TEXT NOT NULL, "
                         + MediaResourceEntry.COLUMN_MEDIA_DATA + " TEXT NOT NULL);";
 
+        // 创建用户信息表
+        final String SQL_CREATE_USER_INFO_TABLE =
+                "CREATE TABLE " + UserInfoEntry.TABLE_NAME + "("
+                        + UserInfoEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                        + UserInfoEntry.COLUMN_USER_NAME + " TEXT NOT NULL, "
+                        + UserInfoEntry.COLUMN_USER_PASSWORD + " TEXT NOT NULL, "
+                        + UserInfoEntry.COLUMN_USER_STATUS + " INTEGER NOT NULL);";
+
+
         // 执行创建表sql语句
         db.execSQL(SQL_CREATE_NOTES_TABLE);
         db.execSQL(SQL_CREATE_TEXT_RESOURCE_TABLE);
         db.execSQL(SQL_CREATE_MEDIA_RESOURCE_TABLE);
+        db.execSQL(SQL_CREATE_USER_INFO_TABLE);
     }
 
     // 当数据库版本发生变化时候，这个方法会被调用
@@ -74,6 +88,7 @@ public class InstructionDbHelper extends SQLiteOpenHelper{
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + InstructionEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TextResourceEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + MediaResourceEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + UserInfoEntry.TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 }

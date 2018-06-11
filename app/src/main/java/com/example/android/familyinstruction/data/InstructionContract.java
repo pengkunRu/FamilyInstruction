@@ -19,12 +19,14 @@ public final class InstructionContract {
     // BASE_CONTENT_URI（统一资源定位符的第一部分，第二部分）
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
-    // PATH_TableName（用户鉴赏表）
+    // PATH_TableName（用户家训表）
     public static final String PATH_NOTES = "notes";
     // PATH_TableName(文本资源表)
     public static final String PATH_TEXT_RESOURCE = "text_resource";
     // PATH_TableName(媒体资源表)
     public static final String PATH_MEDIA_RESOURCE = "media_resource";
+    // PATH_TableName(用户信息表)
+    public static final String PATH_USER_INFORMATION = "user_information";
 
 
 
@@ -135,5 +137,35 @@ public final class InstructionContract {
         public final static String COLUMN_THUMBNAIL = "thumbnail";
         // 媒体资源url
         public final static String COLUMN_MEDIA_DATA = "mediaData";
+    }
+
+    // 用户信息表的合约类内容
+    public final static class UserInfoEntry implements BaseColumns{
+
+        // content uri
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_USER_INFORMATION);
+
+        // The MIME type of for a list of users
+        public static final String CONTENT_LIST_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_USER_INFORMATION;
+
+        // The MIME type for a single user.
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_USER_INFORMATION;
+
+
+
+        // 用户信息表的表名
+        public static final String TABLE_NAME = "user_information";
+
+
+        // 唯一标识符
+        public final static String _ID = BaseColumns._ID;
+        // 用户名
+        public final static String COLUMN_USER_NAME = "userName";
+        // 用户密码
+        public final static String COLUMN_USER_PASSWORD = "userPassword";
+        // 用户状态
+        public final static String COLUMN_USER_STATUS = "userStatus";
     }
 }
