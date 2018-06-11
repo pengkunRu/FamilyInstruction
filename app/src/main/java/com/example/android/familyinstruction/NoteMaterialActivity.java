@@ -16,12 +16,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,6 +60,9 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
     // ListView的适配器
     InstructionCursorAdapter mCursorAdapter;
 
+    // 用户名
+    private String mUserName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,12 +74,30 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
         mToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        NavigationView mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
 
+        NavigationView mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
         if (mNavigationView != null) {
             mNavigationView.setNavigationItemSelectedListener(this);
         }
+        // 引入头布局和菜单布局
+        mNavigationView.inflateHeaderView(R.layout.header);
+        mNavigationView.inflateMenu(R.menu.menu_drawer);
+        // 获取头部布局
+        View NavHeaderView = mNavigationView.getHeaderView(0);
+        // 获取菜单布局
+        Menu menu = mNavigationView.getMenu();
 
+        ImageView headerImageView = (ImageView)NavHeaderView.findViewById(R.id.user_photo_header);
+        TextView headerUserName = (TextView)NavHeaderView.findViewById(R.id.user_name_header);
+        if(getUserStatus()==0){
+            headerImageView.setImageResource(R.drawable.ic_logout_photo);
+            headerUserName.setText("");
+            menu.findItem(R.id.logout).setTitle("登陆");
+        }else {
+            headerImageView.setImageResource(R.drawable.ic_login_photo);
+            headerUserName.setText(getUserName());
+            menu.findItem(R.id.logout).setTitle("退出登录");
+        }
 
         /**
          * 初始化导航栏信息
@@ -93,10 +114,6 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
         mMediaMaterial.setBackgroundColor(getResources().getColor(R.color.white));
         mMediaMaterial.setTextColor(getResources().getColor(R.color.colorPrimary));
 
-
-        View view = LayoutInflater.from(getApplication()).inflate(R.layout.header, null);
-        TextView mUserNameTextView = (TextView) view.findViewById(R.id.user_name_header);
-        Log.i("Note",mUserNameTextView.getText().toString());
 
         // Setup FAB to open EditorActivity
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -264,6 +281,9 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
             case R.id.test_user_information:
                 insertUserInformation();
                 return true;
+            case R.id.test_user_status:
+                getUserStatus();
+                return true;
         }
 
         if(mToggle.onOptionsItemSelected(item)){
@@ -347,28 +367,24 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
     }
 
     /**
-     * TODO 用户退出登录
+     * TODO 管理用户的登录-退出（辅助函数）
      */
     private void logout(){
-        Log.i("Note","执行到这里了");
+        if(getUserStatus()==0){
+            // 用户想要登陆家训应用
+        }
+
         // 更新用户信息表中的用户状态
-        String[] projection = {
-                UserInfoEntry.COLUMN_USER_STATUS
-        };
+        ContentValues values = new ContentValues();
+        values.put(UserInfoEntry.COLUMN_USER_STATUS,0);
 
-        // 设置第2，3参数，来获取我们想要的数据
-        String selection = UserInfoEntry.COLUMN_USER_NAME + "=?";
-        String[] selectionArgs = new String[]{"茹鹏锟"};
-
-        Cursor cursor = getContentResolver().query(UserInfoEntry.CONTENT_URI, projection,selection,selectionArgs,null);
-
-        int userStatus;
-        int userStatusColumnIndex = cursor.getColumnIndex(UserInfoEntry.COLUMN_USER_STATUS);
-
-        while (cursor.moveToNext()){
-            int currentUserStatus = cursor.getInt(userStatusColumnIndex);
-            userStatus = currentUserStatus;
-            Log.i("Note","状态：" + userStatus);
+        int rowsAffected = getContentResolver().update(UserInfoEntry.CONTENT_URI,values,null,null);
+        if (rowsAffected == 0) {
+            Toast.makeText(this, getString(R.string.user_log_out_failed),
+                    Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this, getString(R.string.user_log_out_successful),
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -409,6 +425,12 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
         mCursorAdapter.swapCursor(null);
     }
 
+
+    /**
+     * TODO 侧滑抽屉布局中菜单项的点击处理
+     * @param item
+     * @return
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
@@ -416,8 +438,57 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
                 logout();
                 break;
         }
+
         item.setChecked(true);
         mDrawerLayout.closeDrawers();
         return true;
+    }
+
+
+    // TODO 辅助函数 获取用户名
+    private String getUserName(){
+        String[] projection = {
+                UserInfoEntry.COLUMN_USER_NAME
+        };
+
+        Cursor cursor = getContentResolver().query(UserInfoEntry.CONTENT_URI, projection,null,null,null);
+
+        String userName = "";
+        int userNameColumnIndex = cursor.getColumnIndex(UserInfoEntry.COLUMN_USER_NAME);
+        while (cursor.moveToNext()){
+            userName = cursor.getString(userNameColumnIndex);
+        }
+        return userName;
+    }
+    // TODO 辅助函数 获取用户密码
+    private String getUserPassword(){
+        String[] projection = {
+                UserInfoEntry.COLUMN_USER_PASSWORD
+        };
+
+        Cursor cursor = getContentResolver().query(UserInfoEntry.CONTENT_URI, projection,null,null,null);
+
+        String userPassword = "";
+        int userPasswordColumnIndex = cursor.getColumnIndex(UserInfoEntry.COLUMN_USER_PASSWORD);
+        while (cursor.moveToNext()){
+            userPassword = cursor.getString(userPasswordColumnIndex);
+        }
+        return userPassword;
+    }
+    // TODO 辅助函数 获取用户登陆状态
+    private int getUserStatus(){
+        String[] projection = {
+                UserInfoEntry.COLUMN_USER_STATUS
+        };
+
+        Cursor cursor = getContentResolver().query(UserInfoEntry.CONTENT_URI, projection,null,null,null);
+
+        int userStatus = -1;
+        int userStatusColumnIndex = cursor.getColumnIndex(UserInfoEntry.COLUMN_USER_STATUS);
+        while (cursor.moveToNext()){
+            userStatus = cursor.getInt(userStatusColumnIndex);
+        }
+        Log.i("Note","用户登录状态："+userStatus);
+        return userStatus;
     }
 }

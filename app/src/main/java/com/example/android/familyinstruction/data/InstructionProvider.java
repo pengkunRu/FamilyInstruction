@@ -224,11 +224,13 @@ public class InstructionProvider extends ContentProvider{
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case NOTES:
-                return updatePet(uri, contentValues, selection, selectionArgs);
+                return updateNotes(uri, contentValues, selection, selectionArgs);
             case NOTE_ID:
                 selection = InstructionEntry._ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
-                return updatePet(uri, contentValues, selection, selectionArgs);
+                return updateNotes(uri, contentValues, selection, selectionArgs);
+            case USER_INFORMATION:
+                return updateUserInfomation(uri, contentValues, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);
         }
@@ -336,8 +338,15 @@ public class InstructionProvider extends ContentProvider{
         return ContentUris.withAppendedId(uri, id);
     }
 
-    // 更新操作的辅助函数
-    private int updatePet(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+    /**
+     * TODO 更新操作的辅助函数（用户家训表）
+     * @param uri
+     * @param values
+     * @param selection
+     * @param selectionArgs
+     * @return
+     */
+    private int updateNotes(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 
         if (values.containsKey(InstructionEntry.COLUMN_NOTE_TITLE)) {
             String type = values.getAsString(InstructionEntry.COLUMN_NOTE_TITLE);
@@ -373,6 +382,21 @@ public class InstructionProvider extends ContentProvider{
         if (rowsUpdated != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
+        return rowsUpdated;
+    }
+
+    /**
+     * TODO 更新操作的辅助函数（用户信息表）
+     */
+    private int updateUserInfomation(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+
+        if (values.size() == 0) {
+            return 0;
+        }
+
+        // Otherwise, get writeable database to update the data
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+        int rowsUpdated = database.update(UserInfoEntry.TABLE_NAME, values, selection, selectionArgs);
         return rowsUpdated;
     }
 }

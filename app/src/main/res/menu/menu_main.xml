@@ -32,4 +32,10 @@
         android:orderInCategory="4"
         android:title="用户家训测试"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/test_user_status"
+        android:orderInCategory="5"
+        android:title="用户登陆状态"
+        app:showAsAction="never" />
 </menu>
