@@ -372,6 +372,8 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
     private void logout(){
         if(getUserStatus()==0){
             // 用户想要登陆家训应用
+            Intent intent = new Intent(NoteMaterialActivity.this,LoginActivity.class);
+            startActivity(intent);
         }
 
         // 更新用户信息表中的用户状态

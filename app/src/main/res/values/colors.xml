@@ -8,6 +8,7 @@
 
     <!-- Accent color for UI controls like checkboxes and text fields -->
     <color name="colorAccent">#F0514B</color>
+    <color name="colorOffAccent">#f46b65</color>
 
     <!-- Primary color for the editor -->
     <color name="editorColorPrimary">#2D3640</color>
@@ -17,4 +18,5 @@
 
     <color name="white">#FFFFFF</color>
     <color name="darkgray">#6c6c6c</color>
+    <color name="colorOffWhite">#c2c2c2</color>
 </resources>
