@@ -72,7 +72,8 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:textColor="#000000"
+                        android:textStyle="normal"
+                        android:textColor="@color/editorColorPrimary"
                         android:id="@+id/article_ancient_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -98,8 +99,9 @@
         android:layout_height="wrap_content"
         android:scrollbars="none">
         <TextView
+            android:textStyle="normal"
             android:paddingTop="16dp"
-            android:textColor="#000000"
+            android:textColor="@color/editorColorPrimary"
             android:layout_width="match_parent"
             android:id="@+id/article_vernacular_tv"
             android:layout_height="wrap_content"

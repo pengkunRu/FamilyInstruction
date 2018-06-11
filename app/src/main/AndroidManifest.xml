@@ -43,7 +43,6 @@
             android:name=".MediaListActivity"
             android:label="讲坛" />
         <activity android:name=".WriterInfoActivity" />
-        <activity android:name=".RegisterActivity"></activity>
     </application>
 
 </manifest>

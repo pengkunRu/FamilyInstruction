@@ -7,19 +7,23 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.familyinstruction.data.InstructionContract;
@@ -41,11 +45,10 @@ import java.io.InputStream;
  * 用户家训收藏界面
  */
 
-public class NoteMaterialActivity extends AppCompatActivity implements android.app.LoaderManager.LoaderCallbacks<Cursor>{
+public class NoteMaterialActivity extends AppCompatActivity implements android.app.LoaderManager.LoaderCallbacks<Cursor> , NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
-
 
     private static final String INSTRUCTION_SHARE_HASHTAG = " #FamilyInstructionApp";
 
@@ -68,6 +71,13 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
         mToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        NavigationView mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
+
+        if (mNavigationView != null) {
+            mNavigationView.setNavigationItemSelectedListener(this);
+        }
+
+
         /**
          * 初始化导航栏信息
          * 当前界面按钮为红色，其余为白色
@@ -84,7 +94,10 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
         mMediaMaterial.setTextColor(getResources().getColor(R.color.colorPrimary));
 
 
-        
+        View view = LayoutInflater.from(getApplication()).inflate(R.layout.header, null);
+        TextView mUserNameTextView = (TextView) view.findViewById(R.id.user_name_header);
+        Log.i("Note",mUserNameTextView.getText().toString());
+
         // Setup FAB to open EditorActivity
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -135,6 +148,7 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
 
         getLoaderManager().initLoader(NOTE_LOADER,null,this);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -332,6 +346,32 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
         Log.i("NoteMaterialActivity",newUri1.toString());
     }
 
+    /**
+     * TODO 用户退出登录
+     */
+    private void logout(){
+        Log.i("Note","执行到这里了");
+        // 更新用户信息表中的用户状态
+        String[] projection = {
+                UserInfoEntry.COLUMN_USER_STATUS
+        };
+
+        // 设置第2，3参数，来获取我们想要的数据
+        String selection = UserInfoEntry.COLUMN_USER_NAME + "=?";
+        String[] selectionArgs = new String[]{"茹鹏锟"};
+
+        Cursor cursor = getContentResolver().query(UserInfoEntry.CONTENT_URI, projection,selection,selectionArgs,null);
+
+        int userStatus;
+        int userStatusColumnIndex = cursor.getColumnIndex(UserInfoEntry.COLUMN_USER_STATUS);
+
+        while (cursor.moveToNext()){
+            int currentUserStatus = cursor.getInt(userStatusColumnIndex);
+            userStatus = currentUserStatus;
+            Log.i("Note","状态：" + userStatus);
+        }
+    }
+
     @Override
     public android.content.Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         String[] projection = {
@@ -367,5 +407,17 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
     @Override
     public void onLoaderReset(android.content.Loader<Cursor> loader) {
         mCursorAdapter.swapCursor(null);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.logout:
+                logout();
+                break;
+        }
+        item.setChecked(true);
+        mDrawerLayout.closeDrawers();
+        return true;
     }
 }

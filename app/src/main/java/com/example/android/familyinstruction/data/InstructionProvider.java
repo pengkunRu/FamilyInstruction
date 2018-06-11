@@ -123,6 +123,9 @@ public class InstructionProvider extends ContentProvider{
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 cursor = database.query(MediaResourceEntry.TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
                 break;
+            case USER_INFORMATION:
+                cursor = database.query(UserInfoEntry.TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
+                break;
                 default:
                     throw new IllegalArgumentException("Cannot query unknown URI " + uri);
         }

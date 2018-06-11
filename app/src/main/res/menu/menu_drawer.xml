@@ -8,7 +8,7 @@
         android:icon="@drawable/ic_search_web_black_24px"/>
     <item android:id="@+id/settings" android:title="设置"
         android:icon="@drawable/ic_settings_outline_black_24px"/>
-    <item android:id="@+id/activities" android:title="Activities"
+    <item android:id="@+id/action_review" android:title="家训复习"
         android:icon="@drawable/ic_trending_up_black_24px"/>
     <item android:id="@+id/logout" android:title="退出登录"
         android:icon="@drawable/ic_exit_to_app_24px"/>
