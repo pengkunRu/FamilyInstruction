@@ -35,6 +35,8 @@ public class LoginActivity extends AppCompatActivity {
                 if(mUserName.equals(getUserName())&&mUserPassword.equals(getUserPassword())){
                     changeUserStatus();
                     finish();
+                }else{
+                    Toast.makeText(LoginActivity.this,getString(R.string.user_log_in_failed),Toast.LENGTH_LONG).show();
                 }
             }
         });
