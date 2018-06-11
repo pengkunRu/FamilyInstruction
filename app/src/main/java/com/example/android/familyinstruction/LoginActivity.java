@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -85,7 +84,6 @@ public class LoginActivity extends AppCompatActivity {
         while (cursor.moveToNext()){
             userStatus = cursor.getInt(userStatusColumnIndex);
         }
-        Log.i("Note","用户登录状态："+userStatus);
         return userStatus;
     }
     // TODO 辅助函数 更新用户用户状态

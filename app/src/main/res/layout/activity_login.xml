@@ -65,6 +65,7 @@
                 android:background="@color/white" />
 
             <EditText
+                android:inputType="numberPassword"
                 android:id="@+id/password_login"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"

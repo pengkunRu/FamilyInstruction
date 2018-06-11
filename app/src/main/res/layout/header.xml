@@ -13,6 +13,7 @@
         android:layout_height="75dp"/>
 
     <TextView
+        android:paddingLeft="10dp"
         android:id="@+id/user_name_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
