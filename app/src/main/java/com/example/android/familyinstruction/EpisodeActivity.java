@@ -27,26 +27,13 @@ public class EpisodeActivity extends AppCompatActivity {
          * 初始化导航栏信息
          * 当前界面按钮为红色，其余为白色
          */
-        Button mNoteMaterial = findViewById(R.id.note_material_button3);
         Button mTextMaterial = findViewById(R.id.text_material_button3);
         Button mMediaMaterial = findViewById(R.id.media_material_button3);
-        mNoteMaterial.setBackgroundColor(getResources().getColor(R.color.white));
-        mNoteMaterial.setTextColor(getResources().getColor(R.color.colorPrimary));
         mTextMaterial.setBackgroundColor(getResources().getColor(R.color.white));
-        mTextMaterial.setTextColor(getResources().getColor(R.color.colorPrimary));
-        mMediaMaterial.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        mTextMaterial.setTextColor(getResources().getColor(R.color.colorAccent));
+        mMediaMaterial.setBackgroundColor(getResources().getColor(R.color.colorAccent));
         mMediaMaterial.setTextColor(getResources().getColor(R.color.white));
 
-
-        // 界面导航到用户札记界面
-        mNoteMaterial.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(EpisodeActivity.this, NoteMaterialActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
 
         // 界面导航到文本资料界面
         mTextMaterial.setOnClickListener(new View.OnClickListener() {

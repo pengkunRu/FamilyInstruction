@@ -6,50 +6,18 @@
     android:layout_height="match_parent"
     tools:context="com.example.android.familyinstruction.NoteMaterialActivity">
 
-        <LinearLayout
-            android:id="@+id/navigation1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-            <Button
-                android:id="@+id/note_material_button1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="我的家训"
-                android:textSize="18sp" />
-
-            <Button
-                android:id="@+id/text_material_button1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="古籍"
-                android:textSize="18sp" />
-
-            <Button
-                android:id="@+id/media_material_button1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="讲坛"
-                android:textSize="18sp" />
-        </LinearLayout>
-
-        <ListView
-            android:id="@+id/list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/navigation1" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_margin="@dimen/fab_margin"
-            app:srcCompat="@drawable/plus" />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@drawable/plus" />
 
 </RelativeLayout>

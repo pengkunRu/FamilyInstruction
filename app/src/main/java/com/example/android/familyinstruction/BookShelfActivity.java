@@ -69,25 +69,13 @@ public class BookShelfActivity extends AppCompatActivity implements NavigationVi
          * 当前界面按钮为红色，其余为白色
          * 当前界面按钮文字为白色，其余为红色
          */
-        Button mNoteMaterial = findViewById(R.id.note_material_button2);
         Button mTextMaterial = findViewById(R.id.text_material_button2);
         Button mMediaMaterial = findViewById(R.id.media_material_button2);
-        mNoteMaterial.setBackgroundColor(getResources().getColor(R.color.white));
-        mNoteMaterial.setTextColor(getResources().getColor(R.color.colorPrimary));
-        mTextMaterial.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        mTextMaterial.setBackgroundColor(getResources().getColor(R.color.colorAccent));
         mTextMaterial.setTextColor(getResources().getColor(R.color.white));
         mMediaMaterial.setBackgroundColor(getResources().getColor(R.color.white));
-        mMediaMaterial.setTextColor(getResources().getColor(R.color.colorPrimary));
+        mMediaMaterial.setTextColor(getResources().getColor(R.color.colorAccent));
 
-        // 界面导航到用户札记界面
-        mNoteMaterial.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(BookShelfActivity.this, NoteMaterialActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
 
         // 界面导航到媒体资料界面
         mMediaMaterial.setOnClickListener(new View.OnClickListener() {
@@ -199,6 +187,17 @@ public class BookShelfActivity extends AppCompatActivity implements NavigationVi
                 if(getUserStatus()==0){
                     // 用户想要登陆家训应用
                     Intent intent = new Intent(BookShelfActivity.this,LoginActivity.class);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.instruction_notes:
+                if(getUserStatus()==0){
+                    // 用户想要登陆家训应用
+                    Intent intent = new Intent(BookShelfActivity.this,LoginActivity.class);
+                    startActivity(intent);
+                }else{
+                    // 用户想要登陆家训应用
+                    Intent intent = new Intent(BookShelfActivity.this,NoteMaterialActivity.class);
                     startActivity(intent);
                 }
                 break;

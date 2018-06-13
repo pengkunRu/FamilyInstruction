@@ -4,6 +4,8 @@
         android:icon="@drawable/ic_dashboard_black_24px"/>
     <item android:id="@+id/vedio_collection" android:title="视频收藏"
         android:icon="@drawable/ic_event_black_24px"/>
+    <item android:id="@+id/instruction_notes" android:title="家训笔记"
+        android:icon="@drawable/ic_book_open_variant_black_24px"/>
     <item android:id="@+id/search" android:title="疑难查询"
         android:icon="@drawable/ic_search_web_black_24px"/>
     <item android:id="@+id/action_review" android:title="家训复习"
