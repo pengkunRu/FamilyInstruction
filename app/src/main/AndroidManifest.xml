@@ -33,8 +33,7 @@
             android:label="家训视频" />
         <activity
             android:name=".BookShelfActivity"
-            android:label="家训书籍">
-        </activity>
+            android:label="家训书籍"></activity>
         <activity
             android:name=".CatalogActivity"
             android:label="家训书籍" />
@@ -51,6 +50,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SearchActivity"></activity>
     </application>
 
 </manifest>

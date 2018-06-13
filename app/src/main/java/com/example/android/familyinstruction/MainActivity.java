@@ -3,6 +3,7 @@ package com.example.android.familyinstruction;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -131,11 +132,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 break;
             case R.id.search:
-                if(getUserStatus()==0){
-                    // 用户想要登陆家训应用
-                    Intent intent = new Intent(MainActivity.this,LoginActivity.class);
-                    startActivity(intent);
-                }
+                // 用户想要登陆家训应用
+                Intent intentSearch = new Intent(MainActivity.this,SearchActivity.class);
+                startActivity(intentSearch);
                 break;
             case R.id.action_review:
                 if(getUserStatus()==0){
@@ -240,6 +239,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mHeaderUserName.setText(getUserName());
                 mMenu.findItem(R.id.logout).setTitle("退出登录");
             }
+        }
+    }
+    // TODO 辅助函数 文言文在线查询
+    private void openWebPage(String url){
+        // 将网页Url解析为Uri
+        Uri webPage = Uri.parse(url);
+        // 参数 Intent.ACTION_VIEW 会告诉anroid系统家训软件想要查询的内容
+        Intent intent = new Intent(Intent.ACTION_VIEW,webPage);
+        // 判断Android系统是否可以处理我们的请求
+        if(intent.resolveActivity(getPackageManager())!=null){
+            startActivity(intent);
         }
     }
 }
