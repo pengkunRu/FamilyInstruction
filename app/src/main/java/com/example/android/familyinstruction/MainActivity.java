@@ -19,8 +19,8 @@ public class MainActivity extends AppCompatActivity {
         viewPager = (ViewPager)findViewById(R.id.viewpager_id);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.AddFragment(new BooksFragment(),"家训书籍");
-        adapter.AddFragment(new VediosFragment(),"家训视频");
-        adapter.AddFragment(new NewsFragment(),"家训新闻");
+        adapter.AddFragment(new EpisodeFragment(),"家训视频");
+        adapter.AddFragment(new NewsFragment(),"家训资讯");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
     }
