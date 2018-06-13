@@ -19,13 +19,7 @@
         <activity
             android:name=".NoteMaterialActivity"
             android:label="@string/app_note_page_name"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".EditorActivity" />
 
         <provider
@@ -39,16 +33,22 @@
             android:label="讲坛" />
         <activity
             android:name=".BookShelfActivity"
-            android:label="古籍" />
+            android:label="家训书籍">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".CatalogActivity"
-            android:label="古籍" />
+            android:label="家训书籍" />
         <activity android:name=".ContentActivity" />
         <activity
             android:name=".MediaListActivity"
-            android:label="讲坛" />
+            android:label="家训视频" />
         <activity android:name=".WriterInfoActivity" />
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".LoginActivity"/>
     </application>
 
 </manifest>
