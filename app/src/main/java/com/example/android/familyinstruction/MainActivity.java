@@ -137,11 +137,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intentSearch);
                 break;
             case R.id.action_review:
-                if(getUserStatus()==0){
-                    // 用户想要登陆家训应用
-                    Intent intent = new Intent(MainActivity.this,LoginActivity.class);
-                    startActivity(intent);
-                }
+                Intent intentReview = new Intent(MainActivity.this,ReviewActivity.class);
+                startActivity(intentReview);
                 break;
             case R.id.settings:
                 if(getUserStatus()==0){

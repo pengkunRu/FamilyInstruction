@@ -21,6 +21,8 @@
     <string name="editor_delete_note_failed">Error with delete note</string>
     <string name="editor_delete_note_successful">Note deleted</string>
     <string name="title_activity_login">Sign in</string>
+    <string name="action_show_translation">显示注译</string>
+    <string name="next_instruction">下则家训</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
