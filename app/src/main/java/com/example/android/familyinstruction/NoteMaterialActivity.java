@@ -7,12 +7,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
@@ -21,9 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.familyinstruction.data.InstructionContract;
@@ -45,10 +39,7 @@ import java.io.InputStream;
  * 用户家训收藏界面
  */
 
-public class NoteMaterialActivity extends AppCompatActivity implements android.app.LoaderManager.LoaderCallbacks<Cursor> , NavigationView.OnNavigationItemSelectedListener {
-
-    private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mToggle;
+public class NoteMaterialActivity extends AppCompatActivity implements android.app.LoaderManager.LoaderCallbacks<Cursor>{
 
     private static final String INSTRUCTION_SHARE_HASHTAG = " #FamilyInstructionApp";
 
@@ -60,39 +51,10 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
     // ListView的适配器
     InstructionCursorAdapter mCursorAdapter;
 
-    // NavigationView Header Image
-    private ImageView mHeaderImageView;
-    // NavigationView Header Textview
-    private TextView mHeaderUserName;
-    private Menu mMenu;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_material);
-
-        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer);
-        mToggle = new ActionBarDrawerToggle(this,mDrawerLayout,R.string.open,R.string.close);
-        mDrawerLayout.addDrawerListener(mToggle);
-        mToggle.syncState();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-        NavigationView mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
-        if (mNavigationView != null) {
-            mNavigationView.setNavigationItemSelectedListener(this);
-        }
-        // 引入头布局和菜单布局
-        mNavigationView.inflateHeaderView(R.layout.header);
-        mNavigationView.inflateMenu(R.menu.menu_drawer);
-        // 获取头部布局
-        View NavHeaderView = mNavigationView.getHeaderView(0);
-        // 获取菜单布局
-        mMenu = mNavigationView.getMenu();
-
-        mHeaderImageView = (ImageView)NavHeaderView.findViewById(R.id.user_photo_header);
-        mHeaderUserName = (TextView)NavHeaderView.findViewById(R.id.user_name_header);
-
 
         /**
          * 初始化导航栏信息
@@ -160,21 +122,6 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
 
         getLoaderManager().initLoader(NOTE_LOADER,null,this);
     }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if(getUserStatus()==0){
-            mHeaderImageView.setImageResource(R.drawable.ic_logout_photo);
-            mHeaderUserName.setText("");
-            mMenu.findItem(R.id.logout).setTitle("登陆");
-        }else {
-            mHeaderImageView.setImageResource(R.drawable.ic_login_photo);
-            mHeaderUserName.setText(getUserName());
-            mMenu.findItem(R.id.logout).setTitle("退出登录");
-        }
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -294,11 +241,6 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
                 getUserStatus();
                 return true;
         }
-
-        if(mToggle.onOptionsItemSelected(item)){
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -361,9 +303,7 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
         Uri newUri4 = getContentResolver().insert(InstructionEntry.CONTENT_URI, value4);
     }
 
-    /**
-     * TODO 测试用户信息函数
-     */
+    // TODO 测试用户信息函数
     private void insertUserInformation(){
 
         ContentValues value = new ContentValues();
@@ -372,28 +312,6 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
         value.put(UserInfoEntry.COLUMN_USER_STATUS,"1");
 
         Uri newUri1 = getContentResolver().insert(UserInfoEntry.CONTENT_URI, value);
-    }
-
-    /**
-     * TODO 管理用户的登录-退出（辅助函数）
-     */
-    private void logout(){
-        if(getUserStatus()==0){
-            // 用户想要登陆家训应用
-            Intent intent = new Intent(NoteMaterialActivity.this,LoginActivity.class);
-            startActivity(intent);
-        }else{
-            changeUserStatus();
-            if(getUserStatus()==0){
-                mHeaderImageView.setImageResource(R.drawable.ic_logout_photo);
-                mHeaderUserName.setText("");
-                mMenu.findItem(R.id.logout).setTitle("登陆");
-            }else {
-                mHeaderImageView.setImageResource(R.drawable.ic_login_photo);
-                mHeaderUserName.setText(getUserName());
-                mMenu.findItem(R.id.logout).setTitle("退出登录");
-            }
-        }
     }
 
     @Override
@@ -432,61 +350,6 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
     public void onLoaderReset(android.content.Loader<Cursor> loader) {
         mCursorAdapter.swapCursor(null);
     }
-
-
-    /**
-     * TODO 侧滑抽屉布局中菜单项的点击处理
-     * @param item
-     * @return
-     */
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.logout:
-                logout();
-                break;
-            case R.id.bookshelf:
-                if(getUserStatus()==0){
-                    // 用户想要登陆家训应用
-                    Intent intent = new Intent(NoteMaterialActivity.this,LoginActivity.class);
-                    startActivity(intent);
-                }
-                break;
-            case R.id.vedio_collection:
-                if(getUserStatus()==0){
-                    // 用户想要登陆家训应用
-                    Intent intent = new Intent(NoteMaterialActivity.this,LoginActivity.class);
-                    startActivity(intent);
-                }
-                break;
-            case R.id.search:
-                if(getUserStatus()==0){
-                    // 用户想要登陆家训应用
-                    Intent intent = new Intent(NoteMaterialActivity.this,LoginActivity.class);
-                    startActivity(intent);
-                }
-                break;
-            case R.id.action_review:
-                if(getUserStatus()==0){
-                    // 用户想要登陆家训应用
-                    Intent intent = new Intent(NoteMaterialActivity.this,LoginActivity.class);
-                    startActivity(intent);
-                }
-                break;
-            case R.id.settings:
-                if(getUserStatus()==0){
-                    // 用户想要登陆家训应用
-                    Intent intent = new Intent(NoteMaterialActivity.this,LoginActivity.class);
-                    startActivity(intent);
-                }
-                break;
-        }
-
-        item.setChecked(true);
-        mDrawerLayout.closeDrawers();
-        return true;
-    }
-
 
     // TODO 辅助函数 获取用户名
     private String getUserName(){
@@ -533,23 +396,5 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
         }
         Log.i("Note","用户登录状态："+userStatus);
         return userStatus;
-    }
-    // TODO 辅助函数 更新用户用户状态
-    private void changeUserStatus(){
-        ContentValues values = new ContentValues();
-        if(getUserStatus()==0){
-            values.put(UserInfoEntry.COLUMN_USER_STATUS,1);
-        }else{
-            values.put(UserInfoEntry.COLUMN_USER_STATUS,0);
-        }
-
-        int rowsAffected = getContentResolver().update(UserInfoEntry.CONTENT_URI,values,null,null);
-        if (rowsAffected == 0) {
-            Toast.makeText(this, getString(R.string.user_log_out_failed),
-                    Toast.LENGTH_SHORT).show();
-        }else{
-            Toast.makeText(this, getString(R.string.user_log_out_successful),
-                    Toast.LENGTH_SHORT).show();
-        }
     }
 }
