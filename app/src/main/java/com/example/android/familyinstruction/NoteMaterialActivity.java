@@ -445,6 +445,41 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
             case R.id.logout:
                 logout();
                 break;
+            case R.id.bookshelf:
+                if(getUserStatus()==0){
+                    // 用户想要登陆家训应用
+                    Intent intent = new Intent(NoteMaterialActivity.this,LoginActivity.class);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.vedio_collection:
+                if(getUserStatus()==0){
+                    // 用户想要登陆家训应用
+                    Intent intent = new Intent(NoteMaterialActivity.this,LoginActivity.class);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.search:
+                if(getUserStatus()==0){
+                    // 用户想要登陆家训应用
+                    Intent intent = new Intent(NoteMaterialActivity.this,LoginActivity.class);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.action_review:
+                if(getUserStatus()==0){
+                    // 用户想要登陆家训应用
+                    Intent intent = new Intent(NoteMaterialActivity.this,LoginActivity.class);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.settings:
+                if(getUserStatus()==0){
+                    // 用户想要登陆家训应用
+                    Intent intent = new Intent(NoteMaterialActivity.this,LoginActivity.class);
+                    startActivity(intent);
+                }
+                break;
         }
 
         item.setChecked(true);
