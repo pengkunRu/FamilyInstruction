@@ -18,7 +18,11 @@ public class UserBookShelfActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_book_shelf);
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
         // 获取数据源
         // 在创建书籍数组列表的时候，我们需要在前面加上final修饰符，这样我们在
         // onItemClick方法中引用books arraylist了

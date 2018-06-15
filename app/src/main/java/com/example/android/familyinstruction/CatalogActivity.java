@@ -93,6 +93,7 @@ public class CatalogActivity extends AppCompatActivity {
                 break;
             case R.id.book_remove:
                 removeBookFromBookShelf();
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
