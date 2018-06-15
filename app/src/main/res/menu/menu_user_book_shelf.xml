@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/book_collection" android:title="添加书籍到我的书架"
-        android:icon="@drawable/ic_library_plus_black_24px"
-        app:showAsAction="ifRoom"/>
-    <item android:id="@+id/book_remove" android:title="从我的书架移除"
-        app:showAsAction="never"/>
+xmlns:app="http://schemas.android.com/apk/res-auto">
+<item android:id="@+id/book_collection" android:title="添加书籍到我的书架"
+    android:icon="@drawable/ic_library_plus_black_24px"
+    app:showAsAction="ifRoom"/>
+<item android:id="@+id/book_remove" android:title="从我的书架移除"
+    app:showAsAction="never"/>
 </menu>

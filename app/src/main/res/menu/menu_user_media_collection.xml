@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/media_collection" android:title="收藏视频"
+        android:icon="@drawable/ic_playlist_plus_black_24px"
+        app:showAsAction="ifRoom"/>
+    <item android:id="@+id/media_remove" android:title="从视频收藏夹移除"
+        app:showAsAction="never"/>
+</menu>
