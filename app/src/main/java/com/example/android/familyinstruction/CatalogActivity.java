@@ -1,20 +1,28 @@
 package com.example.android.familyinstruction;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.familyinstruction.data.InstructionContract.TextResourceEntry;
+import com.example.android.familyinstruction.data.InstructionContract.UserBookShelfEntry;
 
 import java.util.ArrayList;
 
 public class CatalogActivity extends AppCompatActivity {
 
+    private String bookTitle;
+    private int bookImageResourceId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,7 +31,8 @@ public class CatalogActivity extends AppCompatActivity {
 
         // 获取用户想要浏览的书名
         Intent intent = getIntent();
-        String bookTitle = intent.getExtras().getString("bookTitle");
+        bookTitle = intent.getExtras().getString("bookTitle");
+        bookImageResourceId = intent.getExtras().getInt("bookImageResourceId");
 
 
         // 获取数据源
@@ -59,10 +68,36 @@ public class CatalogActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * TODO 辅助函数：从文本资源表取出所有bookTitle=？的行
-     * @return
-     */
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_user_book_shelf, menu);
+        MenuItem bookCollection =  menu.findItem(R.id.book_collection);
+        MenuItem bookRemove = menu.findItem(R.id.book_remove);
+        if(bookImageResourceId==0){
+            bookCollection.setVisible(false);
+            bookRemove.setVisible(true);
+        }else{
+            bookCollection.setVisible(true);
+            bookRemove.setVisible(false);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.book_collection:
+                addBookToBookShelf(bookTitle);
+                break;
+            case R.id.book_remove:
+                removeBookFromBookShelf();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    // TODO 辅助函数：从文本资源表取出所有bookTitle=？的行
     private ArrayList<Catalog> getCataLog(String bookTitle) {
         String[] projection = {
                 TextResourceEntry._ID,
@@ -94,5 +129,53 @@ public class CatalogActivity extends AppCompatActivity {
         }
 
         return catalogs;
+    }
+    // TODO 辅助函数：将书籍添加到我的书架
+    private void addBookToBookShelf(String bookTitle){
+        // 判断这本书是否在我的书架中
+        String[] projection = {
+                UserBookShelfEntry.COLUMN_BOOK_TITLE,
+        };
+        Cursor cursor = getContentResolver().query(UserBookShelfEntry.CONTENT_URI, projection, null, null, null);
+        int bookTtileColumnIndex = cursor.getColumnIndex(UserBookShelfEntry.COLUMN_BOOK_TITLE);
+        int currentBookInBookShelf = 0;
+        while (cursor.moveToNext()){
+            String currentbookTitle = cursor.getString(bookTtileColumnIndex);
+            if(currentbookTitle.equals(bookTitle)){
+                currentBookInBookShelf = 1;
+            }
+        }
+        if(currentBookInBookShelf == 0){
+            //这本书不在用户书架中
+            ContentValues values = new ContentValues();
+            values.put(UserBookShelfEntry.COLUMN_BOOK_TITLE,bookTitle);
+            values.put(UserBookShelfEntry.COLUMN_BOOK_IMAGE,bookImageResourceId);
+            Uri newUri = getContentResolver().insert(UserBookShelfEntry.CONTENT_URI, values);
+
+            if (newUri == null) {
+                Toast.makeText(this, getString(R.string.collection_book_failed),
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, getString(R.string.collection_book_successful),
+                        Toast.LENGTH_SHORT).show();
+            }
+        }else{
+            Toast.makeText(this, getString(R.string.collection_book_repeat),
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // TODO 辅助函数：将书籍从我的书架移除
+    private void removeBookFromBookShelf() {
+        String selection = TextResourceEntry.COLUMN_BOOK_TITLE + "=?";
+        String[] selectionArgs = new String[]{bookTitle};
+        int rowsDeleted = getContentResolver().delete(UserBookShelfEntry.CONTENT_URI, selection, selectionArgs);
+        if (rowsDeleted == 0) {
+            Toast.makeText(this, getString(R.string.remove_book_failed),
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, getString(R.string.remove_book_successful),
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 }

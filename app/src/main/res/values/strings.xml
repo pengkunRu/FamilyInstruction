@@ -12,6 +12,10 @@
     <string name="action_delete">删除</string>
     <string name="editor_insert_note_failed">Error with saving note</string>
     <string name="editor_insert_note_successful">Note saved</string>
+
+    <string name="collection_book_failed">添加失败</string>
+    <string name="collection_book_successful">添加成功</string>
+    <string name="collection_book_repeat">我的书架中已存在这本图书</string>
     <string name="editor_update_note_failed">Error with update note</string>
     <string name="user_log_out_successful">退出登录成功</string>
     <string name="user_log_out_failed">退出登录失败</string>
@@ -20,6 +24,10 @@
     <string name="editor_update_note_successful">Note updated</string>
     <string name="editor_delete_note_failed">Error with delete note</string>
     <string name="editor_delete_note_successful">Note deleted</string>
+
+    <string name="remove_book_failed">删除失败</string>
+    <string name="remove_book_successful">删除成功</string>
+
     <string name="title_activity_login">Sign in</string>
     <string name="action_show_translation">显示注译</string>
     <string name="next_instruction">下则家训</string>

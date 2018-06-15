@@ -4,11 +4,11 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-
 import com.example.android.familyinstruction.data.InstructionContract.InstructionEntry;
 import com.example.android.familyinstruction.data.InstructionContract.MediaResourceEntry;
 import com.example.android.familyinstruction.data.InstructionContract.TextResourceEntry;
 import com.example.android.familyinstruction.data.InstructionContract.UserInfoEntry;
+import com.example.android.familyinstruction.data.InstructionContract.UserBookShelfEntry;
 /**
  * Created by kun on 2018/5/28.
  */
@@ -18,7 +18,7 @@ public class InstructionDbHelper extends SQLiteOpenHelper{
     // 数据库名称
     private static final String DATABASE_NAME = "family_instruction.db";
     // 数据库版本
-    private static final int DATABASE_VERSION = 9;
+    private static final int DATABASE_VERSION = 13;
 
     // 构造函数
     public InstructionDbHelper(Context context) {
@@ -74,12 +74,19 @@ public class InstructionDbHelper extends SQLiteOpenHelper{
                         + UserInfoEntry.COLUMN_USER_PASSWORD + " TEXT NOT NULL, "
                         + UserInfoEntry.COLUMN_USER_STATUS + " INTEGER NOT NULL);";
 
+        // 创建用户信息表
+        final String SQL_CREATE_USER_BOOK_SHELF_TABLE =
+                "CREATE TABLE " + UserBookShelfEntry.TABLE_NAME + "("
+                        + UserBookShelfEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                        + UserBookShelfEntry.COLUMN_BOOK_TITLE + " TEXT NOT NULL, "
+                        + UserBookShelfEntry.COLUMN_BOOK_IMAGE + " INTEGER NOT NULL);";
 
         // 执行创建表sql语句
         db.execSQL(SQL_CREATE_NOTES_TABLE);
         db.execSQL(SQL_CREATE_TEXT_RESOURCE_TABLE);
         db.execSQL(SQL_CREATE_MEDIA_RESOURCE_TABLE);
         db.execSQL(SQL_CREATE_USER_INFO_TABLE);
+        db.execSQL(SQL_CREATE_USER_BOOK_SHELF_TABLE);
     }
 
     // 当数据库版本发生变化时候，这个方法会被调用
@@ -89,6 +96,7 @@ public class InstructionDbHelper extends SQLiteOpenHelper{
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TextResourceEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + MediaResourceEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + UserInfoEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + UserBookShelfEntry.TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 }

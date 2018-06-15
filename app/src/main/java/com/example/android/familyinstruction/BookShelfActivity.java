@@ -137,10 +137,7 @@ public class BookShelfActivity extends AppCompatActivity implements NavigationVi
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * TODO 辅助函数：从文本资源表中取出去重的书名，封面图片信息
-     * @return
-     */
+    // TODO 辅助函数：从文本资源表中取出去重的书名，封面图片信息
     private ArrayList<Book> getBooks() {
         String[] projection = {
                 "distinct " + TextResourceEntry.COLUMN_BOOK_TITLE,

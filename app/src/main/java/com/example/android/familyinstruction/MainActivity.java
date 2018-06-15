@@ -107,11 +107,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logout();
                 break;
             case R.id.bookshelf:
-                if(getUserStatus()==0){
-                    // 用户想要登陆家训应用
-                    Intent intent = new Intent(MainActivity.this,LoginActivity.class);
-                    startActivity(intent);
-                }
+                Intent intentBookShelf = new Intent(MainActivity.this,UserBookShelfActivity.class);
+                startActivity(intentBookShelf);
                 break;
             case R.id.vedio_collection:
                 if(getUserStatus()==0){
@@ -141,11 +138,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intentReview);
                 break;
             case R.id.settings:
-                if(getUserStatus()==0){
-                    // 用户想要登陆家训应用
-                    Intent intent = new Intent(MainActivity.this,LoginActivity.class);
-                    startActivity(intent);
-                }
+                Intent intentTest = new Intent(MainActivity.this,NoteMaterialActivity.class);
+                startActivity(intentTest);
                 break;
         }
 

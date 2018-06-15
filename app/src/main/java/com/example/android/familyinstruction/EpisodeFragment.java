@@ -28,7 +28,7 @@ public class EpisodeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.explore_fragment,container,false);
+        view = inflater.inflate(R.layout.episode_fragment,container,false);
 
         // 获取数据源
         // 在创建视频集数组列表的时候，我们需要在前面加上final修饰符，这样我们在

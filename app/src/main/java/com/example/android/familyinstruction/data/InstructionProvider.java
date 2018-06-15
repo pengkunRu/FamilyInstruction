@@ -15,6 +15,7 @@ import com.example.android.familyinstruction.data.InstructionContract.MediaResou
 import com.example.android.familyinstruction.data.InstructionContract.InstructionEntry;
 import com.example.android.familyinstruction.data.InstructionContract.TextResourceEntry;
 import com.example.android.familyinstruction.data.InstructionContract.UserInfoEntry;
+import com.example.android.familyinstruction.data.InstructionContract.UserBookShelfEntry;
 
 
 
@@ -36,6 +37,10 @@ public class InstructionProvider extends ContentProvider{
     private static final int USER_INFORMATION = 400;
     // 访问具体一行用户信息表
     private static final int USER_INFORMATION_ID = 401;
+    // 访问整个用户书架表
+    private static final int USER_BOOK_SHELF = 500;
+    // 访问具体一行用户书架表
+    private static final int USER_BOOK_SHELF_ID = 501;
 
 
 
@@ -58,6 +63,10 @@ public class InstructionProvider extends ContentProvider{
         // 将访问用户信息表的两种模式添加和每种模式的uri编码添加到uri匹配器中
         sUriMatcher.addURI(InstructionContract.CONTENT_AUTHORITY,InstructionContract.PATH_USER_INFORMATION,USER_INFORMATION);
         sUriMatcher.addURI(InstructionContract.CONTENT_AUTHORITY,InstructionContract.PATH_USER_INFORMATION+"/#",USER_INFORMATION_ID);
+
+        // 将访问用户书架表的两种模式添加和每种模式的uri编码添加到uri匹配器中
+        sUriMatcher.addURI(InstructionContract.CONTENT_AUTHORITY,InstructionContract.PATH_BOOK_SHELF,USER_BOOK_SHELF);
+        sUriMatcher.addURI(InstructionContract.CONTENT_AUTHORITY,InstructionContract.PATH_BOOK_SHELF+"/#",USER_BOOK_SHELF_ID);
     }
 
 
@@ -126,6 +135,9 @@ public class InstructionProvider extends ContentProvider{
             case USER_INFORMATION:
                 cursor = database.query(UserInfoEntry.TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
                 break;
+            case USER_BOOK_SHELF:
+                cursor = database.query(UserBookShelfEntry.TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
+                break;
                 default:
                     throw new IllegalArgumentException("Cannot query unknown URI " + uri);
         }
@@ -183,6 +195,8 @@ public class InstructionProvider extends ContentProvider{
                 return  insertMediaResource(uri,contentValues);
             case USER_INFORMATION:
                 return  insertUserInformation(uri,contentValues);
+            case USER_BOOK_SHELF:
+                return insertUserBookShelf(uri,contentValues);
             default:
                 throw new IllegalArgumentException("Insertion is not supported for " + uri);
         }
@@ -208,6 +222,16 @@ public class InstructionProvider extends ContentProvider{
                 selection = InstructionEntry._ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
                 rowsDeleted = database.delete(InstructionEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            case USER_BOOK_SHELF:
+                // Delete all rows that match the selection and selection args
+                rowsDeleted = database.delete(UserBookShelfEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            case USER_BOOK_SHELF_ID:
+                // Delete a single row given by the ID in the URI
+                selection = UserBookShelfEntry._ID + "=?";
+                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                rowsDeleted = database.delete(UserBookShelfEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
@@ -319,12 +343,7 @@ public class InstructionProvider extends ContentProvider{
         return ContentUris.withAppendedId(uri, id);
     }
 
-    /**
-     * TODO 插入新数据到用户信息表的辅助函数
-     * @param uri
-     * @param values
-     * @return
-     */
+    // TODO 插入新数据到用户信息表的辅助函数
     private Uri insertUserInformation(Uri uri, ContentValues values){
         // 首先获得一个数据库对象
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
@@ -338,14 +357,7 @@ public class InstructionProvider extends ContentProvider{
         return ContentUris.withAppendedId(uri, id);
     }
 
-    /**
-     * TODO 更新操作的辅助函数（用户家训表）
-     * @param uri
-     * @param values
-     * @param selection
-     * @param selectionArgs
-     * @return
-     */
+    // TODO 更新操作的辅助函数（用户家训表）
     private int updateNotes(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 
         if (values.containsKey(InstructionEntry.COLUMN_NOTE_TITLE)) {
@@ -385,9 +397,7 @@ public class InstructionProvider extends ContentProvider{
         return rowsUpdated;
     }
 
-    /**
-     * TODO 更新操作的辅助函数（用户信息表）
-     */
+    // TODO 更新操作的辅助函数（用户信息表）
     private int updateUserInfomation(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 
         if (values.size() == 0) {
@@ -399,4 +409,19 @@ public class InstructionProvider extends ContentProvider{
         int rowsUpdated = database.update(UserInfoEntry.TABLE_NAME, values, selection, selectionArgs);
         return rowsUpdated;
     }
+
+    // TODO 辅助函数：向用户书架表中添加数据
+    private Uri insertUserBookShelf(Uri uri, ContentValues values){
+        // 首先获得一个数据库对象
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+        // 数据库插入
+        long id = database.insert(UserBookShelfEntry.TABLE_NAME, null, values);
+        // 如果 ID 等于 -1，那我们就知道插入失败了。否则，插入将是成功的。
+        if (id == -1) {
+            Log.e(LOG_TAG, "Failed to insert row for " + uri);
+            return null;
+        }
+        return ContentUris.withAppendedId(uri, id);
+    }
+    // TODO 辅助函数: 从用户书架表中删除数据
 }

@@ -28,8 +28,8 @@ public class BooksFragment extends Fragment{
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.quiz_fragment,container,false);
+    public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.books_fragment,container,false);
 
         // 获取数据源
         // 在创建书籍数组列表的时候，我们需要在前面加上final修饰符，这样我们在
@@ -51,6 +51,8 @@ public class BooksFragment extends Fragment{
                 // 页面跳转到用户想要阅读的书籍（书籍目录界面）
                 Intent intent = new Intent(getActivity(),CatalogActivity.class);
                 intent.putExtra("bookTitle",currentBook.getBookTitle());
+                intent.putExtra("bookImageResourceId",currentBook.getImageResourceId());
+
                 startActivity(intent);
             }
         });

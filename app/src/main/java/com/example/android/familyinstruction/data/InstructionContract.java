@@ -27,8 +27,8 @@ public final class InstructionContract {
     public static final String PATH_MEDIA_RESOURCE = "media_resource";
     // PATH_TableName(用户信息表)
     public static final String PATH_USER_INFORMATION = "user_information";
-
-
+    // PATH_TableName(用户书架表)
+    public static final String PATH_BOOK_SHELF = "user_book_shelf";
 
 
     // 用户鉴赏表的合约内容
@@ -167,5 +167,33 @@ public final class InstructionContract {
         public final static String COLUMN_USER_PASSWORD = "userPassword";
         // 用户状态
         public final static String COLUMN_USER_STATUS = "userStatus";
+    }
+
+    //用户书架合约类
+    public final static class UserBookShelfEntry implements BaseColumns{
+
+        // content uri
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_BOOK_SHELF);
+
+        // The MIME type of for a list of users
+        public static final String CONTENT_LIST_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_BOOK_SHELF;
+
+        // The MIME type for a single user.
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_BOOK_SHELF;
+
+
+
+        // 用户信息表的表名
+        public static final String TABLE_NAME = "user_book_shelf";
+
+
+        // 唯一标识符
+        public final static String _ID = BaseColumns._ID;
+        // 图书名称
+        public final static String COLUMN_BOOK_TITLE = "bookTitle";
+        // 图书封面
+        public final static String COLUMN_BOOK_IMAGE = "bookImage";
     }
 }
