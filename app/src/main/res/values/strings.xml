@@ -26,8 +26,8 @@
     <string name="editor_delete_note_failed">Error with delete note</string>
     <string name="editor_delete_note_successful">Note deleted</string>
 
-    <string name="remove_book_failed">删除失败</string>
-    <string name="remove_book_successful">删除成功</string>
+    <string name="remove_failed">删除失败</string>
+    <string name="remove_successful">删除成功</string>
 
     <string name="title_activity_login">Sign in</string>
     <string name="action_show_translation">显示注译</string>

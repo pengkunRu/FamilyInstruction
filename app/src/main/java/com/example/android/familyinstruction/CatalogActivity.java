@@ -172,10 +172,10 @@ public class CatalogActivity extends AppCompatActivity {
         String[] selectionArgs = new String[]{bookTitle};
         int rowsDeleted = getContentResolver().delete(UserBookShelfEntry.CONTENT_URI, selection, selectionArgs);
         if (rowsDeleted == 0) {
-            Toast.makeText(this, getString(R.string.remove_book_failed),
+            Toast.makeText(this, getString(R.string.remove_failed),
                     Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, getString(R.string.remove_book_successful),
+            Toast.makeText(this, getString(R.string.remove_successful),
                     Toast.LENGTH_SHORT).show();
         }
     }

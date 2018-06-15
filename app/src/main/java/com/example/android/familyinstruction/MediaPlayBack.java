@@ -59,7 +59,17 @@ public class MediaPlayBack extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         getMenuInflater().inflate(R.menu.menu_user_media_collection, menu);
+        MenuItem mediaCollection =  menu.findItem(R.id.media_collection);
+        MenuItem mediaRemove = menu.findItem(R.id.media_remove);
+        if(headTitle==null){
+            mediaCollection.setVisible(false);
+            mediaRemove.setVisible(true);
+        }else{
+            mediaCollection.setVisible(true);
+            mediaRemove.setVisible(false);
+        }
         return true;
     }
 
@@ -114,5 +124,16 @@ public class MediaPlayBack extends AppCompatActivity {
     }
 
     // TODO 将视频移出视频视频收藏夹
-    private void removeVedioFromCollection(){}
+    private void removeVedioFromCollection(){
+        String selection = UserMediaCollectionEntry.COLUMN_SUB_TITLE + "=?";
+        String[] selectionArgs = new String[]{subTitle};
+        int rowsDeleted = getContentResolver().delete(UserMediaCollectionEntry.CONTENT_URI, selection, selectionArgs);
+        if (rowsDeleted == 0) {
+            Toast.makeText(this, getString(R.string.remove_failed),
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, getString(R.string.remove_successful),
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
 }

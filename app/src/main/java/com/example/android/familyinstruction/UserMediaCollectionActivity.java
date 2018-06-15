@@ -39,6 +39,7 @@ public class UserMediaCollectionActivity extends AppCompatActivity {
 
                 // 页面跳转至视频播放界面,并传入视频链接
                 Intent intent = new Intent(UserMediaCollectionActivity.this,MediaPlayBack.class);
+                intent.putExtra("subTitle",currentItem.getSubtitle());
                 intent.putExtra("vedioUrl",currentItem.getMediaData());
                 intent.putExtra("plot",currentItem.getPlot());
                 startActivity(intent);
