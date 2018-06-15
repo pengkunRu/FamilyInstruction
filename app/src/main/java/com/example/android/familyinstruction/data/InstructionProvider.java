@@ -16,7 +16,7 @@ import com.example.android.familyinstruction.data.InstructionContract.Instructio
 import com.example.android.familyinstruction.data.InstructionContract.TextResourceEntry;
 import com.example.android.familyinstruction.data.InstructionContract.UserInfoEntry;
 import com.example.android.familyinstruction.data.InstructionContract.UserBookShelfEntry;
-
+import com.example.android.familyinstruction.data.InstructionContract.UserMediaCollectionEntry;
 
 
 public class InstructionProvider extends ContentProvider{
@@ -41,6 +41,10 @@ public class InstructionProvider extends ContentProvider{
     private static final int USER_BOOK_SHELF = 500;
     // 访问具体一行用户书架表
     private static final int USER_BOOK_SHELF_ID = 501;
+    // 访问整个用户视频收藏表
+    private static final int USER_MEDIA_COLLECTION = 600;
+    // 访问具体一行用户视频收藏表
+    private static final int USER_MEDIA_COLLECTION_ID = 601;
 
 
 
@@ -67,6 +71,10 @@ public class InstructionProvider extends ContentProvider{
         // 将访问用户书架表的两种模式添加和每种模式的uri编码添加到uri匹配器中
         sUriMatcher.addURI(InstructionContract.CONTENT_AUTHORITY,InstructionContract.PATH_BOOK_SHELF,USER_BOOK_SHELF);
         sUriMatcher.addURI(InstructionContract.CONTENT_AUTHORITY,InstructionContract.PATH_BOOK_SHELF+"/#",USER_BOOK_SHELF_ID);
+
+        // 将访问用户视频收藏表的两种模式添加和每种模式的uri编码添加到uri匹配器中
+        sUriMatcher.addURI(InstructionContract.CONTENT_AUTHORITY,InstructionContract.PATH_MEDIA_COLLECTION,USER_MEDIA_COLLECTION);
+        sUriMatcher.addURI(InstructionContract.CONTENT_AUTHORITY,InstructionContract.PATH_MEDIA_COLLECTION+"/#",USER_MEDIA_COLLECTION_ID);
     }
 
 
@@ -85,17 +93,8 @@ public class InstructionProvider extends ContentProvider{
     }
 
 
-    /**
-     * TODO 查询函数,uri如果指向整张表，我们其实可以在参数2，参数3，参数4的作用下
-     * TODO 将范围精确到我们感兴趣的行，列
-     *
-     * @param uri 统一资源定位符
-     * @param projection
-     * @param selection
-     * @param selectionArgs
-     * @param sortOrder
-     * @return
-     */
+    // TODO 查询函数,uri如果指向整张表，我们其实可以在参数2，参数3，参数4的作用下
+    // TODO 将范围精确到我们感兴趣的行，列
     @Nullable
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
@@ -138,6 +137,9 @@ public class InstructionProvider extends ContentProvider{
             case USER_BOOK_SHELF:
                 cursor = database.query(UserBookShelfEntry.TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
                 break;
+            case USER_MEDIA_COLLECTION:
+                cursor = database.query(UserMediaCollectionEntry.TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
+                break;
                 default:
                     throw new IllegalArgumentException("Cannot query unknown URI " + uri);
         }
@@ -153,13 +155,8 @@ public class InstructionProvider extends ContentProvider{
     }
 
 
-    /**
-     * 此方法的用途是返回描述输入URI中存储的数据类型的字符串。
-     * 该字符串为 MIME 类型，也称为内容类型
-     *
-     * @param uri
-     * @return
-     */
+    // TODO 此方法的用途是返回描述输入URI中存储的数据类型的字符串。
+    // TODO 该字符串为 MIME 类型，也称为内容类型
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
@@ -197,6 +194,8 @@ public class InstructionProvider extends ContentProvider{
                 return  insertUserInformation(uri,contentValues);
             case USER_BOOK_SHELF:
                 return insertUserBookShelf(uri,contentValues);
+            case USER_MEDIA_COLLECTION:
+                return insertUserMediaCollection(uri,contentValues);
             default:
                 throw new IllegalArgumentException("Insertion is not supported for " + uri);
         }
@@ -233,6 +232,10 @@ public class InstructionProvider extends ContentProvider{
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
                 rowsDeleted = database.delete(UserBookShelfEntry.TABLE_NAME, selection, selectionArgs);
                 break;
+            case USER_MEDIA_COLLECTION:
+                // Delete all rows that match the selection and selection args
+                rowsDeleted = database.delete(UserMediaCollectionEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             default:
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
         }
@@ -260,7 +263,7 @@ public class InstructionProvider extends ContentProvider{
         }
     }
 
-    //插入新数据到用户鉴赏表的的辅助函数
+    // TODO 插入新数据到用户鉴赏表的的辅助函数
     private Uri insertNote(Uri uri, ContentValues values) {
 
         //数据验证
@@ -299,12 +302,7 @@ public class InstructionProvider extends ContentProvider{
         return ContentUris.withAppendedId(uri, newRowId);
     }
 
-    /**
-     * TODO 插入新数据到媒体资源表的辅助函数
-     * @param uri
-     * @param values
-     * @return
-     */
+    // TODO 插入新数据到媒体资源表的辅助函数
     private Uri insertMediaResource(Uri uri, ContentValues values) {
 
         // 获得数据库对象
@@ -323,13 +321,7 @@ public class InstructionProvider extends ContentProvider{
         return ContentUris.withAppendedId(uri, newRowId);
     }
 
-
-    /**
-     * TODO 插入新数据到文本资源表的辅助函数
-     * @param uri
-     * @param values
-     * @return
-     */
+    // TODO 插入新数据到文本资源表的辅助函数
     private Uri insertTextResource(Uri uri, ContentValues values){
         // 首先获得一个数据库对象
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
@@ -423,5 +415,18 @@ public class InstructionProvider extends ContentProvider{
         }
         return ContentUris.withAppendedId(uri, id);
     }
-    // TODO 辅助函数: 从用户书架表中删除数据
+
+    // TODO 辅助函数：向用户视频收藏表中添加数据
+    private Uri insertUserMediaCollection(Uri uri, ContentValues values){
+        // 首先获得一个数据库对象
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+        // 数据库插入
+        long id = database.insert(UserMediaCollectionEntry.TABLE_NAME, null, values);
+        // 如果 ID 等于 -1，那我们就知道插入失败了。否则，插入将是成功的。
+        if (id == -1) {
+            Log.e(LOG_TAG, "Failed to insert row for " + uri);
+            return null;
+        }
+        return ContentUris.withAppendedId(uri, id);
+    }
 }

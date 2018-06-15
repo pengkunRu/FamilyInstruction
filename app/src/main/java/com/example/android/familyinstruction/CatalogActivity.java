@@ -154,10 +154,10 @@ public class CatalogActivity extends AppCompatActivity {
             Uri newUri = getContentResolver().insert(UserBookShelfEntry.CONTENT_URI, values);
 
             if (newUri == null) {
-                Toast.makeText(this, getString(R.string.collection_book_failed),
+                Toast.makeText(this, getString(R.string.collection_failed),
                         Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, getString(R.string.collection_book_successful),
+                Toast.makeText(this, getString(R.string.collection_successful),
                         Toast.LENGTH_SHORT).show();
             }
         }else{

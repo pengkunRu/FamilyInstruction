@@ -48,6 +48,9 @@ public class MediaListActivity extends AppCompatActivity {
 
                 // 页面跳转至视频播放界面,并传入视频链接
                 Intent intent = new Intent(MediaListActivity.this,MediaPlayBack.class);
+                intent.putExtra("headTitle",currentItem.getHeadtitle());
+                intent.putExtra("subTitle",currentItem.getSubtitle());
+                intent.putExtra("thumbnail",currentItem.getThumbnail());
                 intent.putExtra("vedioUrl",currentItem.getMediaData());
                 intent.putExtra("plot",currentItem.getPlot());
                 startActivity(intent);
@@ -56,10 +59,7 @@ public class MediaListActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * TODO 辅助函数：从文本资源表取出所有headTitle=？的行
-     * @return
-     */
+    // TODO 辅助函数：从文本资源表取出所有headTitle=？的行
     private ArrayList<MediaList> getMediaList(String headTitle) {
         String[] projection = {
                 MediaResourceEntry.COLUMN_HEADTITLE,

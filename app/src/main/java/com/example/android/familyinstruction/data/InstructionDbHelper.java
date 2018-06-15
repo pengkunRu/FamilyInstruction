@@ -7,18 +7,17 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.example.android.familyinstruction.data.InstructionContract.InstructionEntry;
 import com.example.android.familyinstruction.data.InstructionContract.MediaResourceEntry;
 import com.example.android.familyinstruction.data.InstructionContract.TextResourceEntry;
-import com.example.android.familyinstruction.data.InstructionContract.UserInfoEntry;
 import com.example.android.familyinstruction.data.InstructionContract.UserBookShelfEntry;
-/**
- * Created by kun on 2018/5/28.
- */
+import com.example.android.familyinstruction.data.InstructionContract.UserInfoEntry;
+import com.example.android.familyinstruction.data.InstructionContract.UserMediaCollectionEntry;
+
 
 public class InstructionDbHelper extends SQLiteOpenHelper{
 
     // 数据库名称
     private static final String DATABASE_NAME = "family_instruction.db";
     // 数据库版本
-    private static final int DATABASE_VERSION = 13;
+    private static final int DATABASE_VERSION = 15;
 
     // 构造函数
     public InstructionDbHelper(Context context) {
@@ -68,7 +67,7 @@ public class InstructionDbHelper extends SQLiteOpenHelper{
 
         // 创建用户信息表
         final String SQL_CREATE_USER_INFO_TABLE =
-                "CREATE TABLE " + UserInfoEntry.TABLE_NAME + "("
+                "CREATE TABLE " + InstructionContract.UserMediaCollectionEntry.TABLE_NAME + "("
                         + UserInfoEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                         + UserInfoEntry.COLUMN_USER_NAME + " TEXT NOT NULL, "
                         + UserInfoEntry.COLUMN_USER_PASSWORD + " TEXT NOT NULL, "
@@ -81,12 +80,23 @@ public class InstructionDbHelper extends SQLiteOpenHelper{
                         + UserBookShelfEntry.COLUMN_BOOK_TITLE + " TEXT NOT NULL, "
                         + UserBookShelfEntry.COLUMN_BOOK_IMAGE + " INTEGER NOT NULL);";
 
+        // 创建用户视频收藏表
+        final String SQL_CREATE_USER_MEDIA_COLLECTION_TABLE =
+                "CREATE TABLE " + UserMediaCollectionEntry.TABLE_NAME + "("
+                        + UserMediaCollectionEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                        + UserMediaCollectionEntry.COLUMN_HEAD_TITLE + " TEXT NOT NULL, "
+                        + UserMediaCollectionEntry.COLUMN_SUB_TITLE + " TEXT NOT NULL, "
+                        + UserMediaCollectionEntry.COLUMN_THUMBNAIL + " INTEGER NOT NULL, "
+                        + UserMediaCollectionEntry.COLUMN_PLOT + " TEXT NOT NULL, "
+                        + UserMediaCollectionEntry.COLUMN_MEDIA_DATA + " TEXT NOT NULL);";
+
         // 执行创建表sql语句
         db.execSQL(SQL_CREATE_NOTES_TABLE);
         db.execSQL(SQL_CREATE_TEXT_RESOURCE_TABLE);
         db.execSQL(SQL_CREATE_MEDIA_RESOURCE_TABLE);
         db.execSQL(SQL_CREATE_USER_INFO_TABLE);
         db.execSQL(SQL_CREATE_USER_BOOK_SHELF_TABLE);
+        db.execSQL(SQL_CREATE_USER_MEDIA_COLLECTION_TABLE);
     }
 
     // 当数据库版本发生变化时候，这个方法会被调用
@@ -97,6 +107,7 @@ public class InstructionDbHelper extends SQLiteOpenHelper{
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + MediaResourceEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + UserInfoEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + UserBookShelfEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + UserMediaCollectionEntry.TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 }

@@ -29,7 +29,8 @@ public final class InstructionContract {
     public static final String PATH_USER_INFORMATION = "user_information";
     // PATH_TableName(用户书架表)
     public static final String PATH_BOOK_SHELF = "user_book_shelf";
-
+    // PATH_TableName(用户视频收藏夹表)
+    public static final String PATH_MEDIA_COLLECTION = "user_media_collection";
 
     // 用户鉴赏表的合约内容
     public final static class InstructionEntry implements BaseColumns{
@@ -195,5 +196,39 @@ public final class InstructionContract {
         public final static String COLUMN_BOOK_TITLE = "bookTitle";
         // 图书封面
         public final static String COLUMN_BOOK_IMAGE = "bookImage";
+    }
+
+    //视频收藏表合约类
+    public final static class UserMediaCollectionEntry implements BaseColumns{
+
+        // content uri
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_MEDIA_COLLECTION);
+
+        // The MIME type of for a list of users
+        public static final String CONTENT_LIST_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_MEDIA_COLLECTION;
+
+        // The MIME type for a single user.
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_MEDIA_COLLECTION;
+
+
+
+        // 用户收藏表：表名
+        public static final String TABLE_NAME = "user_media_collection";
+
+
+        // 唯一标识符
+        public final static String _ID = BaseColumns._ID;
+        // 大标题
+        public final static String COLUMN_HEAD_TITLE = "headTitle";
+        // 小标题
+        public final static String COLUMN_SUB_TITLE = "subTitle";
+        // 视频缩略图
+        public final static String COLUMN_THUMBNAIL = "thumbnail";
+        // 分剧情简介
+        public final static String COLUMN_PLOT = "plot";
+        // 视频资源
+        public final static String COLUMN_MEDIA_DATA = "mediaData";
     }
 }
