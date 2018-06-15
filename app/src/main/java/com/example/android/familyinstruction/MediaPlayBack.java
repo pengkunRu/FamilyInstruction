@@ -2,11 +2,11 @@ package com.example.android.familyinstruction;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.MediaController;
@@ -67,7 +67,7 @@ public class MediaPlayBack extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.media_collection:
-                addVedioToCollection();
+                addVedioToCollection(subTitle);
                 break;
             case R.id.media_remove:
                 removeVedioFromCollection();
@@ -77,21 +77,38 @@ public class MediaPlayBack extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     // TODO 收藏视频
-    private void addVedioToCollection(){
-        Log.i("Media","执行到这里了");
-        ContentValues values = new ContentValues();
-        values.put(UserMediaCollectionEntry.COLUMN_HEAD_TITLE,headTitle);
-        values.put(UserMediaCollectionEntry.COLUMN_SUB_TITLE,subTitle);
-        values.put(UserMediaCollectionEntry.COLUMN_THUMBNAIL,thumbnail);
-        values.put(UserMediaCollectionEntry.COLUMN_PLOT,vedioPlot);
-        values.put(UserMediaCollectionEntry.COLUMN_MEDIA_DATA,vedioUrl);
-        Uri newUri = getContentResolver().insert(UserMediaCollectionEntry.CONTENT_URI, values);
+    private void addVedioToCollection(String subTitle){
+        // 判断要添加的视频是否在我的书架中
+        String[] projection = {
+                UserMediaCollectionEntry.COLUMN_SUB_TITLE,
+        };
+        Cursor cursor = getContentResolver().query(UserMediaCollectionEntry.CONTENT_URI, projection, null, null, null);
+        int subTtileColumnIndex = cursor.getColumnIndex(UserMediaCollectionEntry.COLUMN_SUB_TITLE);
+        int currentVedioInCollection = 0;
+        while (cursor.moveToNext()){
+            String currentSubTitle = cursor.getString(subTtileColumnIndex);
+            if(currentSubTitle.equals(subTitle)){
+                currentVedioInCollection = 1;
+            }
+        }
+        if(currentVedioInCollection == 0){
+            ContentValues values = new ContentValues();
+            values.put(UserMediaCollectionEntry.COLUMN_HEAD_TITLE,headTitle);
+            values.put(UserMediaCollectionEntry.COLUMN_SUB_TITLE,subTitle);
+            values.put(UserMediaCollectionEntry.COLUMN_THUMBNAIL,thumbnail);
+            values.put(UserMediaCollectionEntry.COLUMN_PLOT,vedioPlot);
+            values.put(UserMediaCollectionEntry.COLUMN_MEDIA_DATA,vedioUrl);
+            Uri newUri = getContentResolver().insert(UserMediaCollectionEntry.CONTENT_URI, values);
 
-        if (newUri == null) {
-            Toast.makeText(this, getString(R.string.collection_failed),
-                    Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, getString(R.string.collection_successful),
+            if (newUri == null) {
+                Toast.makeText(this, getString(R.string.collection_failed),
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, getString(R.string.collection_successful),
+                        Toast.LENGTH_SHORT).show();
+            }
+        }else {
+            Toast.makeText(this, getString(R.string.collection_vedio_repeat),
                     Toast.LENGTH_SHORT).show();
         }
     }

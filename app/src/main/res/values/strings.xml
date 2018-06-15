@@ -16,6 +16,7 @@
     <string name="collection_failed">添加失败</string>
     <string name="collection_successful">添加成功</string>
     <string name="collection_book_repeat">我的书架中已存在这本图书</string>
+    <string name="collection_vedio_repeat">视频收藏中已存该视频</string>
     <string name="editor_update_note_failed">Error with update note</string>
     <string name="user_log_out_successful">退出登录成功</string>
     <string name="user_log_out_failed">退出登录失败</string>
