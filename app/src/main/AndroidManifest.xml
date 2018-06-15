@@ -19,7 +19,7 @@
         <activity
             android:name=".NoteMaterialActivity"
             android:label="@string/app_note_page_name"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".EditorActivity" />
 
         <provider
@@ -52,7 +52,8 @@
         </activity>
         <activity android:name=".SearchActivity" />
         <activity android:name=".ReviewActivity" />
-        <activity android:name=".UserBookShelfActivity"></activity>
+        <activity android:name=".UserBookShelfActivity" />
+        <activity android:name=".UserMediaCollectionActivity"></activity>
     </application>
 
 </manifest>

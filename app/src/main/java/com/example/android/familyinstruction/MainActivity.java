@@ -111,11 +111,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intentBookShelf);
                 break;
             case R.id.vedio_collection:
-                if(getUserStatus()==0){
-                    // 用户想要登陆家训应用
-                    Intent intent = new Intent(MainActivity.this,LoginActivity.class);
-                    startActivity(intent);
-                }
+                Intent intentMediaCollection = new Intent(MainActivity.this,UserMediaCollectionActivity.class);
+                startActivity(intentMediaCollection);
                 break;
             case R.id.instruction_notes:
                 if(getUserStatus()==0){
