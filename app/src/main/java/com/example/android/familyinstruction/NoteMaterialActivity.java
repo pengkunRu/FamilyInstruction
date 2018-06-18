@@ -42,7 +42,7 @@ public class NoteMaterialActivity extends AppCompatActivity implements android.a
 
     private static final String INSTRUCTION_SHARE_HASHTAG = " #FamilyInstructionApp";
 
-    private StringBuilder mFamilyInstruction;
+    private StringBuilder mFamilyInstruction = new StringBuilder();
 
     // 创建一个整数加载器常量
     private static final int NOTE_LOADER = 0;
