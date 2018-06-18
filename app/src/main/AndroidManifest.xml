@@ -29,12 +29,6 @@
 
         <activity android:name=".MediaPlayBack" />
         <activity
-            android:name=".EpisodeActivity"
-            android:label="家训视频" />
-        <activity
-            android:name=".BookShelfActivity"
-            android:label="家训书籍" />
-        <activity
             android:name=".CatalogActivity"
             android:label="家训书籍" />
         <activity android:name=".ContentActivity" />

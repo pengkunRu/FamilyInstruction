@@ -3,7 +3,6 @@ package com.example.android.familyinstruction;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -115,15 +114,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intentMediaCollection);
                 break;
             case R.id.instruction_notes:
-                if(getUserStatus()==0){
-                    // 用户想要登陆家训应用
-                    Intent intent = new Intent(MainActivity.this,LoginActivity.class);
-                    startActivity(intent);
-                }else{
-                    // 用户想要登陆家训应用
-                    Intent intent = new Intent(MainActivity.this,NoteMaterialActivity.class);
-                    startActivity(intent);
-                }
+                Intent intent = new Intent(MainActivity.this,NoteMaterialActivity.class);
+                startActivity(intent);
                 break;
             case R.id.search:
                 // 用户想要登陆家训应用
@@ -133,10 +125,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.action_review:
                 Intent intentReview = new Intent(MainActivity.this,ReviewActivity.class);
                 startActivity(intentReview);
-                break;
-            case R.id.settings:
-                Intent intentTest = new Intent(MainActivity.this,NoteMaterialActivity.class);
-                startActivity(intentTest);
                 break;
         }
 
@@ -227,17 +215,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mHeaderUserName.setText(getUserName());
                 mMenu.findItem(R.id.logout).setTitle("退出登录");
             }
-        }
-    }
-    // TODO 辅助函数 文言文在线查询
-    private void openWebPage(String url){
-        // 将网页Url解析为Uri
-        Uri webPage = Uri.parse(url);
-        // 参数 Intent.ACTION_VIEW 会告诉anroid系统家训软件想要查询的内容
-        Intent intent = new Intent(Intent.ACTION_VIEW,webPage);
-        // 判断Android系统是否可以处理我们的请求
-        if(intent.resolveActivity(getPackageManager())!=null){
-            startActivity(intent);
         }
     }
 }
